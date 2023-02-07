@@ -1,5 +1,11 @@
 package rostermanager;
 
+/**
+ *
+ * Needs Comments
+ *
+ * @author Aryan Patel
+ */
 public enum Major {
     CS    ("01:198","SAS"),
     MATH  ("01:640","SAS"),
@@ -22,5 +28,7 @@ public enum Major {
     private String getSchool(){
         return school;
     }
+
+    /* possibly needs to string method */
 
 }
