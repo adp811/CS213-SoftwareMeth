@@ -7,6 +7,7 @@ package rostermanager;
  * @author Aryan Patel
  */
 public enum Major {
+
     CS    ("01:198","SAS"),
     MATH  ("01:640","SAS"),
     EE    ("14:332","SOE"),
@@ -29,6 +30,8 @@ public enum Major {
         return school;
     }
 
-    /* possibly needs to string method */
-
+    @Override
+    public String toString() {
+        return this.name() + " " + this.code + " " + this.school;
+    }
 }
