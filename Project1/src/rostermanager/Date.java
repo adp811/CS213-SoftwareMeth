@@ -34,6 +34,18 @@ public class Date implements Comparable<Date> {
 
     }
 
+    private int getYear() {
+        return this.year;
+    }
+
+    private int getMonth() {
+        return this.month;
+    }
+
+    private int getDay() {
+        return this.day;
+    }
+
     public boolean isValid(){
         /* check if date is valid */
         return false;
