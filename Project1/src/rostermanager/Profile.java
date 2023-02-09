@@ -32,17 +32,41 @@ public class Profile implements Comparable<Profile> {
 
     @Override
     public boolean equals(Object o) {
-        return false;
+
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Profile profileCompare)) {
+            return false;
+        }
+
+        return (this.lname.equals(profileCompare.lname) &&
+                this.fname.equals(profileCompare.fname) &&
+                this.dob.equals(profileCompare.dob));
     }
 
     @Override
-    public int compareTo(Profile o) {
-        return 0;
+    public int compareTo(Profile profileCompare) {
+
+        int compLast, compFirst;
+
+        if ((compLast = this.lname.compareTo(profileCompare.lname)) != 0) {
+            return compLast;
+        }
+        if ((compFirst = this.fname.compareTo(profileCompare.fname)) != 0) {
+            return compFirst;
+        }
+
+        return this.dob.compareTo(profileCompare.dob);
     }
 
     @Override
     public String toString() {
         return this.fname + " " + this.lname + " " + this.dob.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("TestBed Main Profile() Class");
     }
 
 }
