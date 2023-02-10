@@ -26,8 +26,16 @@ public class Student implements Comparable<Student> {
         return this.major;
     }
 
-    public int getCreditCompleted() {
-        return this.creditCompleted;
+    public String getClassStanding() {
+        if (this.creditCompleted < 30) {
+            return "Freshman";
+        } else if (creditCompleted < 60) {
+            return "Sophomore";
+        } else if (creditCompleted < 90) {
+            return "Junior";
+        } else {
+            return "Senior";
+        }
     }
 
     @Override
@@ -49,7 +57,8 @@ public class Student implements Comparable<Student> {
 
     @Override
     public String toString() {
-        return this.profile.toString() + " " + this.major + " " + this.creditCompleted;
+        return this.profile.toString() + " " + this.major.toString() + " credits completed: " +
+                this.creditCompleted + " (" + this.getClassStanding() + ")";
     }
 
     public static void main(String[] args) {

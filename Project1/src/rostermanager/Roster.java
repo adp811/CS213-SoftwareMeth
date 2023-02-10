@@ -34,38 +34,40 @@ public class Roster {
         this.roster = newRosterArray;
     }
 
+    private void printRoster() {
+        for (int i = 0; i < this.size; i++) {
+            System.out.println(this.roster[i].toString());
+        }
+    }
+
     private void sortInPlace(String type) {
-        switch (type) {
-            case "profile":
-                for (int i = 1; i < this.size; i++) {
-                    Student studentCompare = this.roster[i];
-                    int j = i - 1;
+        for (int i = 1; i < this.size; i++) {
+            Student studentCompare = this.roster[i];
+            int j = i - 1;
+            switch (type) {
+                case "standing" -> {
+                    while (j >= 0 && this.roster[j].getClassStanding().compareTo(studentCompare.getClassStanding()) > 0) {
+                        this.roster[j + 1] = this.roster[j];
+                        j--;
+                    }
+                }
+                case "school_major" -> {
+                    while (j >= 0 && (this.roster[j].getMajor().getSchool().compareTo(studentCompare.getMajor().getSchool()) > 0 ||
+                            (this.roster[j].getMajor().getSchool().compareTo(studentCompare.getMajor().getSchool()) == 0 &&
+                                    this.roster[j].getMajor().name().compareTo(studentCompare.getMajor().name()) > 0))) {
+                        this.roster[j + 1] = this.roster[j];
+                        j--;
+                    }
+                }
+                default -> {
                     while (j >= 0 && this.roster[j].compareTo(studentCompare) > 0) {
                         this.roster[j + 1] = this.roster[j];
                         j--;
                     }
-                    this.roster[j + 1] = studentCompare;
                 }
-                break;
+            }
 
-            case "standing":
-                for (int i = 1; i < this.size; i++) {
-                    Student studentCompare = this.roster[i];
-                    int j = i - 1;
-                    while (j >= 0 && this.roster[j].getCreditCompleted() > studentCompare.getCreditCompleted()) {
-                        this.roster[j + 1] = this.roster[j];
-                        j--;
-                    }
-                    this.roster[j + 1] = studentCompare;
-                }
-                break;
-
-            case "school_major":
-                break;
-
-            default:
-                System.out.println("default");
-                break;
+            this.roster[j + 1] = studentCompare;
         }
     }
 
@@ -119,19 +121,18 @@ public class Roster {
     }
 
     public void print() {
-        this.sortInPlace("school_major");
-
-        for (int i = 0; i < size; i++) {
-            System.out.println(this.roster[i].toString());
-        }
+        this.sortInPlace("profile");
+        this.printRoster();
     }
 
     public void printBySchoolMajor() {
-        // print roster sorted by school major
+        this.sortInPlace("school_major");
+        this.printRoster();
     }
 
     public void printByStanding() {
-        // print roster sorted by standing
+        this.sortInPlace("standing");
+        this.printRoster();
     }
 
     public static void main(String[] args) {
@@ -143,7 +144,7 @@ public class Roster {
                 Major.ITI, 30);
         roster01.add(student01);
 
-        Student student02 = new Student(new Profile("Shah","Raj", new Date("04/12/2001")),
+        Student student02 = new Student(new Profile("Ames","Jeff", new Date("04/12/2001")),
                 Major.EE, 60);
         roster01.add(student02);
 
@@ -162,6 +163,5 @@ public class Roster {
         System.out.println(roster01.size);
         System.out.println(roster01.roster.length);
         roster01.print();
-
     }
 }

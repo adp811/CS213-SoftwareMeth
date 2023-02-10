@@ -23,16 +23,16 @@ public enum Major {
         this.school = school;
     }
 
-    private String getCode(){
+    public String getCode(){
         return code;
     }
 
-    private String getSchool(){
+    public String getSchool(){
         return school;
     }
 
     @Override
     public String toString() {
-        return this.name() + " " + this.code + " " + this.school;
+        return "(" + this.code + " " + this.name() + " " + this.school + ")";
     }
 }
