@@ -18,15 +18,15 @@ public class Student implements Comparable<Student> {
         this.creditCompleted = creditCompleted;
     }
 
-    private Profile getProfile() {
+    public Profile getProfile() {
         return this.profile;
     }
 
-    private Major getMajor() {
+    public Major getMajor() {
         return this.major;
     }
 
-    private int getCreditCompleted() {
+    public int getCreditCompleted() {
         return this.creditCompleted;
     }
 
