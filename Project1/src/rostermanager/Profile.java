@@ -32,7 +32,6 @@ public class Profile implements Comparable<Profile> {
 
     @Override
     public boolean equals(Object o) {
-
         if (o == this) {
             return true;
         }
@@ -47,7 +46,6 @@ public class Profile implements Comparable<Profile> {
 
     @Override
     public int compareTo(Profile profileCompare) {
-
         int compLast, compFirst;
 
         if ((compLast = this.lname.compareTo(profileCompare.lname)) != 0) {

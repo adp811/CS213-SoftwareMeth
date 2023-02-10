@@ -22,7 +22,6 @@ public class Date implements Comparable<Date> {
             JULY = 7, AUGUST = 8, SEPTEMBER = 9, OCTOBER = 10, NOVEMBER = 11, DECEMBER = 12;
 
     public Date() {
-
         Calendar current = Calendar.getInstance();
         current.add(Calendar.MONTH, 1);
 
@@ -33,7 +32,6 @@ public class Date implements Comparable<Date> {
     }
 
     public Date(String date) {
-
         String[] dateSplit = date.split("/");
         this.month = Integer.parseInt(dateSplit[0]);
         this.day = Integer.parseInt(dateSplit[1]);
@@ -70,7 +68,6 @@ public class Date implements Comparable<Date> {
     }
 
     public boolean isValid() {
-
         if (this.year < MIN_YEAR) {
             return false;
         }
@@ -93,7 +90,6 @@ public class Date implements Comparable<Date> {
 
     @Override
     public boolean equals(Object o) {
-
         if (o == this) {
             return true;
         }
@@ -106,7 +102,6 @@ public class Date implements Comparable<Date> {
 
     @Override
     public int compareTo(Date date) {
-
         if (date.year != this.year) {
             return (this.year - date.year);
         }

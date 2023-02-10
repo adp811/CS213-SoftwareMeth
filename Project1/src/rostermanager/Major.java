@@ -17,6 +17,7 @@ public enum Major {
     private final String code;
     private final String school;
 
+
     Major(String code, String school){
         this.code = code;
         this.school = school;

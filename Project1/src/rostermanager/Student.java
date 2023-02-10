@@ -32,12 +32,19 @@ public class Student implements Comparable<Student> {
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        if (o == this) {
+            return true;
+        }
+        if(!(o instanceof Student studentCompare)) {
+            return false;
+        }
+
+        return this.profile.equals(studentCompare.profile);
     }
 
     @Override
-    public int compareTo(Student o) {
-        return 0;
+    public int compareTo(Student studentCompare) {
+        return this.profile.compareTo(studentCompare.profile);
     }
 
     @Override
@@ -45,4 +52,7 @@ public class Student implements Comparable<Student> {
         return this.profile.toString() + " " + this.major + " " + this.creditCompleted;
     }
 
+    public static void main(String[] args) {
+        System.out.println("TestBed Main Student() Class");
+    }
 }
