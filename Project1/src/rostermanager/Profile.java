@@ -122,8 +122,4 @@ public class Profile implements Comparable<Profile> {
         return this.fname + " " + this.lname + " " + this.dob.toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println("TestBed Main Profile() Class");
-    }
-
 }
