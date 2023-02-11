@@ -15,6 +15,7 @@ public class Roster {
     private int size;
 
     private static final int NOT_FOUND = -1;
+    private static final int INCREASE_CAPACITY_BY = 4;
 
     /**
      * Constructs a new Roster object which stores an array, roster, that contains
@@ -34,7 +35,7 @@ public class Roster {
      *
      */
     private void grow() {
-        Student[] newRosterArray = new Student[this.size + 4];
+        Student[] newRosterArray = new Student[this.size + INCREASE_CAPACITY_BY];
         for (int i = 0; i < this.size; i++) {
             newRosterArray[i] = this.roster[i];
         }
@@ -77,9 +78,9 @@ public class Roster {
                     }
                 }
                 case "school_major" -> {
-                    while (j >= 0 && (this.roster[j].getMajor().getSchool().compareTo(studentCompare.getMajor().getSchool()) > 0 ||
-                            (this.roster[j].getMajor().getSchool().compareTo(studentCompare.getMajor().getSchool()) == 0 &&
-                                    this.roster[j].getMajor().name().compareTo(studentCompare.getMajor().name()) > 0))) {
+                    while (j >= 0 && (this.roster[j].getMajor().getSchool().compareTo(studentCompare.getMajor().getSchool()) > 0
+                            || (this.roster[j].getMajor().getSchool().compareTo(studentCompare.getMajor().getSchool()) == 0 &&
+                                this.roster[j].getMajor().name().compareTo(studentCompare.getMajor().name()) > 0))) {
                         this.roster[j + 1] = this.roster[j];
                         j--;
                     }
@@ -237,6 +238,6 @@ public class Roster {
 
         System.out.println(roster01.size);
         System.out.println(roster01.roster.length);
-        roster01.print();
+        roster01.printByStanding();
     }
 }
