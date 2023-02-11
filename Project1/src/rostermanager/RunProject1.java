@@ -3,7 +3,7 @@ package rostermanager;
 /**
  * Needs comments
  *
- * @author Rushi Patel
+ * @author Aryan Patel
  */
 public class RunProject1 {
 
