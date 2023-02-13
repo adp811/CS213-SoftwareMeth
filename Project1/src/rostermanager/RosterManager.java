@@ -204,9 +204,16 @@ public class RosterManager {
     }
 
     /**
+     * This method takes care of executing the "A" with the given body arguments and
+     * Roster object. First we check if the number of body arguments is correct. If it is
+     * then we continue and try to create a new Student object with the createStudent() method.
+     * If creating a new Student object fails, we return from method. Otherwise, we attempt to add
+     * the new Student object to the roster array. The student is not added if it is already in
+     * the roster array.
      *
-     * @param commandBody
-     * @param roster
+     * @param commandBody String array representing an "A" command argument body
+     *                    ("A Aryan Patel 1/22/2002 CS 90")
+     * @param roster Roster object which contains the roster array that we are adding to
      */
     private void executeCommandA(String[] commandBody, Roster roster) {
         if (commandBody.length != 6) {
@@ -232,6 +239,18 @@ public class RosterManager {
         }
     }
 
+    /**
+     * This method takes care of executing the "R" command with the given body arguments and
+     * Roster object. First we check if the number of body arguments is correct. Then we try to find
+     * and return the Student object associated with the first name, last name, and date of birth
+     * provided with the body arguments using the getStudent() method. If no such student is found,
+     * we return from the method. Otherwise, we attempt to remove the Student object from the roster
+     * array.
+     *
+     * @param commandBody String array representing an "R" command argument body
+     *                   ("R Aryan Patel 1/22/2002")
+     * @param roster Roster object which contains the roster array that we are removing from
+     */
     private void executeCommandR(String[] commandBody, Roster roster) {
         if (commandBody.length != 4) {
             System.out.println("Incorrect number of arguments, please try again!");
@@ -257,9 +276,19 @@ public class RosterManager {
     }
 
     /**
+     * This method takes care of executing the "C" command with the given body arguments and
+     * Roster object. First we check if the number of body arguments is correct. Then we try to find
+     * and return the Student object associated with the first name, last name, and date of birth
+     * provided with the body arguments using the getStudent() method. If no such student is found,
+     * we return from the method. Otherwise, we attempt to change the Major associated with the Student
+     * object returned from getStudent(). The major provided in the body argument is validated before
+     * doing so. The Major is not changed if the provided major in the body arguments is not part of
+     * the Major enum class.
      *
-     * @param commandBody
-     * @param roster
+     * @param commandBody String array representing an "C" command argument body
+     *                    ("C Aryan Patel 1/22/2002 BAIT")
+     * @param roster Roster object which contains the roster array that we are modifying
+     *               a student's major in
      */
     private void executeCommandC(String[] commandBody, Roster roster) {
         if (commandBody.length != 5) {
@@ -290,9 +319,16 @@ public class RosterManager {
     }
 
     /**
+     * This method takes care of executing the "L" command which prints students in the roster array that
+     * are enrolled within the school provided in the command body arguments. We check to see if the
+     * number of arguments in the command body is correct and also if the roster array is empty.
+     * If the array is not empty and the correct number of arguments are entered, we sort the roster
+     * array by a student's Profile (last name, first name, dob) using the Roster print() method, and
+     * then print only the students associated with the given school in the body arguments using the
+     * overloaded printRoster() method.
      *
-     * @param commandBody
-     * @param roster
+     * @param commandBody String array representing an "L" command argument body ("L SAS")
+     * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandL(String[] commandBody, Roster roster) {
         if (commandBody.length != 2) {
@@ -309,8 +345,13 @@ public class RosterManager {
     }
 
     /**
+     * This method takes care of executing the "P" command which prints students in the
+     * roster array in ascending order by Profile (last name, first name, dob). First we check if
+     * the roster array is empty. If it is not, we proceed to order the roster array by using
+     * the Roster object's print() method. Then, we print the roster using the non-overloaded
+     * method printRoster() which prints all students in the now sorted roster array.
      *
-     * @param roster
+     * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandP(Roster roster) {
         if (roster.getRosterSize() == 0) {
@@ -324,8 +365,14 @@ public class RosterManager {
     }
 
     /**
+     * This method takes care of executing the "PS" command which prints students in the
+     * roster array in ascending order by class standing (Freshman, Junior, Senior, Sophomore).
+     * First we check if the roster array is empty. If it is not, we proceed to order the roster
+     * array by using the Roster object's printByStanding() method. Then, we print the roster using
+     * the non-overloaded method printRoster() which prints all students in the now sorted
+     * roster array.
      *
-     * @param roster
+     * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandPS(Roster roster) {
         if (roster.getRosterSize() == 0) {
@@ -339,8 +386,14 @@ public class RosterManager {
     }
 
     /**
+     * This method takes care of executing the "PC" command which prints students in the
+     * roster array in ascending order by major and school (BAIT, RBS). First we check if the
+     * roster array is empty. If it is not, we proceed to order the roster array by using the
+     * Roster object's printBySchoolMajor() method. Then, we print the roster using the
+     * non-overloaded method printRoster() which prints all students in the now sorted
+     * roster array.
      *
-     * @param roster
+     * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandPC(Roster roster) {
         if (roster.getRosterSize() == 0) {
@@ -354,9 +407,17 @@ public class RosterManager {
     }
 
     /**
+     *  This method is the main driver of executing the commands entered by the user in
+     *  the command line. The String array representing the command body and a Roster object is
+     *  passed as arguments to this method. These arguments are further passed down depending on
+     *  which execute method is called. The correct execute method is determined by the first index
+     *  in the body arguments. This value is case-sensitive. If nothing is found for this value, we don't
+     *  do anything and prompt for a new input from the user. If an incorrect or unknown value is found
+     *  we let the user known and prompt for a new input.
      *
-     * @param commandBody
-     * @param roster
+     * @param commandBody String array representing a "A", "R", "L", "C", "P", "PS", or "PC"
+     *                    command argument body (see execute methods for commandBody examples)
+     * @param roster Roster object which we are executing the commands on
      */
     private void parseCommand (String[] commandBody, Roster roster) {
         String operation = commandBody[0];
@@ -397,7 +458,9 @@ public class RosterManager {
      * Scanner and Roster. Next we enter a loop that takes input at the command line in order
      * to interact with the program. The program continues to take commands until "Q" is entered,
      * which terminates the entire program with a message. This method processes single line
-     * commands as well as a sequence of line commands.
+     * commands as well as a sequence of line commands. Each line that is entered is split into a
+     * String array that contains each argument seperated by one or more spaces in the command body.
+     *
      */
     public void run() {
         System.out.println("Roster Manager running...");
@@ -415,5 +478,4 @@ public class RosterManager {
         scanner.close();
         System.out.println("Roster Manager terminated.");
     }
-
 }
