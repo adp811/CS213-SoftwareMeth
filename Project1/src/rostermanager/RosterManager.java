@@ -13,6 +13,16 @@ import java.util.Scanner;
  */
 public class RosterManager {
 
+    private static final int MIN_AGE = 16;
+    private static final int MIN_CREDITS = 0;
+
+    private static final int ARG_LENGTH_A_COMMAND = 6;
+    private static final int ARG_LENGTH_R_COMMAND = 4;
+    private static final int ARG_LENGTH_L_COMMAND = 5;
+    private static final int ARG_LENGTH_C_COMMAND = 2;
+
+    private static final int MIN_ROSTER_SIZE = 0;
+
     /**
      * This method returns a Major enum object associated with the inputted major code
      * that is a String. The method loops through the existing values in the Major enum and
@@ -44,7 +54,7 @@ public class RosterManager {
     private boolean validateStudentMajor(String major, String creditsCompleted) {
         try {
             int credits = Integer.parseInt(creditsCompleted);
-            if (credits < 0) {
+            if (credits < MIN_CREDITS) {
                 System.out.println("Credits completed invalid: cannot be negative!");
                 return false;
             }
@@ -88,7 +98,7 @@ public class RosterManager {
             age--;
         }
 
-        if (age < 16) {
+        if (age < MIN_AGE) {
             System.out.println("DOB invalid: " + dob.toString() + " younger than 16 years old.");
             return false;
         }
@@ -216,7 +226,7 @@ public class RosterManager {
      * @param roster Roster object which contains the roster array that we are adding to
      */
     private void executeCommandA(String[] commandBody, Roster roster) {
-        if (commandBody.length != 6) {
+        if (commandBody.length != ARG_LENGTH_A_COMMAND) {
             System.out.println("Incorrect number of arguments, please try again!");
             return;
         }
@@ -252,7 +262,7 @@ public class RosterManager {
      * @param roster Roster object which contains the roster array that we are removing from
      */
     private void executeCommandR(String[] commandBody, Roster roster) {
-        if (commandBody.length != 4) {
+        if (commandBody.length != ARG_LENGTH_R_COMMAND) {
             System.out.println("Incorrect number of arguments, please try again!");
             return;
         }
@@ -291,7 +301,7 @@ public class RosterManager {
      *               a student's major in
      */
     private void executeCommandC(String[] commandBody, Roster roster) {
-        if (commandBody.length != 5) {
+        if (commandBody.length != ARG_LENGTH_C_COMMAND) {
             System.out.println("Incorrect number of arguments, please try again!");
             return;
         }
@@ -331,11 +341,11 @@ public class RosterManager {
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandL(String[] commandBody, Roster roster) {
-        if (commandBody.length != 2) {
+        if (commandBody.length != ARG_LENGTH_L_COMMAND) {
             System.out.println("Incorrect number of arguments, please try again!");
             return;
         }
-        if (roster.getRosterSize() == 0) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
             return;
         }
@@ -354,7 +364,7 @@ public class RosterManager {
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandP(Roster roster) {
-        if (roster.getRosterSize() == 0) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
         } else {
             System.out.println("* Student roster sorted by last name, first name, DOB **");
@@ -375,7 +385,7 @@ public class RosterManager {
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandPS(Roster roster) {
-        if (roster.getRosterSize() == 0) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
         } else {
             System.out.println("* Student roster sorted by standing **");
@@ -396,7 +406,7 @@ public class RosterManager {
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandPC(Roster roster) {
-        if (roster.getRosterSize() == 0) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
         } else {
             System.out.println("* Student roster sorted by school, major **");

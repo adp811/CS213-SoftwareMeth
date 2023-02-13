@@ -15,6 +15,10 @@ public class Student implements Comparable<Student> {
     private Major   major;
     private int     creditCompleted;
 
+    private static final int MIN_SOPHOMORE = 30;
+    private static final int MIN_JUNIOR = 60;
+    private static final int MIN_SENIOR = 90;
+
     /**
      * Constructs a Student object given a Profile object, Major enum, and a int
      * representing the credits completed.
@@ -59,11 +63,11 @@ public class Student implements Comparable<Student> {
      * @return String which contains the student's class standing (FRESHMAN, SOPHOMORE, JUNIOR, SENIOR).
      */
     public String getClassStanding() {
-        if (this.creditCompleted < 30) {
+        if (this.creditCompleted < MIN_SOPHOMORE) {
             return "Freshman";
-        } else if (creditCompleted < 60) {
+        } else if (creditCompleted < MIN_JUNIOR) {
             return "Sophomore";
-        } else if (creditCompleted < 90) {
+        } else if (creditCompleted < MIN_SENIOR) {
             return "Junior";
         } else {
             return "Senior";

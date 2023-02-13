@@ -19,7 +19,6 @@ public class Date implements Comparable<Date> {
     private static final int MIN_DAY_OM = 1, MAX_DAY_OM = 31;
     private static final int MAX_DAY_OM_30 = 30, MAX_DAY_OM_LY = 29;
 
-
     private static final int MONTH_OFFSET = 1;
 
     private static final int FEBRUARY = 2, APRIL = 4, JUNE = 6,
@@ -135,13 +134,13 @@ public class Date implements Comparable<Date> {
             return false;
         }
 
-        if (this.month == FEBRUARY && this.day == 29 && !(isLeapYear(this.year))) {
+        if (this.month == FEBRUARY && this.day == MAX_DAY_OM_LY && !(isLeapYear(this.year))) {
             return false;
-        } else if (this.month == FEBRUARY && this.day > 29) {
+        } else if (this.month == FEBRUARY && this.day > MAX_DAY_OM_LY) {
             return false;
         }
 
-        return (this.day <= 30) || (this.month != APRIL && this.month != JUNE &&
+        return (this.day <= MAX_DAY_OM_30) || (this.month != APRIL && this.month != JUNE &&
                 this.month != SEPTEMBER && this.month != NOVEMBER);
     }
 

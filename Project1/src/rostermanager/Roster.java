@@ -14,8 +14,11 @@ public class Roster {
     private Student[] roster;
     private int size;
 
+    private static final int ROSTER_STARTING_SIZE = 0;
+    private static final int ARR_STARTING_CAPACITY = 2;
+    private static final int ARR_INCREASE_CAPACITY_BY = 4;
+
     private static final int NOT_FOUND = -1;
-    private static final int INCREASE_CAPACITY_BY = 4;
 
     /**
      * Constructs a new Roster object which stores an array, roster, that contains
@@ -24,8 +27,8 @@ public class Roster {
      *
      */
     Roster() {
-        this.roster = new Student[2];
-        this.size = 0;
+        this.roster = new Student[ARR_STARTING_CAPACITY];
+        this.size = ROSTER_STARTING_SIZE;
     }
 
     /**
@@ -35,7 +38,7 @@ public class Roster {
      *
      */
     private void grow() {
-        Student[] newRosterArray = new Student[this.size + INCREASE_CAPACITY_BY];
+        Student[] newRosterArray = new Student[this.size + ARR_INCREASE_CAPACITY_BY];
         for (int i = 0; i < this.size; i++) {
             newRosterArray[i] = this.roster[i];
         }
