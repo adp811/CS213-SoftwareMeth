@@ -34,7 +34,7 @@ public class Profile implements Comparable<Profile> {
      *
      * @return String which contains the last name
      */
-    private String getLastName() {
+    public String getLastName() {
         return this.lname;
     }
 
@@ -43,7 +43,7 @@ public class Profile implements Comparable<Profile> {
      *
      * @return String which contains the first name
      */
-    private String getFirstname() {
+    public String getFirstname() {
         return this.fname;
     }
 
@@ -52,7 +52,7 @@ public class Profile implements Comparable<Profile> {
      *
      * @return Date object which represents the date of birth
      */
-    private Date getDateOfBirth() {
+    public Date getDateOfBirth() {
         return this.dob;
     }
 
@@ -76,8 +76,8 @@ public class Profile implements Comparable<Profile> {
             return false;
         }
 
-        return (this.lname.equals(profileCompare.lname) &&
-                this.fname.equals(profileCompare.fname) &&
+        return (this.lname.equalsIgnoreCase(profileCompare.lname) &&
+                this.fname.equalsIgnoreCase(profileCompare.fname) &&
                 this.dob.equals(profileCompare.dob));
     }
 
@@ -98,10 +98,10 @@ public class Profile implements Comparable<Profile> {
     public int compareTo(Profile profileCompare) {
         int compLast, compFirst;
 
-        if ((compLast = this.lname.compareTo(profileCompare.lname)) != 0) {
+        if ((compLast = this.lname.compareToIgnoreCase(profileCompare.lname)) != 0) {
             return compLast;
         }
-        if ((compFirst = this.fname.compareTo(profileCompare.fname)) != 0) {
+        if ((compFirst = this.fname.compareToIgnoreCase(profileCompare.fname)) != 0) {
             return compFirst;
         }
 
@@ -121,5 +121,4 @@ public class Profile implements Comparable<Profile> {
     public String toString() {
         return this.fname + " " + this.lname + " " + this.dob.toString();
     }
-
 }

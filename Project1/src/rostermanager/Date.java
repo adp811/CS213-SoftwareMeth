@@ -35,7 +35,6 @@ public class Date implements Comparable<Date> {
         this.year = current.get(Calendar.YEAR);
         this.month = current.get(Calendar.MONTH);
         this.day = current.get(Calendar.DAY_OF_MONTH);
-
     }
 
     /**
@@ -47,10 +46,10 @@ public class Date implements Comparable<Date> {
      */
     public Date(String date) {
         String[] dateSplit = date.split("/");
+
         this.month = Integer.parseInt(dateSplit[0]);
         this.day = Integer.parseInt(dateSplit[1]);
         this.year = Integer.parseInt(dateSplit[2]);
-
     }
 
     /**
@@ -58,7 +57,7 @@ public class Date implements Comparable<Date> {
      *
      * @return int which contains the year
      */
-    private int getYear() {
+    public int getYear() {
         return this.year;
     }
 
@@ -67,7 +66,7 @@ public class Date implements Comparable<Date> {
      *
      * @return int which contains the month
      */
-    private int getMonth() {
+    public int getMonth() {
         return this.month;
     }
 
@@ -77,7 +76,7 @@ public class Date implements Comparable<Date> {
      *
      * @return int which contains the day
      */
-    private int getDay() {
+    public int getDay() {
         return this.day;
     }
 

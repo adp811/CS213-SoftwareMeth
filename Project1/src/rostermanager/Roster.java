@@ -44,17 +44,6 @@ public class Roster {
     }
 
     /**
-     * This helper method takes care of printing all Student objects in the roster
-     * at any given time. The Student objects are given as their String representations using toString().
-     *
-     */
-    private void printRoster() {
-        for (int i = 0; i < this.size; i++) {
-            System.out.println(this.roster[i].toString());
-        }
-    }
-
-    /**
      * This helper method takes care of sorting the roster array of Student objects by different
      * comparators. The method uses and in-place insertion sort in order to sort the array in
      * ascending order by either class standing, major and school, and the default order which
@@ -98,6 +87,39 @@ public class Roster {
     }
 
     /**
+     *
+     * @return
+     */
+    public int getRosterSize() {
+        return this.size;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Student[] getRoster() {
+        return this.roster;
+    }
+
+    /**
+     * This method finds a given Student in the Roster array, and returns the index of its position. If
+     * the Student object is not in the array, then NOT_FOUND is returned.
+     *
+     * @param student Student object input that is the student which needs to be found
+     * @return int which represents the consent value associated with NOT_FOUND
+     */
+    private int find(Student student) {
+        for (int i = 0; i < this.size; i++) {
+            if (this.roster[i].equals(student)) {
+                return i;
+            }
+        }
+
+        return NOT_FOUND;
+    }
+
+    /**
      * This method check if the given Student object is present in the roster array. Returning
      * a boolean value indicating whether the item is present. The method uses a linear search.
      *
@@ -138,23 +160,6 @@ public class Roster {
     }
 
     /**
-     * This method finds a given Student in the Roster array, and returns the index of its position. If
-     * the Student object is not in the array, then NOT_FOUND is returned.
-     *
-     * @param student Student object input that is the student which needs to be found
-     * @return int which represents the consent value associated with NOT_FOUND
-     */
-    private int find(Student student) {
-        for (int i = 0; i < this.size; i++) {
-            if (this.roster[i].equals(student)) {
-                return i;
-            }
-        }
-
-        return NOT_FOUND;
-    }
-
-    /**
      * This method finds and removes a given Student from the Roster array. The method
      * returns a boolean indicating whether the object was found and removed successfully or
      * not. The method first uses find() to check if the student is in the array. It returns if
@@ -180,64 +185,34 @@ public class Roster {
         return true;
     }
 
-
     /**
-     * This method takes care of printing the Roster array using the student's Profile
-     * to compare. The array is first sorted in ascending order and then printed using printRoster().
+     * This method takes care of sorting the Roster array using the student's Profile
+     * to compare, preparing the array to be printed.
      *
      */
     public void print() {
         this.sortInPlace("profile");
-        this.printRoster();
     }
 
     /**
-     * This method takes care of printing the Roster array using the student's school and major
-     * to compare. The array is first sorted in ascending order and then printed using printRoster().
+     * This method takes care of sorting the Roster array using the student's school and major
+     * to compare, preparing the array to be printed.
      *
      */
     public void printBySchoolMajor() {
         this.sortInPlace("school_major");
-        this.printRoster();
     }
 
     /**
-     * This method takes care of printing the Roster array using the student's standing
-     * to compare. The array is first sorted in ascending order and then printed using printRoster().
+     * This method takes care of sorting the Roster array using the student's standing
+     * to compare, preparing the array to be printed.
      *
      */
     public void printByStanding() {
         this.sortInPlace("standing");
-        this.printRoster();
     }
 
     public static void main(String[] args) {
         System.out.println("TestBed Main Roster() Class");
-
-        Roster roster01 = new Roster();
-
-        Student student01 = new Student(new Profile("Patel","Aryan", new Date("01/22/2002")),
-                Major.ITI, 30);
-        roster01.add(student01);
-
-        Student student02 = new Student(new Profile("Ames","Jeff", new Date("04/12/2001")),
-                Major.EE, 60);
-        roster01.add(student02);
-
-        Student student03 = new Student(new Profile("Mehta","Tej", new Date("03/25/2000")),
-                Major.MATH, 90);
-        roster01.add(student03);
-
-        Student student04 = new Student(new Profile("Patel","Amar", new Date("12/26/2001")),
-                Major.BAIT, 105);
-        roster01.add(student04);
-
-        Student student05 = new Student(new Profile("Patel","Rushi", new Date("07/02/2002")),
-                Major.CS, 75);
-        roster01.add(student05);
-
-        System.out.println(roster01.size);
-        System.out.println(roster01.roster.length);
-        roster01.printByStanding();
     }
 }

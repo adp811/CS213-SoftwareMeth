@@ -71,6 +71,14 @@ public class Student implements Comparable<Student> {
     }
 
     /**
+     *
+     * @param major
+     */
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
+    /**
      * This method determines if a Student object is equal to another given Object.
      * <p>
      * The process of checking equality involves first checking if the given Object
