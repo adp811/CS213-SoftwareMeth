@@ -87,16 +87,18 @@ public class Roster {
     }
 
     /**
+     * This method gets the size of the roster array in a Roster object.
      *
-     * @return
+     * @return int which contains the roster array size
      */
     public int getRosterSize() {
         return this.size;
     }
 
     /**
+     * This method gets the roster array from a Roster object
      *
-     * @return
+     * @return array of type Student containing Student objects
      */
     public Student[] getRoster() {
         return this.roster;
@@ -210,9 +212,5 @@ public class Roster {
      */
     public void printByStanding() {
         this.sortInPlace("standing");
-    }
-
-    public static void main(String[] args) {
-        System.out.println("TestBed Main Roster() Class");
     }
 }

@@ -71,8 +71,9 @@ public class Student implements Comparable<Student> {
     }
 
     /**
+     * This method sets a Student object's Major to the given major
      *
-     * @param major
+     * @param major Major enum object which represents the new major
      */
     public void setMajor(Major major) {
         this.major = major;
@@ -140,6 +141,10 @@ public class Student implements Comparable<Student> {
                 this.creditCompleted + " (" + this.getClassStanding() + ")";
     }
 
+    /**
+     * Unit Tests Here
+     * @param args no arguments passed
+     */
     public static void main(String[] args) {
         System.out.println("TestBed Main Student() Class");
     }

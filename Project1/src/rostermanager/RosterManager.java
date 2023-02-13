@@ -3,16 +3,24 @@ package rostermanager;
 import java.util.Scanner;
 
 /**
- * Needs comments
+ * This class is the main user interface class which processes the line
+ * commands entered on the console and displays the results on the console as output. An
+ * instance of this class can process a single line command, or a sequence of line commands.
+ * <p>
+ * "Q" command must be used to terminate this program normally.
  *
  * @author Aryan Patel
  */
 public class RosterManager {
 
     /**
+     * This method returns a Major enum object associated with the inputted major code
+     * that is a String. The method loops through the existing values in the Major enum and
+     * finds a value that matches the input major. If a value is found then it is returned, else
+     * null is returned.
      *
-     * @param inputMajor
-     * @return
+     * @param inputMajor String which contains a major code, case-insensitive ("CS", "Cs", "cs")
+     * @return Major enum object which represents the inputted major code
      */
     private Major determineMajor(String inputMajor) {
         for(Major major : Major.values()) {
@@ -24,10 +32,14 @@ public class RosterManager {
     }
 
     /**
+     * This method attempts to validate the inputted major and creditsCompleted Strings. First, we
+     * check if the value entered for creditsCompleted is a non-negative integer. If it is, we continue
+     * else we return false. Next we use the determineMajor() method to check if the inputted
+     * major code is valid and exists. We return true if the major is valid and false otherwise.
      *
-     * @param major
-     * @param creditsCompleted
-     * @return
+     * @param major String which contains a major code, case-insensitive ("CS", "Cs", "cs")
+     * @param creditsCompleted String which contains the value of credits completed
+     * @return boolean which represents whether the method parameters are valid or not
      */
     private boolean validateStudentMajor(String major, String creditsCompleted) {
         try {
@@ -50,8 +62,13 @@ public class RosterManager {
     }
 
     /**
+     * This method attempts to validate a date of birth entered as a String input. First we
+     * create a new Date object using the String date input and check if it is a
+     * valid calendar date. Next we check to make sure this date is not the current date or a
+     * future date. Lastly, we check if the age associated with the birthdate is older than 16
+     * years old. If all of these cases are true, the date entered is validated.
      *
-     * @return int
+     * @return boolean which represents whether the birthdate is valid or not
      */
     private boolean validateStudentDateOfBirth(String date) {
         Date dob = new Date(date), current = new Date();
@@ -80,9 +97,16 @@ public class RosterManager {
     }
 
     /**
+     * This method takes in a String array which represents the argument body of an
+     * entered "A" command, and tries to create a new Student object if the argument body
+     * is valid. We use the validateStudentDateOfBirth() and validateStudentMajor methods to
+     * first check if the birthdate, major, and credits completed arguments are valid. If
+     * they are, we proceed to create a new Student object using the argument body. If
+     * not, we return null.
      *
-     * @param commandBody
-     * @return
+     * @param commandBody String array representing an "A" command argument body
+     *                    ("A Aryan Patel 1/22/2002 CS 90")
+     * @return Student object created from the given body arguments
      */
     private Student createStudent(String[] commandBody) {
         String fname = commandBody[1], lname = commandBody[2], dob = commandBody[3];
@@ -108,10 +132,17 @@ public class RosterManager {
     }
 
     /**
+     * This method takes in a String array which represents the argument body of an
+     * entered "R" or "C" command, and returns a Student object associated with the
+     * arguments if it is found in the roster array. First we create a new profile instance
+     * using the body arguments representing the first and last names and birthdate. Next we
+     * search through the roster array to find a matching profile associated with a student. If
+     * one is found, we return the associated Student object and null otherwise.
      *
-     * @param commandBody
-     * @param roster
-     * @return
+     * @param commandBody String array representing an "R" or "C" command argument body
+     *                    ("R Aryan Patel 1/22/2002") or ("C Aryan Patel 1/22/2002 BAIT")
+     * @param roster Roster object which contains the roster array we are searching through
+     * @return Student object that is associated with the profile we are searching for
      */
     private Student getStudent(String[] commandBody, Roster roster) {
         Profile searchProfile = new Profile(commandBody[2], commandBody[1],
@@ -129,8 +160,10 @@ public class RosterManager {
     }
 
     /**
+     * This method takes care of printing the entire roster array associated with the
+     * inputted Roster object.
      *
-     * @param roster
+     * @param roster Roster object which contains the roster array we want to print
      */
     private void printRoster(Roster roster) {
         for (int i = 0; i < roster.getRosterSize(); i++) {
@@ -139,9 +172,16 @@ public class RosterManager {
     }
 
     /**
+     * This is an overloaded printRoster() method which uses an extra String parameter,
+     * school, to print only the students in the roster array that are associated with
+     * the given school. We first loop through the Major enum values to check if the given
+     * school actually exists. If it does, we proceed to loop through the roster array and
+     * print only the students that are enrolled in the given school.
      *
-     * @param roster
-     * @param school
+     * @param roster Roster object which contains the roster array we want to filter
+     *               through and print
+     * @param school String which contains the school name that we want use as a filter,
+     *               case-insensitive ("SAS", "SaS", "sas")
      */
     private void printRoster(Roster roster, String school) {
         for(Major major : Major.values()) {
@@ -352,7 +392,12 @@ public class RosterManager {
     }
 
     /**
-     *
+     * This method is used to run the entire project. We first indicate to the
+     * user that the program has started running, and then we create a new instance of
+     * Scanner and Roster. Next we enter a loop that takes input at the command line in order
+     * to interact with the program. The program continues to take commands until "Q" is entered,
+     * which terminates the entire program with a message. This method processes single line
+     * commands as well as a sequence of line commands.
      */
     public void run() {
         System.out.println("Roster Manager running...");
