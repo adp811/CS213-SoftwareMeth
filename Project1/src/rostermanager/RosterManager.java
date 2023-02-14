@@ -18,8 +18,8 @@ public class RosterManager {
 
     private static final int ARG_LENGTH_A_COMMAND = 6;
     private static final int ARG_LENGTH_R_COMMAND = 4;
-    private static final int ARG_LENGTH_L_COMMAND = 5;
-    private static final int ARG_LENGTH_C_COMMAND = 2;
+    private static final int ARG_LENGTH_L_COMMAND = 2;
+    private static final int ARG_LENGTH_C_COMMAND = 5;
 
     private static final int MIN_ROSTER_SIZE = 0;
 
