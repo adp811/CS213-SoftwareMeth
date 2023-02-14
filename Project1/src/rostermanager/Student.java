@@ -121,7 +121,7 @@ public class Student implements Comparable<Student> {
      * other. Details can be found in the Profile class compareTo() method.
      *
      * @param studentCompare Student object input that is to be compared
-     * @return int which contains a value (< 0, > 0, or == 0) representing the relative order.
+     * @return int which contains a value representing the relative order.
      */
     @Override
     public int compareTo(Student studentCompare) {
@@ -150,7 +150,7 @@ public class Student implements Comparable<Student> {
      * possible combinations of equal fields. The order of comparison is as follows:
      * last name, first name, date of birth. Therefore, we have written tests in that
      * order. The compareTo() method returns an int value which represents the relative
-     * position (BEFORE: < 0, AFTER: > 0, SAME: == 0), of one Student object to the other.
+     * position (BEFORE, AFTER, SAME), of one Student object to the other.
      * Test status and total test cases passed are shown as output.
      *
      * @param args no arguments passed

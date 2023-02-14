@@ -92,7 +92,7 @@ public class Profile implements Comparable<Profile> {
      * between the two Profiles
      *
      * @param profileCompare Profile object input that is to be compared
-     * @return int which contains a value (< 0, > 0, or == 0) representing the relative order.
+     * @return int which contains a value representing the relative order.
      */
     @Override
     public int compareTo(Profile profileCompare) {

@@ -175,7 +175,7 @@ public class Date implements Comparable<Date> {
      * other.
      *
      * @param date Date input that is to be compared
-     * @return int which contains a value (< 0, > 0, or == 0) representing relative the order.
+     * @return int which contains a value representing the relative the order.
      */
     @Override
     public int compareTo(Date date) {
