@@ -210,9 +210,11 @@ public class Date implements Comparable<Date> {
     public static void main(String[] args) {
         System.out.println("\nTesting isValid() method... \n");
 
+        /* keep track of passed tests */
         int passedCount = 0, totalTests = 14;
 
         System.out.println("Invalid Dates: ");
+
         /* Test 1 - Month value is out of range (should be between 01 and 12) */
         System.out.print("Test 1: 13/30/2022   -> ");
         Date test1 = new Date("13/30/2022");
@@ -225,68 +227,69 @@ public class Date implements Comparable<Date> {
         if (test2.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 3 01/32/2006 - Day value is out of range for January */
+        /* Test 3 - Day value is out of range for January */
         System.out.print("Test 3: 01/32/2006   -> ");
         Date test3 = new Date("01/32/2006");
         if (test3.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 4 00/01/2002 - Month value cannot be 0 */
+        /* Test 4 - Month value cannot be 0 */
         System.out.print("Test 4: 00/01/2002   -> ");
         Date test4 = new Date("00/01/2002");
         if (test4.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 5 02/30/2002 - Day value is out of range for February */
+        /* Test 5 - Day value is out of range for February */
         System.out.print("Test 5: 02/30/2002   -> ");
         Date test5 = new Date("02/30/2002");
         if (test5.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 6 09/31/1990 - Day value is out of range for September */
+        /* Test 6 - Day value is out of range for September */
         System.out.print("Test 6: 09/31/1990   -> ");
         Date test6 = new Date("09/31/1990");
         if (test6.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 7 04/00/2003 - Day value cannot be 0) */
+        /* Test 7 - Day value cannot be 0) */
         System.out.print("Test 7: 04/00/2003   -> ");
         Date test7 = new Date("04/00/2003");
         if (test7.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 8 1/15/0000 - Year value cannot be 0000 */
+        /* Test 8 - Year value cannot be 0000 */
         System.out.print("Test 8: 1/15/0000    -> ");
         Date test8 = new Date("1/15/0000");
         if (test8.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
         System.out.println("\nValid Dates: ");
-        /* Test 9 01/22/2002 - Valid Regular Date */
+
+        /* Test 9 - Valid Regular Date */
         System.out.print("Test 9: 01/22/2002   -> ");
         Date test9 = new Date("01/22/2002");
         if (!test9.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 10 2/28/1990 - Valid Regular Date */
+        /* Test 10 - Valid Regular Date */
         System.out.print("Test 10: 2/28/1990   -> ");
         Date test10 = new Date("2/28/1990");
         if (!test10.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 11 02/29/2020 - Valid Leap Year Date */
+        /* Test 11 - Valid Leap Year Date */
         System.out.print("Test 11: 02/29/2020  -> ");
         Date test11 = new Date("02/29/2020");
         if (!test11.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 12 7/31/2009 - Valid Date (max 31 days in July) */
+        /* Test 12 - Valid Date (max 31 days in July) */
         System.out.print("Test 12: 7/31/2009   -> ");
         Date test12 = new Date("7/31/2009");
         if (!test12.isValid()) System.out.println("Failed");
         else { System.out.println("Passed"); passedCount++; }
 
-        /* Test 13 11/30/2005 - Valid Date (max 30 days in November) */
+        /* Test 13 - Valid Date (max 30 days in November) */
         System.out.print("Test 13: 11/30/2005  -> ");
         Date test13 = new Date("11/30/2005");
         if (!test13.isValid()) System.out.println("Failed");

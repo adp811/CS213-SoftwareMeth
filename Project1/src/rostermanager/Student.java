@@ -146,10 +146,126 @@ public class Student implements Comparable<Student> {
     }
 
     /**
-     * Unit Tests Here
+     * This testbed main() method tests the compareTo() method using different
+     * possible combinations of equal fields. The order of comparison is as follows:
+     * last name, first name, date of birth. Therefore, we have written tests in that
+     * order. The compareTo() method returns an int value which represents the relative
+     * position (BEFORE: < 0, AFTER: > 0, SAME: == 0), of one Student object to the other.
+     * Test status and total test cases passed are shown as output.
+     *
      * @param args no arguments passed
      */
     public static void main(String[] args) {
-        System.out.println("TestBed Main Student() Class");
+        System.out.println("\nTesting compareTo() method... \n\n");
+
+        /* not compared in compareTo() method */
+        Major major = Major.CS;
+        int creditsCompleted = 90;
+
+        /* keep track of passed tests */
+        int passedCount = 0, totalTests = 11;
+
+        /* init Student objects */
+        Student studentA, studentB;
+
+        System.out.println("last name not equal:");
+        studentA = new Student(new Profile("Mehta", "Aryan", new Date("01/22/2002")),
+                               major, creditsCompleted);
+        studentB = new Student(new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                               major, creditsCompleted);
+
+        /* Test 1 */
+        System.out.print("Test 1: Compare (Mehta, Aryan 1/22/2002) to (Patel, Aryan 1/22/2002) -> ");
+        if (!(studentA.compareTo(studentB) < 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+        /* Test 2 */
+        System.out.print("Test 2: Compare (Patel, Aryan 1/22/2002) to (Mehta, Aryan 1/22/2002) -> ");
+        if (!(studentB.compareTo(studentA) > 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+
+        System.out.println("\n\nlast name equal, first name not equal:");
+        studentA = new Student(new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                               major, creditsCompleted);
+        studentB = new Student(new Profile("Patel", "Raj", new Date("01/22/2002")),
+                               major, creditsCompleted);
+
+        /* Test 3 */
+        System.out.print("Test 3: Compare (Patel, Aryan 1/22/2002) to (Patel, Raj 1/22/2002) -> ");
+        if (!(studentA.compareTo(studentB) < 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+        /* Test 4 */
+        System.out.print("Test 4: Compare (Patel, Raj 1/22/2002) to (Patel, Aryan 1/22/2002) -> ");
+        if (!(studentB.compareTo(studentA) > 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+
+        System.out.println("\n\nlast name equal, first name equal, date of birth not equal (MM):");
+        studentA = new Student(new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                major, creditsCompleted);
+        studentB = new Student(new Profile("Patel", "Aryan", new Date("02/22/2002")),
+                major, creditsCompleted);
+
+        /* Test 5 */
+        System.out.print("Test 5: Compare (Patel, Aryan 1/22/2002) to (Patel, Aryan 2/22/2002) -> ");
+        if (!(studentA.compareTo(studentB) < 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+        /* Test 6 */
+        System.out.print("Test 6: Compare (Patel, Aryan 2/22/2002) to (Patel, Aryan 1/22/2002) -> ");
+        if (!(studentB.compareTo(studentA) > 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+
+        System.out.println("\n\nlast name equal, first name equal, date of birth not equal (DD):");
+        studentA = new Student(new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                major, creditsCompleted);
+        studentB = new Student(new Profile("Patel", "Aryan", new Date("01/23/2002")),
+                major, creditsCompleted);
+
+        /* Test 7 */
+        System.out.print("Test 7: Compare (Patel, Aryan 1/22/2002) to (Patel, Aryan 1/23/2002) -> ");
+        if (!(studentA.compareTo(studentB) < 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+        /* Test 8 */
+        System.out.print("Test 8: Compare (Patel, Aryan 1/23/2002) to (Patel, Aryan 1/22/2002) -> ");
+        if (!(studentB.compareTo(studentA) > 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+
+        System.out.println("\n\nlast name equal, first name equal, date of birth not equal (YYYY):");
+        studentA = new Student(new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                major, creditsCompleted);
+        studentB = new Student(new Profile("Patel", "Aryan", new Date("01/22/2003")),
+                major, creditsCompleted);
+
+        /* Test 9 */
+        System.out.print("Test 9:  Compare (Patel, Aryan 1/22/2002) to (Patel, Aryan 1/22/2003)  -> ");
+        if (!(studentA.compareTo(studentB) < 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+        /* Test 10 */
+        System.out.print("Test 10: Compare (Patel, Aryan 1/22/2003) to (Patel, Aryan 1/22/2002) -> ");
+        if (!(studentB.compareTo(studentA) > 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+
+        System.out.println("\n\nlast name equal, first name equal, date of birth equal:");
+        studentA = new Student(new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                major, creditsCompleted);
+        studentB = new Student(new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                major, creditsCompleted);
+
+        /* Test 11 */
+        System.out.print("Test 11: Compare (Patel, Aryan 1/22/2002) to (Patel, Aryan 1/22/2002) -> ");
+        if (!(studentA.compareTo(studentB) == 0)) System.out.println("Failed");
+        else { System.out.println("Passed"); passedCount++; }
+
+
+        System.out.println("\n\n" + passedCount + " out of " +
+                totalTests + " test cases passed.");
     }
 }
