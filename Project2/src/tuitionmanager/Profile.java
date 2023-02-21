@@ -1,4 +1,4 @@
-package rostermanager;
+package tuitionmanager;
 
 /**
  * This is a class that creates a Profile object given a student's last name,

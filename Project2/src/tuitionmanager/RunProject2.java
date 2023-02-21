@@ -1,4 +1,4 @@
-package rostermanager;
+package tuitionmanager;
 
 /**
  * This class is used to run an instance of RosterManager. The run()
@@ -7,7 +7,7 @@ package rostermanager;
  *
  * @author Aryan Patel
  */
-public class RunProject1 {
+public class RunProject2 {
 
     /**
      * A new instance of RosterManager is created and the run() method
@@ -16,6 +16,6 @@ public class RunProject1 {
      * @param args no arguments passed
      */
     public static void main(String[] args) {
-        new RosterManager().run();
+        new TuitionManager().run();
     }
 }

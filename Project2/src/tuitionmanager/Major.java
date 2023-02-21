@@ -1,4 +1,4 @@
-package rostermanager;
+package tuitionmanager;
 
 /**
  * Custom Enum class that stores major, code, and school as Major.

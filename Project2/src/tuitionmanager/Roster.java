@@ -1,4 +1,4 @@
-package rostermanager;
+package tuitionmanager;
 
 /**
  * This is a class that maintains a resizing array of Student objects

@@ -1,4 +1,4 @@
-package rostermanager;
+package tuitionmanager;
 
 import java.util.Calendar;
 
