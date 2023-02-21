@@ -174,6 +174,14 @@ public abstract class Student implements Comparable<Student> {
      * @param args no arguments passed
      */
     public static void main(String[] args) {
+        International student1 = new International(
+                new Profile("Patel", "Aryan", new Date("01/22/2002")),
+                Major.CS,
+                90,
+                false
+        );
+
+        System.out.println(student1.tuitionDue(18));
 
     }
 }

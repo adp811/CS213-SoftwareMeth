@@ -12,11 +12,23 @@ public class NonResident extends Student {
     private final double UNIV_FEE_FULL_TIME = 3268.0;
     private final double UNIV_FEE_PART_TIME = 2614.4;
 
-
+    /**
+     * needs comments
+     *
+     * @param profile
+     * @param major
+     * @param creditCompleted
+     */
     public NonResident(Profile profile, Major major, int creditCompleted) {
         super(profile, major, creditCompleted);
     }
 
+    /**
+     * needs comments
+     *
+     * @param creditsEnrolled
+     * @return
+     */
     @Override
     public double tuitionDue(int creditsEnrolled) {
         double tuitionDue;
@@ -36,6 +48,11 @@ public class NonResident extends Student {
         return tuitionDue;
     }
 
+    /**
+     * needs comments
+     *
+     * @return
+     */
     @Override
     public boolean isResident() {
         return false;
