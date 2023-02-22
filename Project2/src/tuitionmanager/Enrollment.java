@@ -16,7 +16,6 @@ public class Enrollment {
 
     private static final int NOT_FOUND = -1;
 
-
     /**
      * needs comments
      *
@@ -58,6 +57,15 @@ public class Enrollment {
     /**
      * needs comments
      *
+     * @return
+     */
+    public int getEnrollmentSize() {
+        return this.size;
+    }
+
+    /**
+     * needs comments
+     *
      * @param enrollStudent
      * @return
      */
@@ -73,7 +81,6 @@ public class Enrollment {
     public void add(EnrollStudent enrollStudent){
         if (this.contains(enrollStudent)) {
             int index = find(enrollStudent);
-            // error check here
             enrollStudents[index].setCreditsEnrolled(enrollStudent.getCreditsEnrolled());
             return;
         }
@@ -115,32 +122,5 @@ public class Enrollment {
         for (int i = 0; i < this.size; i++) {
             System.out.println(enrollStudents[i]);
         }
-    }
-
-    /**
-     * remove when submitting
-     *
-     * @param args no params
-     */
-    public static void main(String[] args) {
-
-        Enrollment students = new Enrollment();
-
-        EnrollStudent student1 = new EnrollStudent(
-                new Profile("Patel", "Aryan", new Date("1/22/2002")),
-                18);
-
-        EnrollStudent student2 = new EnrollStudent(
-                new Profile("Patel", "Natasha", new Date("3/25/2000")),
-                12);
-
-        EnrollStudent student3 = new EnrollStudent(
-                new Profile("Bokka", "Abhitej", new Date("5/20/2001")),
-                15);
-
-        EnrollStudent student4 = new EnrollStudent(
-                new Profile("Patel", "Aryan", new Date("1/22/2002")),
-                9);
-
     }
 }

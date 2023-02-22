@@ -101,14 +101,11 @@ public abstract class Student implements Comparable<Student> {
     public boolean isValid(int creditEnrolled) {
         if(this instanceof International internationalStudent) {
             if(internationalStudent.getStudyAbroadStatus()){
-                System.out.println("1");
                 return creditEnrolled <= 12 && creditEnrolled >= 3;
             } else {
-                System.out.println("2");
                 return creditEnrolled <= 24 && creditEnrolled >= 12;
             }
         } else {
-            System.out.println("3");
             return creditEnrolled <= 24 && creditEnrolled >= 3;
         }
     }

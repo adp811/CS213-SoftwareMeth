@@ -26,8 +26,12 @@ public class TuitionManager {
     private static final int R_COMMAND_L = 4;
     private static final int L_COMMAND_L = 2;
     private static final int C_COMMAND_L = 5;
+    private static final int E_COMMAND_L = 5;
+
+    private static final int MIN_COMMAND_L = 4;
 
     private static final int MIN_ROSTER_SIZE = 0;
+    private static final int MIN_ENROLLMENT_SIZE = 0;
 
     /**
      * This method returns a Major enum object associated with the inputted major code
@@ -110,6 +114,45 @@ public class TuitionManager {
         }
 
         return true;
+    }
+
+    /**
+     * needs comments
+     *
+     * @param student
+     * @param creditsEnrolled
+     * @return
+     */
+    private boolean validateEnrollmentCredits (Student student, String creditsEnrolled) {
+        try {
+            int credits = Integer.parseInt(creditsEnrolled);
+            if (credits < MIN_CREDITS) {
+                System.out.println("Credits enrolled cannot be negative.");
+                return false;
+            }
+            boolean isValidAmount = student.isValid(credits);
+            if (isValidAmount) return true;
+
+        } catch (NumberFormatException e) {
+            System.out.println("Credits enrolled is not an integer.");
+            return false;
+        }
+
+        String status;
+        if (student instanceof International) {
+            if (((International) student).getStudyAbroadStatus()) {
+                status = "(International student: study abroad)";
+            } else {
+                status = "(International student)";
+            }
+        } else if (student instanceof Resident) {
+            status = "(Resident)";
+        } else {
+            status = "(Non-Resident)";
+        }
+
+        System.out.println(status + " " + creditsEnrolled + ": invalid credit hours.");
+        return false;
     }
 
     /**
@@ -242,7 +285,7 @@ public class TuitionManager {
      */
     private void executeCommandA(String[] commandBody, Roster roster) {
         String operation = commandBody[0]; int cmdLength = commandBody.length;
-        if (cmdLength < 4) {
+        if (cmdLength < MIN_COMMAND_L) {
             System.out.println("Missing data in line command.");
             return;
         }
@@ -352,6 +395,71 @@ public class TuitionManager {
         } catch (Exception e) {
             System.out.println("ERROR: Student major could not be changed, please try again.");
         }
+    }
+
+    /**
+     * needs comments
+     *
+     * @param commandBody
+     * @param roster
+     * @param enrollment
+     */
+    private void executeCommandE(String[] commandBody, Roster roster, Enrollment enrollment) {
+        if (commandBody.length < E_COMMAND_L) {
+            System.out.println("Missing data in line command.");
+            return;
+        }
+
+        Student student;
+        if ((student = getStudent(commandBody, roster)) == null) {
+            System.out.println("Cannot enroll: " + commandBody[1] + " " + commandBody[2] +
+                    " " + commandBody[3] + " is not in the roster.");
+            return;
+        }
+
+        String creditsEnrolled = commandBody[4];
+        if (!(validateEnrollmentCredits(student, creditsEnrolled))) {
+            return;
+        }
+
+        EnrollStudent enrollStudent = new EnrollStudent(
+                student.getProfile(), Integer.parseInt(creditsEnrolled));
+
+        enrollment.add(enrollStudent);
+
+        System.out.println(student.getProfile().toString() + " enrolled "
+                + creditsEnrolled + " credits");
+    }
+
+    /**
+     * needs comments
+     *
+     * @param commandBody
+     * @param enrollment
+     */
+    private void executeCommandD(String[] commandBody, Enrollment enrollment) {
+        return;
+    }
+
+    /**
+     * needs comments
+     *
+     * @param commandBody
+     * @param roster
+     */
+    private void executeCommandS(String[] commandBody, Roster roster) {
+        return;
+    }
+
+    /**
+     * needs comments
+     *
+     * @param commandBody
+     * @param roster
+     * @param enrollment
+     */
+    private void executeCommandSE(String[] commandBody, Roster roster, Enrollment enrollment) {
+        return;
     }
 
     /**
@@ -487,6 +595,30 @@ public class TuitionManager {
     }
 
     /**
+     * needs comments
+     *
+     * @param enrollment
+     */
+    private void executeCommandPE(Enrollment enrollment) {
+        if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
+            System.out.println("Enrollment is empty!");
+        } else {
+            System.out.println("** Enrollment **");
+            enrollment.print();
+            System.out.println("* end of enrollment *");
+        }
+    }
+
+    /**
+     * needs comments
+     *
+     * @param enrollment
+     */
+    private void executeCommandPT(Roster roster, Enrollment enrollment) {
+        return;
+    }
+
+    /**
      *  rework
      *  This method is the main driver of executing the commands entered by the user in
      *  the command line. The String array representing the command body and a Roster object is
@@ -500,38 +632,40 @@ public class TuitionManager {
      *                    command argument body (see execute methods for commandBody examples)
      * @param roster Roster object which we are executing the commands on
      */
-    private void parseCommand (String[] commandBody, Roster roster) {
+    private void parseCommand (String[] commandBody, Roster roster, Enrollment enrollment) {
         String operation = commandBody[0];
-
         switch (operation) {
-            case "AR": case "AN": case "AT": case "AI":
-                executeCommandA(commandBody, roster);
+            case "LS": executeCommandLS(commandBody, roster);
                 break;
-            case "LS":
-                executeCommandLS(commandBody, roster);
+            case "R":  executeCommandR(commandBody, roster);
                 break;
-            case "R":
-                executeCommandR(commandBody, roster);
+            case "C":  executeCommandC(commandBody, roster);
                 break;
-            case "P":
-                executeCommandP(roster);
+            case "L":  executeCommandL(commandBody, roster);
                 break;
-            case "PS":
-                executeCommandPS(roster);
+            case "P":  executeCommandP(roster);
                 break;
-            case "PC":
-                executeCommandPC(roster);
+            case "PS": executeCommandPS(roster);
                 break;
-            case "L":
-                executeCommandL(commandBody, roster);
+            case "PC": executeCommandPC(roster);
                 break;
-            case "C":
-                executeCommandC(commandBody, roster);
+            case "PE": executeCommandPE(enrollment);
+                break;
+            case "PT": executeCommandPT(roster, enrollment);
+                break;
+            case "E":  executeCommandE(commandBody, roster, enrollment);
+                break;
+            case "D":  executeCommandD(commandBody, enrollment);
+                break;
+            case "S":  executeCommandS(commandBody, roster);
+                break;
+            case "SE": executeCommandSE(commandBody, roster, enrollment);
+                break;
+            case "AR": case "AN": case "AT": case "AI": executeCommandA(commandBody, roster);
                 break;
             case "":
                 break;
-            default:
-                System.out.println(commandBody[0] + " is an invalid command!");
+            default: System.out.println(commandBody[0] + " is an invalid command!");
                 break;
         }
     }
@@ -551,12 +685,14 @@ public class TuitionManager {
         System.out.println();
 
         Scanner scanner = new Scanner(System.in);
+
+        Enrollment enrollment = new Enrollment();
         Roster roster = new Roster();
 
         String input;
         while (!(input = scanner.nextLine()).equals("Q")) {
             String[] commandBody = input.split("\\s+");
-            parseCommand(commandBody, roster);
+            parseCommand(commandBody, roster, enrollment);
         }
 
         scanner.close();
