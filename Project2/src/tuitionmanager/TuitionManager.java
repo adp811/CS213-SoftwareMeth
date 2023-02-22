@@ -113,6 +113,34 @@ public class TuitionManager {
     }
 
     /**
+     * This method takes in a String array which represents the argument body of an
+     * entered "R" or "C" command, and returns a Student object associated with the
+     * arguments if it is found in the roster array. First we create a new profile instance
+     * using the body arguments representing the first and last names and birthdate. Next we
+     * search through the roster array to find a matching profile associated with a student. If
+     * one is found, we return the associated Student object and null otherwise.
+     *
+     * @param commandBody String array representing an "R" or "C" command argument body
+     *                    ("R Aryan Patel 1/22/2002") or ("C Aryan Patel 1/22/2002 BAIT")
+     * @param roster Roster object which contains the roster array we are searching through
+     * @return Student object that is associated with the profile we are searching for
+     */
+    private Student getStudent(String[] commandBody, Roster roster) {
+        Profile searchProfile = new Profile(commandBody[2], commandBody[1],
+                new Date(commandBody[3]));
+
+        for (int i = 0; i < roster.getRosterSize(); i++) {
+            Profile profile = roster.getRoster()[i].getProfile();
+
+            if (profile.equals(searchProfile)) {
+                return roster.getRoster()[i];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * needs comments
      *
      * @param commandBody
@@ -146,6 +174,9 @@ public class TuitionManager {
             return null;
 
         } else if (resStatus.equals("I") || resStatus.equals("AI")) {
+            if (commandBody.length == A_COMMAND_L) {
+                return new International(profile, major, credits, false);
+            }
             if (commandBody[6].equalsIgnoreCase("true")) {
                 return new International(profile, major, credits, true);
             } else if (commandBody[6].equalsIgnoreCase("false")) {
@@ -157,78 +188,6 @@ public class TuitionManager {
 
         System.out.println("Error: could not create student.");
         return null;
-    }
-
-    /**
-     * This method takes in a String array which represents the argument body of an
-     * entered "R" or "C" command, and returns a Student object associated with the
-     * arguments if it is found in the roster array. First we create a new profile instance
-     * using the body arguments representing the first and last names and birthdate. Next we
-     * search through the roster array to find a matching profile associated with a student. If
-     * one is found, we return the associated Student object and null otherwise.
-     *
-     * @param commandBody String array representing an "R" or "C" command argument body
-     *                    ("R Aryan Patel 1/22/2002") or ("C Aryan Patel 1/22/2002 BAIT")
-     * @param roster Roster object which contains the roster array we are searching through
-     * @return Student object that is associated with the profile we are searching for
-     */
-    private Student getStudent(String[] commandBody, Roster roster) {
-        Profile searchProfile = new Profile(commandBody[2], commandBody[1],
-                new Date(commandBody[3]));
-
-        for (int i = 0; i < roster.getRosterSize(); i++) {
-            Profile profile = roster.getRoster()[i].getProfile();
-
-            if (profile.equals(searchProfile)) {
-                return roster.getRoster()[i];
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * This method takes care of printing the entire roster array associated with the
-     * inputted Roster object.
-     *
-     * @param roster Roster object which contains the roster array we want to print
-     */
-    private void printRoster(Roster roster) {
-        for (int i = 0; i < roster.getRosterSize(); i++) {
-            System.out.println(roster.getRoster()[i].toString());
-        }
-    }
-
-    /**
-     * This is an overloaded printRoster() method which uses an extra String parameter,
-     * school, to print only the students in the roster array that are associated with
-     * the given school. We first loop through the Major enum values to check if the given
-     * school actually exists. If it does, we proceed to loop through the roster array and
-     * print only the students that are enrolled in the given school.
-     *
-     * @param roster Roster object which contains the roster array we want to filter
-     *               through and print
-     * @param school String which contains the school name that we want use as a filter,
-     *               case-insensitive ("SAS", "SaS", "sas")
-     */
-    private void printRoster(Roster roster, String school) {
-        for(Major major : Major.values()) {
-            if(major.getSchool().equalsIgnoreCase(school)) {
-                System.out.println("* Students in " + school + " *");
-                for (int i = 0; i < roster.getRosterSize(); i++) {
-                    Student student = roster.getRoster()[i];
-
-                    if(student.getMajor().getSchool().equalsIgnoreCase(school)){
-                        System.out.println(student);
-                    }
-                }
-                System.out.println("* end of list **");
-
-                return;
-            }
-        }
-
-        System.out.println("School doesn't exist: " + school);
     }
 
     /**
@@ -283,15 +242,19 @@ public class TuitionManager {
      */
     private void executeCommandA(String[] commandBody, Roster roster) {
         String operation = commandBody[0]; int cmdLength = commandBody.length;
+        if (cmdLength < 4) {
+            System.out.println("Missing data in line command.");
+            return;
+        }
         if (operation.equals("AT") && cmdLength != A_COMMAND_L_EX) {
             if(commandBody.length == A_COMMAND_L) System.out.println("Missing the state code.");
-            else System.out.println("Missing data in line command.");
+            else System.out.println("Missing data in command line.");
             return;
-        } else if (operation.equals("AI") && cmdLength != A_COMMAND_L_EX) {
-            System.out.println("Missing data in line command.");
+        } else if (operation.equals("AI") && cmdLength < A_COMMAND_L) {
+            System.out.println("Missing data in command line.");
             return;
         } else if ((operation.equals("AR") || operation.equals("AN")) && cmdLength != A_COMMAND_L) {
-            System.out.println("Missing data in line command.");
+            System.out.println("Missing data in command line.");
             return;
         }
 
@@ -392,6 +355,50 @@ public class TuitionManager {
     }
 
     /**
+     * This method takes care of printing the entire roster array associated with the
+     * inputted Roster object.
+     *
+     * @param roster Roster object which contains the roster array we want to print
+     */
+    private void printRoster(Roster roster) {
+        for (int i = 0; i < roster.getRosterSize(); i++) {
+            System.out.println(roster.getRoster()[i].toString());
+        }
+    }
+
+    /**
+     * This is an overloaded printRoster() method which uses an extra String parameter,
+     * school, to print only the students in the roster array that are associated with
+     * the given school. We first loop through the Major enum values to check if the given
+     * school actually exists. If it does, we proceed to loop through the roster array and
+     * print only the students that are enrolled in the given school.
+     *
+     * @param roster Roster object which contains the roster array we want to filter
+     *               through and print
+     * @param school String which contains the school name that we want use as a filter,
+     *               case-insensitive ("SAS", "SaS", "sas")
+     */
+    private void printRoster(Roster roster, String school) {
+        for(Major major : Major.values()) {
+            if(major.getSchool().equalsIgnoreCase(school)) {
+                System.out.println("* Students in " + school + " *");
+                for (int i = 0; i < roster.getRosterSize(); i++) {
+                    Student student = roster.getRoster()[i];
+
+                    if(student.getMajor().getSchool().equalsIgnoreCase(school)){
+                        System.out.println(student);
+                    }
+                }
+                System.out.println("* end of list **");
+
+                return;
+            }
+        }
+
+        System.out.println("School doesn't exist: " + school);
+    }
+
+    /**
      * This method takes care of executing the "L" command which prints students in the roster array that
      * are enrolled within the school provided in the command body arguments. We check to see if the
      * number of arguments in the command body is correct and also if the roster array is empty.
@@ -430,10 +437,10 @@ public class TuitionManager {
         if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
         } else {
-            System.out.println("* Student roster sorted by last name, first name, DOB **");
+            System.out.println("** Student roster sorted by last name, first name, DOB **");
             roster.print();
             printRoster(roster);
-            System.out.println("* end of roster **");
+            System.out.println("* end of roster *");
         }
     }
 
@@ -451,10 +458,10 @@ public class TuitionManager {
         if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
         } else {
-            System.out.println("* Student roster sorted by standing **");
+            System.out.println("** Student roster sorted by standing **");
             roster.printByStanding();
             printRoster(roster);
-            System.out.println("* end of roster **");
+            System.out.println("* end of roster *");
         }
     }
 
@@ -472,10 +479,10 @@ public class TuitionManager {
         if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
         } else {
-            System.out.println("* Student roster sorted by school, major **");
+            System.out.println("** Student roster sorted by school, major **");
             roster.printBySchoolMajor();
             printRoster(roster);
-            System.out.println("* end of roster **");
+            System.out.println("* end of roster *");
         }
     }
 
