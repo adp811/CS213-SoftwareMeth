@@ -84,12 +84,24 @@ public abstract class Student implements Comparable<Student> {
     }
 
     /**
+     * needs comments
      *
      * @param creditEnrolled
      * @return
      */
     public boolean isValid(int creditEnrolled) {
-        return creditEnrolled <= 24 && creditEnrolled >= 3;
+        if(this instanceof International internationalStudent) {
+            if(internationalStudent.getStudyAbroadStatus()){
+                System.out.println("1");
+                return creditEnrolled <= 12 && creditEnrolled >= 3;
+            } else {
+                System.out.println("2");
+                return creditEnrolled <= 24 && creditEnrolled >= 12;
+            }
+        } else {
+            System.out.println("3");
+            return creditEnrolled <= 24 && creditEnrolled >= 3;
+        }
     }
 
     /**
@@ -169,19 +181,5 @@ public abstract class Student implements Comparable<Student> {
      */
     public abstract boolean isResident();
 
-    /**
-     *
-     * @param args no arguments passed
-     */
-    public static void main(String[] args) {
-        International student1 = new International(
-                new Profile("Patel", "Aryan", new Date("01/22/2002")),
-                Major.CS,
-                90,
-                false
-        );
-
-        System.out.println(student1.tuitionDue(18));
-
-    }
+    public static void main(String[] args) {}
 }

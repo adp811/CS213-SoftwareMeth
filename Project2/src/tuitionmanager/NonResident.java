@@ -41,6 +41,7 @@ public class NonResident extends Student {
             } else {
                 tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME;
             }
+
         } else { // part-time non-resident
             tuitionDue = (creditsEnrolled * PART_TIME_TUITION_HOURLY) + UNIV_FEE_PART_TIME;
         }

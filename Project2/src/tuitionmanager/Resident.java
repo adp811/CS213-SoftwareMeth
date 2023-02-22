@@ -14,6 +14,7 @@ public class Resident extends Student {
     private final double UNIV_FEE_FULL_TIME = 3268.0;
     private final double UNIV_FEE_PART_TIME = 2614.4;
 
+
     /**
      * needs comments
      *
@@ -45,6 +46,7 @@ public class Resident extends Student {
             } else {
                 tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME - this.scholarship;
             }
+
         } else { // part-time resident
             tuitionDue = (creditsEnrolled * PART_TIME_TUITION_HOURLY) + UNIV_FEE_PART_TIME;
         }

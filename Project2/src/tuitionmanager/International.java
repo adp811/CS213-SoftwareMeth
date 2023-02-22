@@ -31,6 +31,15 @@ public class International extends NonResident {
     /**
      * needs comments
      *
+     * @return
+     */
+    public boolean getStudyAbroadStatus() {
+        return this.isStudyAbroad;
+    }
+
+    /**
+     * needs comments
+     *
      * @param creditsEnrolled
      * @return
      */
