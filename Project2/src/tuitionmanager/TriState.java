@@ -60,4 +60,16 @@ public class TriState extends NonResident {
 
         return tuitionDue;
     }
+
+    /**
+     * needs comments
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return this.getProfile().toString() + " " + this.getMajor().toString() + " credits completed: " +
+                this.getCreditCompleted() + " (" + this.getClassStanding() + ")(non-resident)" +
+                "(tri-state:" + this.state + ")";
+    }
 }

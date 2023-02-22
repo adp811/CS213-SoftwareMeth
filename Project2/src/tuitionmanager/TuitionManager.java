@@ -244,18 +244,15 @@ public class TuitionManager {
         }
 
         String fileName = commandBody[1];
-
         try {
             Scanner scanner = new Scanner(new File(fileName));
             while (scanner.hasNextLine()) {
                 String[] body = scanner.nextLine().split(",");
-
                 Student student;
                 if ((student = createStudent(body)) == null) {
                     System.out.println("Fatal: Text file line format error.");
                     return;
                 }
-
                 try {
                     roster.add(student);
                 } catch (Exception e) {
@@ -302,7 +299,6 @@ public class TuitionManager {
         if ((student = createStudent(commandBody)) == null) {
             return;
         }
-
         try {
             boolean status;
             if(!(status = roster.add(student))) {

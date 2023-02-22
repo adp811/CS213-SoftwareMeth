@@ -63,4 +63,15 @@ public class Resident extends Student {
     public boolean isResident() {
         return true;
     }
+
+    /**
+     * needs comments
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return this.getProfile().toString() + " " + this.getMajor().toString() + " credits completed: " +
+                this.getCreditCompleted() + " (" + this.getClassStanding() + ")(resident)";
+    }
 }

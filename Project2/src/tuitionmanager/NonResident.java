@@ -58,4 +58,15 @@ public class NonResident extends Student {
     public boolean isResident() {
         return false;
     }
+
+    /**
+     * needs comments
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return this.getProfile().toString() + " " + this.getMajor().toString() + " credits completed: " +
+                this.getCreditCompleted() + " (" + this.getClassStanding() + ")(non-resident)";
+    }
 }

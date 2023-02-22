@@ -52,6 +52,15 @@ public abstract class Student implements Comparable<Student> {
     }
 
     /**
+     * needs comments
+     *
+     * @return
+     */
+    public int getCreditCompleted() {
+        return this.creditCompleted;
+    }
+
+    /**
      * This method gets a student object's class standing (FRESHMAN, SOPHOMORE, JUNIOR, SENIOR) based
      * on the number of credits they have completed. The class standing is determined these conditions:
      * <p>
@@ -181,5 +190,9 @@ public abstract class Student implements Comparable<Student> {
      */
     public abstract boolean isResident();
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {}
 }
