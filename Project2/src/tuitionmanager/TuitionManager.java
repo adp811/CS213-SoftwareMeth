@@ -1,5 +1,7 @@
 package tuitionmanager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -16,10 +18,14 @@ public class TuitionManager {
     private static final int MIN_AGE = 16;
     private static final int MIN_CREDITS = 0;
 
-    private static final int ARG_LENGTH_A_COMMAND = 6;
-    private static final int ARG_LENGTH_R_COMMAND = 4;
-    private static final int ARG_LENGTH_L_COMMAND = 2;
-    private static final int ARG_LENGTH_C_COMMAND = 5;
+    private static final int A_COMMAND_L = 6;
+    private static final int A_COMMAND_L_EX = 7;
+
+    private static final int LS_COMMAND_L = 2;
+
+    private static final int R_COMMAND_L = 4;
+    private static final int L_COMMAND_L = 2;
+    private static final int C_COMMAND_L = 5;
 
     private static final int MIN_ROSTER_SIZE = 0;
 
@@ -106,40 +112,52 @@ public class TuitionManager {
         return true;
     }
 
-//    /**
-//     * This method takes in a String array which represents the argument body of an
-//     * entered "A" command, and tries to create a new Student object if the argument body
-//     * is valid. We use the validateStudentDateOfBirth() and validateStudentMajor methods to
-//     * first check if the birthdate, major, and credits completed arguments are valid. If
-//     * they are, we proceed to create a new Student object using the argument body. If
-//     * not, we return null.
-//     *
-//     * @param commandBody String array representing an "A" command argument body
-//     *                    ("A Aryan Patel 1/22/2002 CS 90")
-//     * @return Student object created from the given body arguments
-//     */
-//    private Student createStudent(String[] commandBody) {
-//        String fname = commandBody[1], lname = commandBody[2], dob = commandBody[3];
-//        String major = commandBody[4], creditCompleted = commandBody[5];
-//
-//        if (!validateStudentDateOfBirth(dob) || !validateStudentMajor(major, creditCompleted)) {
-//            return null;
-//        }
-//
-//        Student newStudent;
-//        try {
-//            newStudent = new Student(
-//                    new Profile(lname, fname, new Date(dob)),
-//                    determineMajor(major),
-//                    Integer.parseInt(creditCompleted));
-//
-//        } catch (Exception e) {
-//            System.out.println("New instance of Student cannot be created, please try again.");
-//            return null;
-//        }
-//
-//        return newStudent;
-//    }
+    /**
+     * needs comments
+     *
+     * @param commandBody
+     * @return
+     */
+    private Student createStudent(String[] commandBody) {
+        String resStatus = commandBody[0], fname = commandBody[1], lname = commandBody[2],
+                dob = commandBody[3], majorCode = commandBody[4], creditCompleted = commandBody[5];
+
+        if (!validateStudentDateOfBirth(dob) || !validateStudentMajor(majorCode, creditCompleted)) {
+            return null;
+        }
+
+        Major major = determineMajor(majorCode);
+        Profile profile = new Profile(lname, fname, new Date(dob));
+        int credits = Integer.parseInt(creditCompleted);
+
+        if (resStatus.equals("R") || resStatus.equals("AR")) {
+            return new Resident(profile, major, credits, 0);
+
+        } else if (resStatus.equals("N") || resStatus.equals("AN")) {
+            return new NonResident(profile, major, credits);
+
+        } else if (resStatus.equals("T") || resStatus.equals("AT")) {
+            if (commandBody[6].equalsIgnoreCase("NY")) {
+                return new TriState(profile, major, credits, "NY");
+            } else if (commandBody[6].equalsIgnoreCase("CT")) {
+                return new TriState(profile, major, credits, "CT");
+            }
+            System.out.println(commandBody[6] + ": Invalid state code.");
+            return null;
+
+        } else if (resStatus.equals("I") || resStatus.equals("AI")) {
+            if (commandBody[6].equalsIgnoreCase("true")) {
+                return new International(profile, major, credits, true);
+            } else if (commandBody[6].equalsIgnoreCase("false")) {
+                return new International(profile, major, credits, false);
+            }
+            System.out.println(commandBody[6] + ": Invalid study abroad status.");
+            return null;
+        }
+
+        System.out.println("Error: could not create student.");
+        return null;
+    }
 
     /**
      * This method takes in a String array which represents the argument body of an
@@ -213,41 +231,90 @@ public class TuitionManager {
         System.out.println("School doesn't exist: " + school);
     }
 
-//    /**
-//     * This method takes care of executing the "A" with the given body arguments and
-//     * Roster object. First we check if the number of body arguments is correct. If it is
-//     * then we continue and try to create a new Student object with the createStudent() method.
-//     * If creating a new Student object fails, we return from method. Otherwise, we attempt to add
-//     * the new Student object to the roster array. The student is not added if it is already in
-//     * the roster array.
-//     *
-//     * @param commandBody String array representing an "A" command argument body
-//     *                    ("A Aryan Patel 1/22/2002 CS 90")
-//     * @param roster Roster object which contains the roster array that we are adding to
-//     */
-//    private void executeCommandA(String[] commandBody, Roster roster) {
-//        if (commandBody.length != ARG_LENGTH_A_COMMAND) {
-//            System.out.println("Incorrect number of arguments, please try again!");
-//            return;
-//        }
-//
-//        Student student;
-//        if ((student = createStudent(commandBody)) == null) {
-//            return;
-//        }
-//
-//        try {
-//            boolean status;
-//            if(!(status = roster.add(student))) {
-//                System.out.println(student.getProfile().toString() + " is already in the roster.");
-//            } else {
-//                System.out.println(student.getProfile().toString() + " added to the roster.");
-//            }
-//
-//        } catch (Exception e) {
-//            System.out.println("ERROR: Student could not be added, please try again.");
-//        }
-//    }
+    /**
+     * needs comments
+     *
+     * @param fileName
+     * @param roster
+     */
+    private void executeCommandLS(String[] commandBody, Roster roster) {
+        if (commandBody.length != LS_COMMAND_L) {
+            System.out.println("Incorrect number of arguments, please try again!");
+            return;
+        }
+
+        String fileName = commandBody[1];
+
+        try {
+            Scanner scanner = new Scanner(new File(fileName));
+            while (scanner.hasNextLine()) {
+                String[] body = scanner.nextLine().split(",");
+
+                Student student;
+                if ((student = createStudent(body)) == null) {
+                    System.out.println("Fatal: Text file line format error.");
+                    return;
+                }
+
+                try {
+                    roster.add(student);
+                } catch (Exception e) {
+                    System.out.println("Fatal: Student could not be added, please check the text file.");
+                    return;
+                }
+            }
+            System.out.println("Students loaded to the roster.");
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + fileName);
+        }
+    }
+
+    /**
+     * rework
+     * This method takes care of executing the "A" with the given body arguments and
+     * Roster object. First we check if the number of body arguments is correct. If it is
+     * then we continue and try to create a new Student object with the createStudent() method.
+     * If creating a new Student object fails, we return from method. Otherwise, we attempt to add
+     * the new Student object to the roster array. The student is not added if it is already in
+     * the roster array.
+     *
+     * @param commandBody String array representing an "A" command argument body
+     *                    ("A Aryan Patel 1/22/2002 CS 90")
+     * @param roster Roster object which contains the roster array that we are adding to
+     */
+    private void executeCommandA(String[] commandBody, Roster roster) {
+        String operation = commandBody[0]; int cmdLength = commandBody.length;
+        if (operation.equals("AT") && cmdLength != A_COMMAND_L_EX) {
+            if(commandBody.length == A_COMMAND_L) System.out.println("Missing the state code.");
+            else System.out.println("Missing data in line command.");
+            return;
+        } else if (operation.equals("AI") && cmdLength != A_COMMAND_L_EX) {
+            System.out.println("Missing data in line command.");
+            return;
+        } else if ((operation.equals("AR") || operation.equals("AN")) && cmdLength != A_COMMAND_L) {
+            System.out.println("Missing data in line command.");
+            return;
+        }
+
+        Student student;
+        if ((student = createStudent(commandBody)) == null) {
+            return;
+        }
+
+        try {
+            boolean status;
+            if(!(status = roster.add(student))) {
+                System.out.println(student.getProfile().toString() + " is already in the roster.");
+            } else {
+                System.out.println(student.getProfile().toString() + " added to the roster.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR: Student could not be added, please try again.");
+        }
+    }
 
     /**
      * This method takes care of executing the "R" command with the given body arguments and
@@ -262,7 +329,7 @@ public class TuitionManager {
      * @param roster Roster object which contains the roster array that we are removing from
      */
     private void executeCommandR(String[] commandBody, Roster roster) {
-        if (commandBody.length != ARG_LENGTH_R_COMMAND) {
+        if (commandBody.length != R_COMMAND_L) {
             System.out.println("Incorrect number of arguments, please try again!");
             return;
         }
@@ -301,7 +368,7 @@ public class TuitionManager {
      *               a student's major in
      */
     private void executeCommandC(String[] commandBody, Roster roster) {
-        if (commandBody.length != ARG_LENGTH_C_COMMAND) {
+        if (commandBody.length != C_COMMAND_L) {
             System.out.println("Incorrect number of arguments, please try again!");
             return;
         }
@@ -341,7 +408,7 @@ public class TuitionManager {
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executeCommandL(String[] commandBody, Roster roster) {
-        if (commandBody.length != ARG_LENGTH_L_COMMAND) {
+        if (commandBody.length != L_COMMAND_L) {
             System.out.println("Incorrect number of arguments, please try again!");
             return;
         }
@@ -417,6 +484,7 @@ public class TuitionManager {
     }
 
     /**
+     *  rework
      *  This method is the main driver of executing the commands entered by the user in
      *  the command line. The String array representing the command body and a Roster object is
      *  passed as arguments to this method. These arguments are further passed down depending on
@@ -433,8 +501,11 @@ public class TuitionManager {
         String operation = commandBody[0];
 
         switch (operation) {
-            case "A":
-                //executeCommandA(commandBody, roster);
+            case "AR": case "AN": case "AT": case "AI":
+                executeCommandA(commandBody, roster);
+                break;
+            case "LS":
+                executeCommandLS(commandBody, roster);
                 break;
             case "R":
                 executeCommandR(commandBody, roster);
