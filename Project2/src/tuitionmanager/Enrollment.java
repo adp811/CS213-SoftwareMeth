@@ -66,6 +66,15 @@ public class Enrollment {
     /**
      * needs comments
      *
+     * @return
+     */
+    public EnrollStudent[] getEnrollStudents() {
+        return enrollStudents;
+    }
+
+    /**
+     * needs comments
+     *
      * @param enrollStudent
      * @return
      */
@@ -98,10 +107,6 @@ public class Enrollment {
      * @param enrollStudent
      */
     public void remove(EnrollStudent enrollStudent){
-        if (!this.contains(enrollStudent) || this.size == 0) {
-            return; // not found, empty
-        }
-
         int index = find(enrollStudent);
         this.enrollStudents[index] = this.enrollStudents[this.size - 1];
         this.enrollStudents[this.size - 1] = null;

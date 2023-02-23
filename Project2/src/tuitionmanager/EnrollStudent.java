@@ -33,6 +33,15 @@ public class EnrollStudent {
     /**
      * needs comments
      *
+     * @return
+     */
+    public Profile getProfile() {
+        return profile;
+    }
+
+    /**
+     * needs comments
+     *
      * @param creditsEnrolled
      */
     public void setCreditsEnrolled(int creditsEnrolled) {

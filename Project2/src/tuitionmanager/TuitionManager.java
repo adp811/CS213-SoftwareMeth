@@ -27,11 +27,16 @@ public class TuitionManager {
     private static final int L_COMMAND_L = 2;
     private static final int C_COMMAND_L = 5;
     private static final int E_COMMAND_L = 5;
+    private static final int D_COMMAND_L = 4;
+    private static final int S_COMMAND_L = 5;
 
     private static final int MIN_COMMAND_L = 4;
 
     private static final int MIN_ROSTER_SIZE = 0;
     private static final int MIN_ENROLLMENT_SIZE = 0;
+
+    private static final int DUMMY_VALUE_CREDITS = 15;
+
 
     /**
      * This method returns a Major enum object associated with the inputted major code
@@ -152,6 +157,70 @@ public class TuitionManager {
         }
 
         System.out.println(status + " " + creditsEnrolled + ": invalid credit hours.");
+        return false;
+    }
+
+    /**
+     * needs comments
+     *
+     * @param commandBody
+     * @param roster
+     * @return
+     */
+    private Resident getResidentStudent(String[] commandBody, Roster roster) {
+        Profile searchProfile = new Profile(commandBody[2], commandBody[1],
+                new Date(commandBody[3]));
+
+        for (int i = 0; i < roster.getRosterSize(); i++) {
+            Student student = roster.getRoster()[i];
+            if ((student instanceof Resident) &&
+                    (student.getProfile().equals(searchProfile))) {
+                return (Resident) student;
+
+            } else if ((student instanceof NonResident) &&
+                    (student.getProfile().equals(searchProfile))) {
+                System.out.println(searchProfile
+                        + " (Non-Resident) is not eligible for the scholarship.");
+                return null;
+
+            } else if ((student instanceof International) &&
+                    (student.getProfile().equals(searchProfile))) {
+                System.out.println(searchProfile
+                        + " (International) is not eligible for the scholarship.");
+                return null;
+
+            } else if ((student instanceof TriState) &&
+                    (student.getProfile().equals(searchProfile))) {
+                System.out.println(searchProfile
+                        + " (TriState) is not eligible for the scholarship.");
+                return null;
+            }
+        }
+
+        System.out.println(searchProfile + " is not in the roster.");
+        return null;
+    }
+
+    /**
+     * needs comments
+     *
+     * @param student
+     * @return
+     */
+    private boolean isScholarshipEligible(Resident student, Enrollment enrollment) {
+        for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
+            EnrollStudent enrollStudent = enrollment.getEnrollStudents()[i];
+            if (student.getProfile().equals(enrollStudent.getProfile())) {
+                if (enrollStudent.getCreditsEnrolled() < 12) {
+                    System.out.println(student.getProfile().toString() +
+                            " part time student is not eligible for the scholarship.");
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        System.out.println(student.getProfile() + " is not enrolled.");
         return false;
     }
 
@@ -438,7 +507,26 @@ public class TuitionManager {
      * @param enrollment
      */
     private void executeCommandD(String[] commandBody, Enrollment enrollment) {
-        return;
+        if (commandBody.length < D_COMMAND_L) {
+            System.out.println("Missing data in line command.");
+            return;
+        }
+
+        String fname = commandBody[1], lname = commandBody[2], dob = commandBody[3];
+        Profile profile = new Profile(lname, fname, new Date(dob));
+        EnrollStudent student = new EnrollStudent(profile, DUMMY_VALUE_CREDITS);
+
+        if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
+            System.out.println("Enrollment is empty!");
+            return;
+        }
+        if (!enrollment.contains(student)) {
+            System.out.println(profile + " is not enrolled.");
+            return;
+        }
+
+        enrollment.remove(student);
+        System.out.println(profile.toString() + " dropped.");
     }
 
     /**
@@ -447,8 +535,36 @@ public class TuitionManager {
      * @param commandBody
      * @param roster
      */
-    private void executeCommandS(String[] commandBody, Roster roster) {
-        return;
+    private void executeCommandS(String[] commandBody, Roster roster, Enrollment enrollment) {
+        Resident student;
+        if ((student = getResidentStudent(commandBody, roster)) == null) {
+            return;
+        }
+        if (commandBody.length < MIN_COMMAND_L) {
+            System.out.println("Missing data in line command.");
+            return;
+        }
+        if (commandBody.length == MIN_COMMAND_L) {
+            System.out.println("Missing scholarship amount.");
+            return;
+        }
+
+        if (!(isScholarshipEligible(student, enrollment))) {
+            return;
+        }
+
+        try {
+            int scholarshipAmount = Integer.parseInt(commandBody[4]);
+            if (scholarshipAmount > 10000 || scholarshipAmount <= 0) {
+                System.out.println(scholarshipAmount + ": invalid amount.");
+                return;
+            }
+            student.setScholarship(scholarshipAmount);
+            System.out.println(student.getProfile() + ": scholarship amount updated.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Amount is not an integer.");
+        }
     }
 
     /**
@@ -492,13 +608,11 @@ public class TuitionManager {
                 System.out.println("* Students in " + school + " *");
                 for (int i = 0; i < roster.getRosterSize(); i++) {
                     Student student = roster.getRoster()[i];
-
                     if(student.getMajor().getSchool().equalsIgnoreCase(school)){
                         System.out.println(student);
                     }
                 }
                 System.out.println("* end of list **");
-
                 return;
             }
         }
@@ -657,7 +771,7 @@ public class TuitionManager {
                 break;
             case "D":  executeCommandD(commandBody, enrollment);
                 break;
-            case "S":  executeCommandS(commandBody, roster);
+            case "S":  executeCommandS(commandBody, roster, enrollment);
                 break;
             case "SE": executeCommandSE(commandBody, roster, enrollment);
                 break;
@@ -673,11 +787,12 @@ public class TuitionManager {
     /**
      * This method is used to run the entire project. We first indicate to the
      * user that the program has started running, and then we create a new instance of
-     * Scanner and Roster. Next we enter a loop that takes input at the command line in order
-     * to interact with the program. The program continues to take commands until "Q" is entered,
+     * Scanner, Roster, and Enrollment. Next we enter a loop that takes input at the command line in
+     * order to interact with the program. The program continues to take commands until "Q" is entered,
      * which terminates the entire program with a message. This method processes single line
      * commands as well as a sequence of line commands. Each line that is entered is split into a
      * String array that contains each argument seperated by one or more spaces in the command body.
+     * The array is passed into parseCommand() to execute the command.
      *
      */
     public void run() {

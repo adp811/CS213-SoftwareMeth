@@ -31,6 +31,15 @@ public class Resident extends Student {
     /**
      * needs comments
      *
+     * @param scholarship
+     */
+    public void setScholarship(int scholarship) {
+        this.scholarship = scholarship;
+    }
+
+    /**
+     * needs comments
+     *
      * @param creditsEnrolled
      * @return
      */
