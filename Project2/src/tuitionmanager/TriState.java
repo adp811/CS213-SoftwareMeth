@@ -34,6 +34,15 @@ public class TriState extends NonResident {
     /**
      * needs comments
      *
+     * @return
+     */
+    public String getState(){
+        return this.state;
+    }
+
+    /**
+     * needs comments
+     *
      * @param creditsEnrolled
      * @return
      */

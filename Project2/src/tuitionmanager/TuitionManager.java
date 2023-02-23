@@ -2,6 +2,7 @@ package tuitionmanager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 /**
@@ -232,12 +233,12 @@ public class TuitionManager {
      * search through the roster array to find a matching profile associated with a student. If
      * one is found, we return the associated Student object and null otherwise.
      *
+     * @param roster      Roster object which contains the roster array we are searching through
      * @param commandBody String array representing an "R" or "C" command argument body
      *                    ("R Aryan Patel 1/22/2002") or ("C Aryan Patel 1/22/2002 BAIT")
-     * @param roster Roster object which contains the roster array we are searching through
      * @return Student object that is associated with the profile we are searching for
      */
-    private Student getStudent(String[] commandBody, Roster roster) {
+    private Student getStudent(Roster roster, String[] commandBody) {
         Profile searchProfile = new Profile(commandBody[2], commandBody[1],
                 new Date(commandBody[3]));
 
@@ -246,6 +247,24 @@ public class TuitionManager {
 
             if (profile.equals(searchProfile)) {
                 return roster.getRoster()[i];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * needs comments
+     *
+     * @param roster
+     * @param profile
+     * @return
+     */
+    private Student getStudent(Roster roster, Profile profile){
+        for(int i = 0; i < roster.getRosterSize(); i++) {
+            Student student = roster.getRoster()[i];
+            if (student.getProfile().equals(profile)) {
+                return student;
             }
         }
 
@@ -300,6 +319,24 @@ public class TuitionManager {
 
         System.out.println("Error: could not create student.");
         return null;
+    }
+
+    /**
+     * needs comments
+     *
+     * @param profile
+     * @param roster
+     * @param creditsEnrolled
+     * @return
+     */
+    private void updateCompletedCredits (Profile profile, Roster roster, int creditsEnrolled) {
+        for (int i = 0; i < roster.getRosterSize(); i++) {
+            Student student = roster.getRoster()[i];
+            if (student.getProfile().equals(profile)) {
+                int completedCredits = student.getCreditCompleted();
+                student.setCreditCompleted(completedCredits + creditsEnrolled);
+            }
+        }
     }
 
     /**
@@ -406,7 +443,7 @@ public class TuitionManager {
         }
 
         Student student;
-        if((student = getStudent(commandBody, roster)) == null) {
+        if((student = getStudent(roster, commandBody)) == null) {
             System.out.println(commandBody[1] + " " + commandBody[2] + " "
                     + new Date(commandBody[3]) + " is not in the roster.");
             return;
@@ -445,7 +482,7 @@ public class TuitionManager {
         }
 
         Student student;
-        if((student = getStudent(commandBody, roster)) == null) {
+        if((student = getStudent(roster, commandBody)) == null) {
             System.out.println(commandBody[1] + " " + commandBody[2] + " "
                     + new Date(commandBody[3]) + " is not in the roster.");
             return;
@@ -480,7 +517,7 @@ public class TuitionManager {
         }
 
         Student student;
-        if ((student = getStudent(commandBody, roster)) == null) {
+        if ((student = getStudent(roster, commandBody)) == null) {
             System.out.println("Cannot enroll: " + commandBody[1] + " " + commandBody[2] +
                     " " + commandBody[3] + " is not in the roster.");
             return;
@@ -536,12 +573,12 @@ public class TuitionManager {
      * @param roster
      */
     private void executeCommandS(String[] commandBody, Roster roster, Enrollment enrollment) {
-        Resident student;
-        if ((student = getResidentStudent(commandBody, roster)) == null) {
-            return;
-        }
         if (commandBody.length < MIN_COMMAND_L) {
             System.out.println("Missing data in line command.");
+            return;
+        }
+        Resident student;
+        if ((student = getResidentStudent(commandBody, roster)) == null) {
             return;
         }
         if (commandBody.length == MIN_COMMAND_L) {
@@ -570,12 +607,25 @@ public class TuitionManager {
     /**
      * needs comments
      *
-     * @param commandBody
      * @param roster
      * @param enrollment
      */
-    private void executeCommandSE(String[] commandBody, Roster roster, Enrollment enrollment) {
-        return;
+    private void executeCommandSE(Roster roster, Enrollment enrollment) {
+        for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
+            EnrollStudent enrollStudent = enrollment.getEnrollStudents()[i];
+            updateCompletedCredits(enrollStudent.getProfile(), roster,
+                    enrollStudent.getCreditsEnrolled());
+        }
+
+        System.out.println("Credit completed has been updated.");
+        System.out.println("** list of students eligible for graduation **");
+
+        for(int i = 0; i < roster.getRosterSize(); i++) {
+            Student student = roster.getRoster()[i];
+            if(student.getCreditCompleted() >= 120) {
+                System.out.println(student);
+            }
+        }
     }
 
     /**
@@ -726,10 +776,66 @@ public class TuitionManager {
     /**
      * needs comments
      *
+     * @param student
+     * @param creditsEnrolled
+     */
+    private void printTuitionDueInline (Student student, int creditsEnrolled) {
+        DecimalFormat df = new DecimalFormat("$###,###.00");
+
+        if (student instanceof Resident residentStudent) {
+            System.out.println(residentStudent.getProfile()
+                    + " (Resident)"
+                    + " enrolled " + creditsEnrolled
+                    + " credits: tuition due: "
+                    + df.format(residentStudent.tuitionDue(creditsEnrolled)));
+
+        } else if (student instanceof NonResident nonResidentStudent) {
+            if (nonResidentStudent instanceof International internationalStudent) {
+                System.out.println(internationalStudent.getProfile()
+                        + (internationalStudent.getStudyAbroadStatus()
+                        ? " (International studentstudy abroad)" : " (International student)")
+                        + " enrolled " + creditsEnrolled
+                        + " credits: tuition due: "
+                        + df.format(internationalStudent.tuitionDue(creditsEnrolled)));
+
+            } else if (nonResidentStudent instanceof TriState triStateStudent) {
+                System.out.println(triStateStudent.getProfile()
+                        + " (Tri-state " + triStateStudent.getState() + ")"
+                        + " enrolled " + creditsEnrolled
+                        + " credits: tuition due: "
+                        + df.format(triStateStudent.tuitionDue(creditsEnrolled)));
+
+            } else {
+                System.out.println(nonResidentStudent.getProfile()
+                        + " (Non-Resident)"
+                        + " enrolled " + creditsEnrolled
+                        + " credits: tuition due: "
+                        + df.format(nonResidentStudent.tuitionDue(creditsEnrolled)));
+            }
+        }
+    }
+
+    /**
+     * needs comments
+     *
      * @param enrollment
      */
     private void executeCommandPT(Roster roster, Enrollment enrollment) {
-        return;
+        System.out.println("** Tuition due **");
+        for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
+            EnrollStudent enrollStudent = enrollment.getEnrollStudents()[i];
+
+            Student student;
+            if ((student = getStudent(roster, enrollStudent.getProfile())) == null) {
+                System.out.println("Fatal: " + enrollStudent.getProfile() +
+                        " is enrolled but not in the roster.");
+                return;
+            }
+
+            printTuitionDueInline(student, enrollStudent.getCreditsEnrolled());
+        }
+
+        System.out.println("* end of tuition due *");
     }
 
     /**
@@ -773,7 +879,7 @@ public class TuitionManager {
                 break;
             case "S":  executeCommandS(commandBody, roster, enrollment);
                 break;
-            case "SE": executeCommandSE(commandBody, roster, enrollment);
+            case "SE": executeCommandSE(roster, enrollment);
                 break;
             case "AR": case "AN": case "AT": case "AI": executeCommandA(commandBody, roster);
                 break;

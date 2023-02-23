@@ -95,6 +95,15 @@ public abstract class Student implements Comparable<Student> {
     /**
      * needs comments
      *
+     * @param creditCompleted
+     */
+    public void setCreditCompleted(int creditCompleted) {
+        this.creditCompleted = creditCompleted;
+    }
+
+    /**
+     * needs comments
+     *
      * @param creditEnrolled
      * @return
      */
