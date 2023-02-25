@@ -8,11 +8,13 @@ public class International extends NonResident {
 
     private boolean isStudyAbroad;
 
-    private final double FULL_TIME_TUITION = 29737.0;
-    private final double PART_TIME_TUITION_HOURLY = 966.0;
+    private static final double FULL_TIME_TUITION = 29737.0;
+    private static final double PART_TIME_TUITION_HOURLY = 966.0;
 
-    private final double UNIV_FEE_FULL_TIME = 3268.0;
-    private final double UNIV_FEE_HEALTH_INSURANCE = 2650.0;
+    private static final double UNIV_FEE_FULL_TIME = 3268.0;
+    private static final double UNIV_FEE_HEALTH_INSURANCE = 2650.0;
+
+    private static final int ADDITION_FEE_ENROLLMENT_CREDITS = 16;
 
 
     /**
@@ -50,8 +52,8 @@ public class International extends NonResident {
         if (this.isStudyAbroad) {
             tuitionDue = UNIV_FEE_FULL_TIME + UNIV_FEE_HEALTH_INSURANCE;
         } else {
-            if (creditsEnrolled > 16) {
-                int exceedingCredits = creditsEnrolled - 16;
+            if (creditsEnrolled > ADDITION_FEE_ENROLLMENT_CREDITS) {
+                int exceedingCredits = creditsEnrolled - ADDITION_FEE_ENROLLMENT_CREDITS;
                 double additionalFee = PART_TIME_TUITION_HOURLY * exceedingCredits;
                 tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME + UNIV_FEE_HEALTH_INSURANCE + additionalFee;
             } else {

@@ -21,20 +21,21 @@ public class TuitionManager {
 
     private static final int A_COMMAND_L = 6;
     private static final int A_COMMAND_L_EX = 7;
-
     private static final int LS_COMMAND_L = 2;
-
     private static final int R_COMMAND_L = 4;
     private static final int L_COMMAND_L = 2;
     private static final int C_COMMAND_L = 5;
     private static final int E_COMMAND_L = 5;
     private static final int D_COMMAND_L = 4;
-
     private static final int MIN_COMMAND_L = 4;
 
     private static final int MIN_ROSTER_SIZE = 0;
     private static final int MIN_ENROLLMENT_SIZE = 0;
 
+    private static final int MAX_SCHOLARSHIP_AMT = 10000, MIN_SCHOLARSHIP_AMT = 0;
+
+    private static final int GRAD_ELIGIBLE_CREDITS = 120;
+    private static final int MIN_SCHOLARSHIP_CREDITS = 12;
     private static final int DUMMY_VALUE_CREDITS = 15;
 
 
@@ -211,7 +212,7 @@ public class TuitionManager {
         for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
             EnrollStudent enrollStudent = enrollment.getEnrollStudents()[i];
             if (student.getProfile().equals(enrollStudent.getProfile())) {
-                if (enrollStudent.getCreditsEnrolled() < 12) {
+                if (enrollStudent.getCreditsEnrolled() < MIN_SCHOLARSHIP_CREDITS) {
                     System.out.println(student.getProfile().toString() +
                             " part time student is not eligible for the scholarship.");
                     return false;
@@ -243,7 +244,6 @@ public class TuitionManager {
 
         for (int i = 0; i < roster.getRosterSize(); i++) {
             Profile profile = roster.getRoster()[i].getProfile();
-
             if (profile.equals(searchProfile)) {
                 return roster.getRoster()[i];
             }
@@ -587,7 +587,7 @@ public class TuitionManager {
 
         try {
             int scholarshipAmount = Integer.parseInt(commandBody[4]);
-            if (scholarshipAmount > 10000 || scholarshipAmount <= 0) {
+            if (scholarshipAmount > MAX_SCHOLARSHIP_AMT || scholarshipAmount <= MIN_SCHOLARSHIP_AMT) {
                 System.out.println(scholarshipAmount + ": invalid amount.");
                 return;
             }
@@ -617,7 +617,7 @@ public class TuitionManager {
 
         for(int i = 0; i < roster.getRosterSize(); i++) {
             Student student = roster.getRoster()[i];
-            if(student.getCreditCompleted() >= 120) {
+            if(student.getCreditCompleted() >= GRAD_ELIGIBLE_CREDITS) {
                 System.out.println(student);
             }
         }
@@ -816,8 +816,12 @@ public class TuitionManager {
      * @param enrollment
      */
     private void executeCommandPT(Roster roster, Enrollment enrollment) {
-        if (enrollment.getEnrollmentSize() == 0) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
             System.out.println("Student roster is empty!");
+            return;
+        }
+        if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
+            System.out.println("Enrollment is empty!");
             return;
         }
 

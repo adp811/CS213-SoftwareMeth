@@ -19,6 +19,11 @@ public abstract class Student implements Comparable<Student> {
     private static final int MIN_JUNIOR = 60;
     private static final int MIN_SENIOR = 90;
 
+    private static final int MAX_ENROLLMENT_CREDITS = 24;
+    private static final int MIN_ENROLLMENT_CREDITS = 3;
+    private static final int FULL_TIME_ENROLLMENT_CREDITS = 12;
+
+
     /**
      * Constructs a Student object given a Profile object, Major enum, and an int
      * representing the credits completed.
@@ -110,12 +115,15 @@ public abstract class Student implements Comparable<Student> {
     public boolean isValid(int creditEnrolled) {
         if(this instanceof International internationalStudent) {
             if(internationalStudent.getStudyAbroadStatus()){
-                return creditEnrolled <= 12 && creditEnrolled >= 3;
+                return creditEnrolled <= FULL_TIME_ENROLLMENT_CREDITS
+                        && creditEnrolled >= MIN_ENROLLMENT_CREDITS;
             } else {
-                return creditEnrolled <= 24 && creditEnrolled >= 12;
+                return creditEnrolled <= MAX_ENROLLMENT_CREDITS
+                        && creditEnrolled >= FULL_TIME_ENROLLMENT_CREDITS;
             }
         } else {
-            return creditEnrolled <= 24 && creditEnrolled >= 3;
+            return creditEnrolled <= MAX_ENROLLMENT_CREDITS
+                    && creditEnrolled >= MIN_ENROLLMENT_CREDITS;
         }
     }
 

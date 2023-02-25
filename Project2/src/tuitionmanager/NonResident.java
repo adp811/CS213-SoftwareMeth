@@ -6,11 +6,15 @@ package tuitionmanager;
  */
 public class NonResident extends Student {
 
-    private final double FULL_TIME_TUITION = 29737.0;
-    private final double PART_TIME_TUITION_HOURLY = 966.0;
+    private static final double FULL_TIME_TUITION = 29737.0;
+    private static final double PART_TIME_TUITION_HOURLY = 966.0;
 
-    private final double UNIV_FEE_FULL_TIME = 3268.0;
-    private final double UNIV_FEE_PART_TIME = 2614.4;
+    private static final double UNIV_FEE_FULL_TIME = 3268.0;
+    private static final double UNIV_FEE_PART_TIME = 2614.4;
+
+    private static final int FULL_TIME_ENROLLMENT_CREDITS = 12;
+    private static final int ADDITION_FEE_ENROLLMENT_CREDITS = 16;
+
 
     /**
      * needs comments
@@ -33,16 +37,16 @@ public class NonResident extends Student {
     public double tuitionDue(int creditsEnrolled) {
         double tuitionDue;
 
-        if (creditsEnrolled >= 12) { // full-time non-resident
-            if (creditsEnrolled > 16) {
-                int exceedingCredits = creditsEnrolled - 16;
+        if (creditsEnrolled >= FULL_TIME_ENROLLMENT_CREDITS) {
+            if (creditsEnrolled > ADDITION_FEE_ENROLLMENT_CREDITS) {
+                int exceedingCredits = creditsEnrolled - ADDITION_FEE_ENROLLMENT_CREDITS;
                 double additionalFee = PART_TIME_TUITION_HOURLY * exceedingCredits;
                 tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME + additionalFee;
             } else {
                 tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME;
             }
 
-        } else { // part-time non-resident
+        } else {
             tuitionDue = (creditsEnrolled * PART_TIME_TUITION_HOURLY) + UNIV_FEE_PART_TIME;
         }
 
