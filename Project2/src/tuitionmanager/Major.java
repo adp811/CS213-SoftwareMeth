@@ -30,15 +30,6 @@ public enum Major {
     }
 
     /**
-     * This method gets the major code of a Major.
-     *
-     * @return String which contains the major code
-     */
-    public String getCode(){
-        return code;
-    }
-
-    /**
      * This method gets the school name of a Major.
      *
      * @return String which contains the school name

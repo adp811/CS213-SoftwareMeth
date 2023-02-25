@@ -29,7 +29,6 @@ public class TuitionManager {
     private static final int C_COMMAND_L = 5;
     private static final int E_COMMAND_L = 5;
     private static final int D_COMMAND_L = 4;
-    private static final int S_COMMAND_L = 5;
 
     private static final int MIN_COMMAND_L = 4;
 
@@ -99,7 +98,7 @@ public class TuitionManager {
     private boolean validateStudentDateOfBirth(String date) {
         Date dob = new Date(date), current = new Date();
         if (!dob.isValid()) {
-            System.out.println("DOB invalid: " + dob.toString() + " not a valid calendar date!");
+            System.out.println("DOB invalid: " + dob + " not a valid calendar date!");
             return false;
         }
         if (dob.equals(current) || dob.compareTo(current) > 0) {
@@ -115,7 +114,7 @@ public class TuitionManager {
         }
 
         if (age < MIN_AGE) {
-            System.out.println("DOB invalid: " + dob.toString() + " younger than 16 years old.");
+            System.out.println("DOB invalid: " + dob + " younger than 16 years old.");
             return false;
         }
 
@@ -147,7 +146,7 @@ public class TuitionManager {
         String status;
         if (student instanceof International) {
             if (((International) student).getStudyAbroadStatus()) {
-                status = "(International student: study abroad)";
+                status = "(International studentstudy abroad)";
             } else {
                 status = "(International student)";
             }
@@ -278,45 +277,43 @@ public class TuitionManager {
      * @return
      */
     private Student createStudent(String[] commandBody) {
-        String resStatus = commandBody[0], fname = commandBody[1], lname = commandBody[2],
-                dob = commandBody[3], majorCode = commandBody[4], creditCompleted = commandBody[5];
+        if (!validateStudentDateOfBirth(commandBody[3])
+                || !validateStudentMajor(commandBody[4], commandBody[5])) return null;
 
-        if (!validateStudentDateOfBirth(dob) || !validateStudentMajor(majorCode, creditCompleted)) {
-            return null;
+        String resStatus = commandBody[0];
+        Major major = determineMajor(commandBody[4]);
+        Profile profile = new Profile(commandBody[2], commandBody[1], new Date(commandBody[3]));
+        int credits = Integer.parseInt(commandBody[5]);
+
+        switch (resStatus) {
+            case "R", "AR" -> {
+                return new Resident(profile, major, credits, 0);
+            }
+            case "N", "AN" -> {
+                return new NonResident(profile, major, credits);
+            }
+            case "T", "AT" -> {
+                if (commandBody[6].equalsIgnoreCase("NY")) {
+                    return new TriState(profile, major, credits, "NY");
+                } else if (commandBody[6].equalsIgnoreCase("CT")) {
+                    return new TriState(profile, major, credits, "CT");
+                }
+                System.out.println(commandBody[6] + ": Invalid state code.");
+                return null;
+            }
+            case "I", "AI" -> {
+                if (commandBody.length == A_COMMAND_L) {
+                    return new International(profile, major, credits, false);
+                }
+                if (commandBody[6].equalsIgnoreCase("true")) {
+                    return new International(profile, major, credits, true);
+                } else if (commandBody[6].equalsIgnoreCase("false")) {
+                    return new International(profile, major, credits, false);
+                }
+                System.out.println(commandBody[6] + ": Invalid study abroad status.");
+                return null;
+            }
         }
-
-        Major major = determineMajor(majorCode);
-        Profile profile = new Profile(lname, fname, new Date(dob));
-        int credits = Integer.parseInt(creditCompleted);
-
-        if (resStatus.equals("R") || resStatus.equals("AR")) {
-            return new Resident(profile, major, credits, 0);
-
-        } else if (resStatus.equals("N") || resStatus.equals("AN")) {
-            return new NonResident(profile, major, credits);
-
-        } else if (resStatus.equals("T") || resStatus.equals("AT")) {
-            if (commandBody[6].equalsIgnoreCase("NY")) {
-                return new TriState(profile, major, credits, "NY");
-            } else if (commandBody[6].equalsIgnoreCase("CT")) {
-                return new TriState(profile, major, credits, "CT");
-            }
-            System.out.println(commandBody[6] + ": Invalid state code.");
-            return null;
-
-        } else if (resStatus.equals("I") || resStatus.equals("AI")) {
-            if (commandBody.length == A_COMMAND_L) {
-                return new International(profile, major, credits, false);
-            }
-            if (commandBody[6].equalsIgnoreCase("true")) {
-                return new International(profile, major, credits, true);
-            } else if (commandBody[6].equalsIgnoreCase("false")) {
-                return new International(profile, major, credits, false);
-            }
-            System.out.println(commandBody[6] + ": Invalid study abroad status.");
-            return null;
-        }
-
         System.out.println("Error: could not create student.");
         return null;
     }
@@ -327,7 +324,6 @@ public class TuitionManager {
      * @param profile
      * @param roster
      * @param creditsEnrolled
-     * @return
      */
     private void updateCompletedCredits (Profile profile, Roster roster, int creditsEnrolled) {
         for (int i = 0; i < roster.getRosterSize(); i++) {
@@ -342,7 +338,7 @@ public class TuitionManager {
     /**
      * needs comments
      *
-     * @param fileName
+     * @param commandBody
      * @param roster
      */
     private void executeCommandLS(String[] commandBody, Roster roster) {
@@ -412,8 +408,7 @@ public class TuitionManager {
             return;
         }
         try {
-            boolean status;
-            if(!(status = roster.add(student))) {
+            if(!roster.add(student)) {
                 System.out.println(student.getProfile().toString() + " is already in the roster.");
             } else {
                 System.out.println(student.getProfile().toString() + " added to the roster.");
@@ -563,7 +558,7 @@ public class TuitionManager {
         }
 
         enrollment.remove(student);
-        System.out.println(profile.toString() + " dropped.");
+        System.out.println(profile + " dropped.");
     }
 
     /**
@@ -821,6 +816,11 @@ public class TuitionManager {
      * @param enrollment
      */
     private void executeCommandPT(Roster roster, Enrollment enrollment) {
+        if (enrollment.getEnrollmentSize() == 0) {
+            System.out.println("Student roster is empty!");
+            return;
+        }
+
         System.out.println("** Tuition due **");
         for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
             EnrollStudent enrollStudent = enrollment.getEnrollStudents()[i];

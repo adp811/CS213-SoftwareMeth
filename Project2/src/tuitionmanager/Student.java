@@ -20,7 +20,7 @@ public abstract class Student implements Comparable<Student> {
     private static final int MIN_SENIOR = 90;
 
     /**
-     * Constructs a Student object given a Profile object, Major enum, and a int
+     * Constructs a Student object given a Profile object, Major enum, and an int
      * representing the credits completed.
      *
      * @param profile Profile object which contains the student's name and date of birth
@@ -195,10 +195,4 @@ public abstract class Student implements Comparable<Student> {
      * @return
      */
     public abstract boolean isResident();
-
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {}
 }
