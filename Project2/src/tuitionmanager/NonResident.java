@@ -1,62 +1,36 @@
 package tuitionmanager;
 
 /**
+ * This is a subclass of Student.
  *
- * @author Aryan Patel
+ * @author Rushi Patel
  */
 public class NonResident extends Student {
 
-    private static final double FULL_TIME_TUITION = 29737.0;
-    private static final double PART_TIME_TUITION_HOURLY = 966.0;
-
-    private static final double UNIV_FEE_FULL_TIME = 3268.0;
-    private static final double UNIV_FEE_PART_TIME = 2614.4;
-
-    private static final int FULL_TIME_ENROLLMENT_CREDITS = 12;
-    private static final int ADDITION_FEE_ENROLLMENT_CREDITS = 16;
-
+    /**
+     * constants
+     */
+    private static final double TUITION_FEE = 29737;
+    private static final double UNIVERSITY_FEE = 3268;
+    private static final double CREDIT_HOUR_FEE = 966;
 
     /**
-     * needs comments
+     * constructor for creating the object of NonResident Student.
      *
-     * @param profile
-     * @param major
-     * @param creditCompleted
+     * @param profile Profile object which contains the student's name and date
+     * of birth
+     * @param major Major enum which contains the student's major and associated
+     * information
+     * @param creditCompleted int which contains the student's credits completed
      */
     public NonResident(Profile profile, Major major, int creditCompleted) {
         super(profile, major, creditCompleted);
     }
 
     /**
-     * needs comments
+     * method for returning that either student is resident or not.
      *
-     * @param creditsEnrolled
-     * @return
-     */
-    @Override
-    public double tuitionDue(int creditsEnrolled) {
-        double tuitionDue;
-
-        if (creditsEnrolled >= FULL_TIME_ENROLLMENT_CREDITS) {
-            if (creditsEnrolled > ADDITION_FEE_ENROLLMENT_CREDITS) {
-                int exceedingCredits = creditsEnrolled - ADDITION_FEE_ENROLLMENT_CREDITS;
-                double additionalFee = PART_TIME_TUITION_HOURLY * exceedingCredits;
-                tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME + additionalFee;
-            } else {
-                tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME;
-            }
-
-        } else {
-            tuitionDue = (creditsEnrolled * PART_TIME_TUITION_HOURLY) + UNIV_FEE_PART_TIME;
-        }
-
-        return tuitionDue;
-    }
-
-    /**
-     * needs comments
-     *
-     * @return
+     * @return true or false.
      */
     @Override
     public boolean isResident() {
@@ -64,13 +38,31 @@ public class NonResident extends Student {
     }
 
     /**
-     * needs comments
+     * method for calculating and return tuition fee due.
      *
-     * @return
+     * @param creditsEnrolled number of credits enrolled
+     * @return tuition fee
+     */
+    @Override
+    public double tuitionDue(int creditsEnrolled) {
+        if (creditsEnrolled >= 12) {
+            if (creditsEnrolled > 16) {
+                return TUITION_FEE + UNIVERSITY_FEE + (CREDIT_HOUR_FEE * (creditsEnrolled - 16));
+            } else {
+                return TUITION_FEE + UNIVERSITY_FEE;
+            }
+        }
+        return (creditsEnrolled * CREDIT_HOUR_FEE) + (UNIVERSITY_FEE * 0.8);
+    }
+
+    /**
+     * toString method
+     *
+     * @return student details.
      */
     @Override
     public String toString() {
-        return this.getProfile().toString() + " " + this.getMajor().toString() + " credits completed: " +
-                this.getCreditCompleted() + " (" + this.getClassStanding() + ")(non-resident)";
+        return super.toString() + "(non-resident)";
     }
+
 }

@@ -1,29 +1,30 @@
 package tuitionmanager;
 
 /**
+ * This is a subclass of NonResident with additional attribute of isStudyAbroad.
  *
- * @author Aryan Patel
+ * @author Rushi Patel
  */
 public class International extends NonResident {
 
+    /**
+     * variable and constants.
+     */
     private boolean isStudyAbroad;
-
-    private static final double FULL_TIME_TUITION = 29737.0;
-    private static final double PART_TIME_TUITION_HOURLY = 966.0;
-
-    private static final double UNIV_FEE_FULL_TIME = 3268.0;
-    private static final double UNIV_FEE_HEALTH_INSURANCE = 2650.0;
-
-    private static final int ADDITION_FEE_ENROLLMENT_CREDITS = 16;
-
+    private static final double TUITION_FEE = 29737;
+    private static final double UNIVERSITY_FEE = 3268;
+    private static final double HEALTH_INSURANCE = 2650;
+    private static final double CREDIT_HOUR_FEE = 966;
 
     /**
-     * needs comments
+     * constructor for creating the object of International Student.
      *
-     * @param profile
-     * @param major
-     * @param creditCompleted
-     * @param isStudyAbroad
+     * @param profile Profile object which contains the student's name and date
+     * of birth
+     * @param major Major enum which contains the student's major and associated
+     * information
+     * @param creditCompleted int which contains the student's credits completed
+     * @param isStudyAbroad boolean value either true of false.
      */
     public International(Profile profile, Major major, int creditCompleted, boolean isStudyAbroad) {
         super(profile, major, creditCompleted);
@@ -31,54 +32,44 @@ public class International extends NonResident {
     }
 
     /**
-     * needs comments
+     * method for returning either student is study abroad or not.
      *
-     * @return
+     * @return true or false.
      */
     public boolean getStudyAbroadStatus() {
         return this.isStudyAbroad;
     }
 
     /**
-     * needs comments
+     * method for calculating and return tuition fee due.
      *
-     * @param creditsEnrolled
-     * @return
+     * @param creditsEnrolled number of credits enrolled
+     * @return tuition fee
      */
     @Override
     public double tuitionDue(int creditsEnrolled) {
-        double tuitionDue;
-
         if (this.isStudyAbroad) {
-            tuitionDue = UNIV_FEE_FULL_TIME + UNIV_FEE_HEALTH_INSURANCE;
+            return UNIVERSITY_FEE + HEALTH_INSURANCE;
         } else {
-            if (creditsEnrolled > ADDITION_FEE_ENROLLMENT_CREDITS) {
-                int exceedingCredits = creditsEnrolled - ADDITION_FEE_ENROLLMENT_CREDITS;
-                double additionalFee = PART_TIME_TUITION_HOURLY * exceedingCredits;
-                tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME + UNIV_FEE_HEALTH_INSURANCE + additionalFee;
-            } else {
-                tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME + UNIV_FEE_HEALTH_INSURANCE;
+            if (creditsEnrolled > 16) {
+                return TUITION_FEE + UNIVERSITY_FEE + HEALTH_INSURANCE +
+                        (CREDIT_HOUR_FEE * (creditsEnrolled - 16));
             }
+            return TUITION_FEE + UNIVERSITY_FEE + HEALTH_INSURANCE;
         }
-
-        return tuitionDue;
     }
 
     /**
-     * needs comments
+     * toString method
      *
-     * @return
+     * @return details of student.
      */
     @Override
     public String toString() {
         if (this.isStudyAbroad) {
-            return this.getProfile().toString() + " " + this.getMajor().toString() + " credits completed: " +
-                    this.getCreditCompleted() + " (" + this.getClassStanding() + ")(non-resident)" +
-                    "(international:study abroad)";
+            return super.toString() + "(international:study abroad)";
         }
 
-        return this.getProfile().toString() + " " + this.getMajor().toString() + " credits completed: " +
-                this.getCreditCompleted() + " (" + this.getClassStanding() + ")(non-resident)" +
-                "(international)";
+        return super.toString() + "(international)";
     }
 }

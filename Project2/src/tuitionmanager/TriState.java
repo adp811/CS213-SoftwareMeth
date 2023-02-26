@@ -1,33 +1,32 @@
 package tuitionmanager;
 
 /**
+ * This is a subclass of NonResident with additional variable of state.
  *
- * @author Aryan Patel
+ * @author Rushi Patel
  */
 public class TriState extends NonResident {
 
+    /**
+     * variable and constants.
+     */
     private String state;
-
-    private static final double FULL_TIME_TUITION = 29737.0;
-    private static final double PART_TIME_TUITION_HOURLY = 966.0;
-
-    private static final double UNIV_FEE_FULL_TIME = 3268.0;
-    private static final double UNIV_FEE_PART_TIME = 2614.4;
-
-    private static final double NY_DISCOUNT = 4000.0;
-    private static final double CT_DISCOUNT = 5000.0;
-
-    private static final int FULL_TIME_ENROLLMENT_CREDITS = 12;
-    private static final int ADDITION_FEE_ENROLLMENT_CREDITS = 16;
-
+    private static final double TUITION_FEE = 29737;
+    private static final double UNIVERSITY_FEE = 3268;
+    private static final double CREDIT_HOUR_FEE = 966;
+    private static final double NY_DISCOUNT = 4000;
+    private static final double CT_DISCOUNT = 5000;
 
     /**
-     * needs comments
+     * constructor for creating the object of TriState Student.
      *
-     * @param profile
-     * @param major
-     * @param creditCompleted
-     * @param state
+     * @param profile Profile object which contains the student's name and date
+     * of birth
+     * @param major Major enum which contains the student's major and associated
+     * information
+     * @param creditCompleted int which contains the student's credits completed
+     * @param state state of the student.
+     *
      */
     public TriState(Profile profile, Major major, int creditCompleted, String state) {
         super(profile, major, creditCompleted);
@@ -44,44 +43,39 @@ public class TriState extends NonResident {
     }
 
     /**
-     * needs comments
+     * method for calculating and return tuition fee due.
      *
-     * @param creditsEnrolled
-     * @return
+     * @param creditsEnrolled number of credits enrolled
+     * @return tuition fee
      */
+    @Override
     public double tuitionDue(int creditsEnrolled) {
-        double tuitionDue;
-
-        if (creditsEnrolled >= FULL_TIME_ENROLLMENT_CREDITS) {
-            if (creditsEnrolled > ADDITION_FEE_ENROLLMENT_CREDITS) {
-                int exceedingCredits = creditsEnrolled - ADDITION_FEE_ENROLLMENT_CREDITS;
-                double additionalFee = PART_TIME_TUITION_HOURLY * exceedingCredits;
-                tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME + additionalFee;
+        double fee;
+        if (creditsEnrolled >= 12) {
+            if (creditsEnrolled > 16) {
+                fee = TUITION_FEE + UNIVERSITY_FEE + (CREDIT_HOUR_FEE * (creditsEnrolled - 16));
             } else {
-                tuitionDue = FULL_TIME_TUITION + UNIV_FEE_FULL_TIME;
+                fee = TUITION_FEE + UNIVERSITY_FEE;
             }
-            if (this.state.equalsIgnoreCase("NY")) {
-                tuitionDue = tuitionDue - NY_DISCOUNT;
-            } else if (this.state.equalsIgnoreCase("CT")) {
-                tuitionDue = tuitionDue - CT_DISCOUNT;
+            if (state.equalsIgnoreCase("NY")) {
+                fee -= NY_DISCOUNT;
+            } else if (state.equalsIgnoreCase("CT")) {
+                fee -= CT_DISCOUNT;
             }
-
         } else {
-            tuitionDue = (creditsEnrolled * PART_TIME_TUITION_HOURLY) + UNIV_FEE_PART_TIME;
+            fee = (creditsEnrolled * CREDIT_HOUR_FEE) + (UNIVERSITY_FEE * 0.8);
         }
 
-        return tuitionDue;
+        return fee;
     }
 
     /**
-     * needs comments
+     * toString method
      *
-     * @return
+     * @return student details.
      */
     @Override
     public String toString() {
-        return this.getProfile().toString() + " " + this.getMajor().toString() + " credits completed: " +
-                this.getCreditCompleted() + " (" + this.getClassStanding() + ")(non-resident)" +
-                "(tri-state:" + this.state + ")";
+        return super.toString() + "(tri-state:" + this.state + ")";
     }
 }
