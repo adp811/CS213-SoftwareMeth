@@ -36,7 +36,7 @@ public class TriState extends NonResident {
     /**
      * needs comments
      *
-     * @return
+     * @return state String
      */
     public String getState(){
         return this.state;
