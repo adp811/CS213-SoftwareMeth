@@ -123,11 +123,15 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of validating the number of credits enrolled by Student.
+     * It checks for any incorrect input such as negative or non-integer values. If there
+     * is an error with the value given, then a message is displayed.
      *
-     * @param student
-     * @param creditsEnrolled
-     * @return
+     * @param student Student object representing the student for which we are validating the
+     *                enrolled credits for
+     * @param creditsEnrolled String which represents the number of credits enrolled
+     * @return boolean which represents whether the given value of enrolled credits is valid
+     *         or not
      */
     private boolean validateEnrollmentCredits (Student student, String creditsEnrolled) {
         try {
@@ -162,11 +166,17 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of retrieving a Resident student object specifically for
+     * awarding a scholarship. It searches through the given Roster object array and
+     * finds the profile associated with the inputted information. If the Resident student is
+     * not found or the input information is tied to a different type of student, an error
+     * message is displayed.
      *
-     * @param commandBody
-     * @param roster
-     * @return
+     * @param commandBody String array representing an "S" command argument body
+     *                    ("S Aryan Patel 1/22/2002 10000")
+     * @param roster Roster object which contains the roster array which we are searching
+     *               through
+     * @return Resident object if it is found, or null if it does not exist or is the wrong type
      */
     private Resident getResidentStudent(String[] commandBody, Roster roster) {
         Profile searchProfile = new Profile(commandBody[2], commandBody[1],
@@ -203,10 +213,17 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of checking if a Resident student is eligible for
+     * a scholarship. First we check if the given Resident student is in the enrollStudent
+     * array contained within the given Enrollment object. If it is, then we continue to
+     * check if the Resident student is a full time student based on the credits enrolled.
+     * If the student is full-time, we return true for scholarship eligibility.
      *
-     * @param student
-     * @return
+     * @param student Resident object for which we are determining scholarship eligibility
+     * @param enrollment Enrollment object containing the enrollStudents array we are
+     *                   searching through
+     * @return boolean which represents whether the given Resident student is eligible for
+     *         a scholarship or not
      */
     private boolean isScholarshipEligible(Resident student, Enrollment enrollment) {
         for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
@@ -226,8 +243,8 @@ public class TuitionManager {
     }
 
     /**
-     * This method takes in a String array which represents the argument body of an
-     * entered "R" or "C" command, and returns a Student object associated with the
+     * This is an overloaded method that takes in a String array which represents the argument
+     * body of an entered "R" or "C" command, and returns a Student object associated with the
      * arguments if it is found in the roster array. First we create a new profile instance
      * using the body arguments representing the first and last names and birthdate. Next we
      * search through the roster array to find a matching profile associated with a student. If
@@ -253,11 +270,15 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This is an overloaded method that takes in a Profile containing student information and
+     * a Roster object containing a roster array for which we search through for a matching
+     * profile. We return a Student object associated with the matching profile if one is found.
+     * Otherwise, we return null.
      *
-     * @param roster
-     * @param profile
-     * @return
+     * @param roster Roster object containing roster array that we are searching through
+     * @param profile Profile object containing a student's information that we are trying
+     *                to look for
+     * @return Student object associated with the given Profile or null if it doesnt exist
      */
     private Student getStudent(Roster roster, Profile profile){
         for(int i = 0; i < roster.getRosterSize(); i++) {
@@ -271,10 +292,19 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of creating a new student through either the "A" command or "LS"
+     * command. First we validate the student major and date of birth. Then we determine which
+     * type of student we are creating from the abstract Student class. Once the type is determined,
+     * we create the new object and return it. For International and TriState student objects, we
+     * make sure to check and verify the additional line command that determines if they are study
+     * abroad and which state they are from respectively.
      *
-     * @param commandBody
-     * @return
+     * @param commandBody String array representing an "A" command argument body or a command
+     *                    from a line in a text file used in the "LS" command
+     *                    ("AI Aryan Patel 1/22/2002 CS 90 true") or
+     *                    ("N,Roy,Brooks,9/9/1999,iti,100")
+     * @return Abstract Student object of type International, TriState, Resident, or Non-Resident
+     *         if the creation succeeds, or null if it does not
      */
     private Student createStudent(String[] commandBody) {
         if (!validateStudentDateOfBirth(commandBody[3])
@@ -319,11 +349,14 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of updating the credits completed for a given student's Profile.
+     * We use the given Profile to find the student in the roster array within the
+     * Roster object. Once we find the student, we add the number of credits enrolled to their
+     * total credits completed.
      *
-     * @param profile
-     * @param roster
-     * @param creditsEnrolled
+     * @param profile Profile object of the student we are trying to update the completed credits for
+     * @param roster Roster object containing the roster array that we are searching through
+     * @param creditsEnrolled int containing the number of credits enrolled by the student
      */
     private void updateCompletedCredits (Profile profile, Roster roster, int creditsEnrolled) {
         for (int i = 0; i < roster.getRosterSize(); i++) {
@@ -336,10 +369,16 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of loading new students in the Roster array by the use
+     * of a text file. We take in the line command containing the file name and then use
+     * the Java File IO and Scanner library to read the text file line by line. Each line in the
+     * text file should contain the information about the student we are adding. The information
+     * is seperated by the delimiter ",". If loading the file succeeds a message is outputted. If
+     * not, the applicable error message is displayed.
      *
-     * @param commandBody
-     * @param roster
+     * @param commandBody String array representing an "LS" command argument body\
+     *                    ("LS studentList.txt")
+     * @param roster Roster object containing the roster array that we are adding to
      */
     private void executeCommandLS(String[] commandBody, Roster roster) {
         if (commandBody.length != LS_COMMAND_L) {
@@ -499,11 +538,21 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of adding a student to the enrollStudent array within an
+     * Enrollment object. First we validate the command to make sure no information is missing.
+     * Next we, check to make sure the student we are adding is in the roster array contained in
+     * the Roster object. Then, we make sure to validate the total number of credits they are
+     * enrolled for. If there are no issues, we proceed to create a new EnrollStudent object from
+     * the given information. Success and error messages are displayed if a student is or is not
+     * added to the enrollStudents array.
+     * <p>
+     * If a given student is already enrolled within the enrollStudent array, we simply update
+     * the credits enrolled value to the new one given in the command body arguments.
      *
-     * @param commandBody
-     * @param roster
-     * @param enrollment
+     * @param commandBody String array representing an "E" command argument body
+     *                    ("E Carl Brown 10/7/2004 24")
+     * @param roster Roster object containing the roster array we are searching through
+     * @param enrollment Enrollment object containing the enrollStudents array that we are adding tp
      */
     private void executeCommandE(String[] commandBody, Roster roster, Enrollment enrollment) {
         if (commandBody.length < E_COMMAND_L) {
@@ -533,10 +582,18 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of executing the "D" command with the given body arguments and
+     * Enrollment object. First we check if the number of body arguments is correct. Then we create
+     * a new EnrollStudent object containing the given student's profile and a dummy value for
+     * their credits enrolled. We then search through the enrollStudents array contained withing the
+     * Enrollment object. If we find a matching student, we continue to remove that student from the
+     * array. If no such student is found, then we exit the method and print an error message. We
+     * output a message if the removal succeeds.
      *
-     * @param commandBody
-     * @param enrollment
+     * @param commandBody String array representing an "D" command argument body
+     *                   ("D Carl Brown 10/7/2004")
+     * @param enrollment Enrollment object which contains the enrollStudents array that
+     *                   we are removing from
      */
     private void executeCommandD(String[] commandBody, Enrollment enrollment) {
         if (commandBody.length < D_COMMAND_L) {
@@ -562,10 +619,17 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of awarding a scholarship to a Resident student. First we check
+     * to see if the given student is scholarship eligible through the getResidentStudent() and
+     * isScholarshipEligible() methods, passing in the Enrollment and Roster objects as needed for
+     * searching. If the given student is eligible, then we update their scholarship amount.
+     * Success and error messages are outputted where applicable.
      *
-     * @param commandBody
-     * @param roster
+     * @param commandBody String array representing an "S" command argument body
+     *                    ("S Roy Brooks 9/9/1999 10000")
+     * @param roster Roster object containing the roster array that we are searching through
+     * @param enrollment Enrollment object containing the enrollStudents array that we are
+     *                   searching through
      */
     private void executeCommandS(String[] commandBody, Roster roster, Enrollment enrollment) {
         if (commandBody.length < MIN_COMMAND_L) {
@@ -600,10 +664,18 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of updating credits completed for all students who are
+     * enrolled for the semester, printing out those who have completed 120 credits or more
+     * for graduation. We utilize the updateCompletedCredits() when looping through the enrollment
+     * array to get the enrolled credits for each student. In the updateCompletedCredits() method,
+     * we pass in the Roster object, the student's profile, and their enrolled credits in order
+     * to update their completed credits. At the very end, we loop through the roster and print
+     * out students with 120 or more completed credits.
      *
-     * @param roster
-     * @param enrollment
+     * @param roster Roster object containing the roster array of Student objects that we
+     *               are updating the completed credits for
+     * @param enrollment Enrollment object containing the enrollStudents array of EnrollStudent
+     *                   objects which contain the creditsEnrolled for the student
      */
     private void executeCommandSE(Roster roster, Enrollment enrollment) {
         for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
@@ -754,9 +826,13 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of printing the enrollStudent array contained
+     * within a given Enrollment object. The order of printing is the same order
+     * of the enrollStudents array. If the array is empty, an error message is
+     * displayed.
      *
-     * @param enrollment
+     * @param enrollment Enrollment object which contains the enrollStudent array
+     *                   that we want to print from
      */
     private void executeCommandPE(Enrollment enrollment) {
         if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
@@ -769,10 +845,14 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes in an Abstract Student object and the amount of credits they are
+     * enrolled in, to then print out their tuition due based on their credits enrolled and
+     * they type of student they are. We check which type of Student they are before, outputting
+     * this information. The DecimalFormat class is used to format the double value returned from
+     * the abstract tuitionDue() method to display as a dollar amount.
      *
-     * @param student
-     * @param creditsEnrolled
+     * @param student Abstract Student object that we are outputting the tuition information for
+     * @param creditsEnrolled int which contains the number of credits the student is enrolled for
      */
     private void printTuitionDueInline (Student student, int creditsEnrolled) {
         DecimalFormat df = new DecimalFormat("$###,###.00");
@@ -811,9 +891,16 @@ public class TuitionManager {
     }
 
     /**
-     * needs comments
+     * This method takes care of printing all students in the enrollStudents array
+     * within the given Enrollment object. The total tuition due for each student is printed
+     * for each student using the printTuitionDueInline() method. We check to see if the
+     * enrollStudent array is empty before printing, and if the student is enrolled but not
+     * in the roster.
      *
-     * @param enrollment
+     * @param roster Roster object containing the roster array of Student objects that contain
+     *               information for students that we are examining in the enrollStudents array
+     * @param enrollment Enrollment object containing the enrollStudents array of EnrollStudent
+     *                   objects that we are printing the tuition due for.
      */
     private void executeCommandPT(Roster roster, Enrollment enrollment) {
         if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
@@ -843,18 +930,19 @@ public class TuitionManager {
     }
 
     /**
-     *  rework
      *  This method is the main driver of executing the commands entered by the user in
-     *  the command line. The String array representing the command body and a Roster object is
-     *  passed as arguments to this method. These arguments are further passed down depending on
-     *  which execute method is called. The correct execute method is determined by the first index
-     *  in the body arguments. This value is case-sensitive. If nothing is found for this value, we don't
-     *  do anything and prompt for a new input from the user. If an incorrect or unknown value is found
-     *  we let the user known and prompt for a new input.
+     *  the command line. The String array representing the command body, a Roster object, and an
+     *  Enrollment object is passed as arguments to this method. These arguments are further passed
+     *  down depending on which execute method is called. The correct execute method is determined by
+     *  the first index in the body arguments. This value is case-sensitive. If nothing is found for
+     *  this value, we don't do anything and prompt for a new input from the user. If an incorrect or
+     *  unknown value is found we let the user known and prompt for a new input.
      *
-     * @param commandBody String array representing a "A", "R", "L", "C", "P", "PS", or "PC"
-     *                    command argument body (see execute methods for commandBody examples)
-     * @param roster Roster object which we are executing the commands on
+     * @param commandBody String array representing an "LS", "R", "C", "L", "P", "PS", "PC", "PE",
+     *                    "PT", "E", "D", "S", "SE", "AR", "AN", "AT", or "AI" command argument
+     *                    body (see execute methods for commandBody examples)
+     * @param roster Roster object which we are executing certain commands on
+     * @param enrollment Enrollment object which we are executing certain commands on
      */
     private void parseCommand (String[] commandBody, Roster roster, Enrollment enrollment) {
         String operation = commandBody[0];

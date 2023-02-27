@@ -112,7 +112,7 @@ public class Roster {
      * the Student object is not in the array, then NOT_FOUND is returned.
      *
      * @param student Student object input that is the student which needs to be found
-     * @return int which represents the consent value associated with NOT_FOUND
+     * @return int which represents the index associated with the student position
      */
     private int find(Student student) {
         for (int i = 0; i < this.size; i++) {

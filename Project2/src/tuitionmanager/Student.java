@@ -57,9 +57,9 @@ public abstract class Student implements Comparable<Student> {
     }
 
     /**
-     * needs comments
+     * This method gets the amount of credits completed by a Student object.
      *
-     * @return
+     * @return int which contains the total number of credits completed
      */
     public int getCreditCompleted() {
         return this.creditCompleted;
@@ -98,19 +98,24 @@ public abstract class Student implements Comparable<Student> {
     }
 
     /**
-     * needs comments
+     * This method sets a Student object's number of credits completed to
+     * the given number of credits completed.
      *
-     * @param creditCompleted
+     * @param creditCompleted int which contains the new amount of credits
+     *                        completed
      */
     public void setCreditCompleted(int creditCompleted) {
         this.creditCompleted = creditCompleted;
     }
 
     /**
-     * needs comments
+     * This method determines whether a Student object has a valid amount of credits
+     * enrolled or not. It determines this based on the type of Student through it's
+     * extending classes.
      *
-     * @param creditEnrolled
-     * @return
+     * @param creditEnrolled int which contains a student's amount of credits enrolled
+     * @return boolean which represents whether the amount of credits enrolled by the
+     *         student is valid or not.
      */
     public boolean isValid(int creditEnrolled) {
         if(this instanceof International internationalStudent) {
@@ -190,17 +195,24 @@ public abstract class Student implements Comparable<Student> {
     }
 
     /**
-     * abstract - not implemented
+     * This is an abstract method that is required to be implemented by any class
+     * that extends this Student class. It calculates the tuition due based on the
+     * given credits enrolled and the type of student which is indicated by
+     * any extending class of Student.
      *
-     * @param creditsEnrolled
-     * @return
+     * @param creditsEnrolled int which contains the amount of credits enrolled by the student
+     * @return double which contains the dollar amount representing the tuition due for
+     *         a student.
      */
     public abstract double tuitionDue(int creditsEnrolled);
 
     /**
-     * abstract - not implemented
+     * This is an abstract method that is required to be implemented by any class
+     * that extends this Student class. It determines whether the class that is extended is
+     * considered to be a resident student or not.
      *
-     * @return
+     * @return boolean which represents whether the extending class is considered a
+     *         resident student or not
      */
     public abstract boolean isResident();
 }

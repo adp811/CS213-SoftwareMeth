@@ -1,7 +1,11 @@
 package tuitionmanager;
 
 /**
- * needs comments
+ * This is a class that maintains a resizing array of EnrollStudent objects
+ * which represent an instance of a Enrollment object.
+ * <p>
+ * This class uses the EnrollStudent class to define an array of EnrollStudent
+ * objects which will be in the Enrollment instance.
  *
  * @author Aryan Patel
  */
@@ -17,7 +21,9 @@ public class Enrollment {
     private static final int NOT_FOUND = -1;
 
     /**
-     * needs comments
+     * This method creates a new Enrollment object containing an array of EnrollStudent
+     * objects and an int representing the count of EnrollStudent objects within
+     * the array. This is a no argument constructor.
      *
      */
     Enrollment() {
@@ -26,7 +32,9 @@ public class Enrollment {
     }
 
     /**
-     * needs comments
+     * This method takes care of resizing the array of EnrollStudent objects in Enrollment. The
+     * capacity is increased by 4 in the new enrollStudents array. Contents from the old array
+     * are copied over and the reference to the old array is discarded.
      *
      */
     private void grow() {
@@ -39,10 +47,12 @@ public class Enrollment {
     }
 
     /**
-     * needs comments
+     * This method finds a given EnrollStudent in the enrollStudents array,
+     * and returns the index of its position. If the EnrollStudent object is not in
+     * the array, then NOT_FOUND is returned.
      *
-     * @param enrollStudent
-     * @return
+     * @param enrollStudent object input that is the student which needs to be found
+     * @return int which represents the index associated with the student position
      */
     private int find(EnrollStudent enrollStudent) {
         for (int i = 0; i < this.size; i++) {
@@ -55,37 +65,46 @@ public class Enrollment {
     }
 
     /**
-     * needs comments
+     * This method gets the value of the size variable representing the size of
+     * the enrollStudents array.
      *
-     * @return
+     * @return int which contains the enrollStudent array size
      */
     public int getEnrollmentSize() {
         return this.size;
     }
 
     /**
-     * needs comments
+     * This method returns the enrollStudent array associated with an Enrollment
+     * object. This array contains objects of type EnrollStudent.
      *
-     * @return
+     * @return array of type EnrollStudent containing EnrollStudent objects
      */
     public EnrollStudent[] getEnrollStudents() {
         return enrollStudents;
     }
 
     /**
-     * needs comments
+     * This method checks if a given EnrollStudent objects is contained within
+     * the enrollStudents array. This method utilizes the find() method and returns
+     * a boolean indicating whether find() was successful or not.
      *
-     * @param enrollStudent
-     * @return
+     * @param enrollStudent object input that is to be checked whether it is present
+     *                      in the enrollStudent array or not
+     * @return boolean true or false representing whether the given EnrollStudent
+     *         is in the array or not
      */
     public boolean contains(EnrollStudent enrollStudent){
         return find(enrollStudent) != NOT_FOUND;
     }
 
     /**
-     * needs comments
+     * This method takes care of adding a given EnrollStudent to the enrollStudents
+     * array. It first checks if the student is already in the array before it adds the
+     * student. If the array is at capacity, the grow() method is called to increase the
+     * capacity.
      *
-     * @param enrollStudent
+     * @param enrollStudent object input that is to be added into the enrollStudents array.
      */
     public void add(EnrollStudent enrollStudent){
         if (this.contains(enrollStudent)) {
@@ -102,9 +121,13 @@ public class Enrollment {
     }
 
     /**
-     * needs comments
+     * This method takes care of removing a given EnrollStudent object
+     * from the enrollStudents array. First the index of removal is found and then
+     * the last EnrollStudent object in the array is used to replace the removed
+     * object.
      *
-     * @param enrollStudent
+     * @param enrollStudent object input which is the EnrollStudent that needs to be
+     *                      found and removed
      */
     public void remove(EnrollStudent enrollStudent){
         int index = find(enrollStudent);
@@ -115,7 +138,9 @@ public class Enrollment {
     }
 
     /**
-     * needs comments
+     * This method takes care of printing the enrollStudents array. It first checks
+     * if the array is empty before proceeded to print each EnrollStudent line
+     * by line.
      *
      */
     public void print() {
