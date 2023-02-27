@@ -20,9 +20,9 @@ public class International extends NonResident {
      * constructor for creating the object of International Student.
      *
      * @param profile Profile object which contains the student's name and date
-     * of birth
+     *                of birth
      * @param major Major enum which contains the student's major and associated
-     * information
+     *              information
      * @param creditCompleted int which contains the student's credits completed
      * @param isStudyAbroad boolean value either true of false.
      */

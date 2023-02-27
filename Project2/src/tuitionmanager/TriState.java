@@ -21,9 +21,9 @@ public class TriState extends NonResident {
      * constructor for creating the object of TriState Student.
      *
      * @param profile Profile object which contains the student's name and date
-     * of birth
+     *                of birth
      * @param major Major enum which contains the student's major and associated
-     * information
+     *              information
      * @param creditCompleted int which contains the student's credits completed
      * @param state state of the student.
      *

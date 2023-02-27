@@ -19,9 +19,9 @@ public class Resident extends Student {
      * constructor for creating the object of Resident Student.
      *
      * @param profile Profile object which contains the student's name and date
-     * of birth
+     *                of birth
      * @param major Major enum which contains the student's major and associated
-     * information
+     *              information
      * @param creditCompleted int which contains the student's credits completed
      */
     public Resident(Profile profile, Major major, int creditCompleted, int scholarship) {

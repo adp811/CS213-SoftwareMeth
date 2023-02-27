@@ -18,9 +18,9 @@ public class NonResident extends Student {
      * constructor for creating the object of NonResident Student.
      *
      * @param profile Profile object which contains the student's name and date
-     * of birth
+     *                of birth
      * @param major Major enum which contains the student's major and associated
-     * information
+     *              information
      * @param creditCompleted int which contains the student's credits completed
      */
     public NonResident(Profile profile, Major major, int creditCompleted) {
