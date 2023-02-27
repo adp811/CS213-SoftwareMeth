@@ -15,6 +15,7 @@ public class International extends NonResident {
     private static final double UNIVERSITY_FEE = 3268;
     private static final double HEALTH_INSURANCE = 2650;
     private static final double CREDIT_HOUR_FEE = 966;
+    private static final int MIN_AF_CREDITS = 16;
 
     /**
      * constructor for creating the object of International Student.
@@ -51,9 +52,9 @@ public class International extends NonResident {
         if (this.isStudyAbroad) {
             return UNIVERSITY_FEE + HEALTH_INSURANCE;
         } else {
-            if (creditsEnrolled > 16) {
+            if (creditsEnrolled > MIN_AF_CREDITS) {
                 return TUITION_FEE + UNIVERSITY_FEE + HEALTH_INSURANCE +
-                        (CREDIT_HOUR_FEE * (creditsEnrolled - 16));
+                        (CREDIT_HOUR_FEE * (creditsEnrolled - MIN_AF_CREDITS));
             }
             return TUITION_FEE + UNIVERSITY_FEE + HEALTH_INSURANCE;
         }

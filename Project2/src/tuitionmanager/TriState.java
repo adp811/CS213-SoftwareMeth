@@ -16,6 +16,9 @@ public class TriState extends NonResident {
     private static final double CREDIT_HOUR_FEE = 966;
     private static final double NY_DISCOUNT = 4000;
     private static final double CT_DISCOUNT = 5000;
+    private static final double UNIVERSITY_FEE_DISC = 0.8;
+    private static final int MIN_FT_CREDITS = 12;
+    private static final int MIN_AF_CREDITS = 16;
 
     /**
      * constructor for creating the object of TriState Student.
@@ -51,9 +54,10 @@ public class TriState extends NonResident {
     @Override
     public double tuitionDue(int creditsEnrolled) {
         double fee;
-        if (creditsEnrolled >= 12) {
-            if (creditsEnrolled > 16) {
-                fee = TUITION_FEE + UNIVERSITY_FEE + (CREDIT_HOUR_FEE * (creditsEnrolled - 16));
+        if (creditsEnrolled >= MIN_FT_CREDITS) {
+            if (creditsEnrolled > MIN_AF_CREDITS) {
+                fee = TUITION_FEE + UNIVERSITY_FEE +
+                        (CREDIT_HOUR_FEE * (creditsEnrolled - MIN_AF_CREDITS));
             } else {
                 fee = TUITION_FEE + UNIVERSITY_FEE;
             }
@@ -63,7 +67,7 @@ public class TriState extends NonResident {
                 fee -= CT_DISCOUNT;
             }
         } else {
-            fee = (creditsEnrolled * CREDIT_HOUR_FEE) + (UNIVERSITY_FEE * 0.8);
+            fee = (creditsEnrolled * CREDIT_HOUR_FEE) + (UNIVERSITY_FEE * UNIVERSITY_FEE_DISC);
         }
 
         return fee;
