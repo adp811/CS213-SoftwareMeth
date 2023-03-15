@@ -1,16 +1,524 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.tuitionmanager.project3.TuitionManagerController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tuitionmanager.project3.TuitionManagerController">
+   <children>
+      <TabPane prefHeight="500.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Roster">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="1.0" layoutY="3.0" prefHeight="465.0" prefWidth="500.0" spacing="4.0">
+                           <children>
+                              <BorderPane prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField fx:id="firstNameTextField" alignment="BASELINE_RIGHT" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField fx:id="lastNameTextField" alignment="BASELINE_RIGHT" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <DatePicker fx:id="dateOfBirthPicker" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </DatePicker>
+                                 </right>
+                              </BorderPane>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <BorderPane layoutX="10.0" layoutY="20.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Major:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                                 <center>
+                                    <HBox prefHeight="40.0" prefWidth="390.0" spacing="20.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="90.0" right="15.0" />
+                                       </BorderPane.margin>
+                                       <children>
+                                          <RadioButton fx:id="baitRadioButton" mnemonicParsing="false" text="BAIT">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="majorGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="csRadioButton" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" selected="true" text="CS" toggleGroup="$majorGroup">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                          <RadioButton fx:id="eceRadioButton" layoutX="101.0" layoutY="10.0" mnemonicParsing="false" text="ECE" toggleGroup="$majorGroup">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                          <RadioButton fx:id="itiRadioButton" layoutX="191.0" layoutY="10.0" mnemonicParsing="false" text="ITI" toggleGroup="$majorGroup">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                          <RadioButton fx:id="mathRadioButton" layoutX="282.0" layoutY="10.0" mnemonicParsing="false" text="MATH" toggleGroup="$majorGroup">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                 </center>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="163.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <center>
+                                    <HBox prefHeight="40.0" prefWidth="390.0" spacing="20.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="85.0" right="15.0" />
+                                       </BorderPane.margin>
+                                       <children>
+                                          <RadioButton fx:id="residentRadioButton" mnemonicParsing="false" selected="true" text="Resident">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="statusGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="nonResidentRadioButton" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" text="Non-Resident" toggleGroup="$statusGroup">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                 </center>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits Completed:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField fx:id="creditsCompletedTextField" alignment="BASELINE_RIGHT" prefHeight="26.0" prefWidth="347.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                              </BorderPane>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <BorderPane layoutX="10.0" layoutY="203.0" prefHeight="40.0" prefWidth="500.0">
+                                 <center>
+                                    <HBox fx:id="triStateSelectionView" prefHeight="40.0" prefWidth="390.0" spacing="20.0" visible="false" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="138.0" right="15.0" />
+                                       </BorderPane.margin>
+                                       <children>
+                                          <RadioButton fx:id="triStateRadioButton" mnemonicParsing="false" text="TriState">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="nonResStatusGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="nyStateRadioButton" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" text="NY">
+                                             <HBox.margin>
+                                                <Insets left="25.0" top="11.0" />
+                                             </HBox.margin>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="stateGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="ctStateRadioButton" layoutX="96.0" layoutY="21.0" mnemonicParsing="false" text="CT" toggleGroup="$stateGroup">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                 </center>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="266.0" prefHeight="40.0" prefWidth="500.0">
+                                 <center>
+                                    <HBox fx:id="internationalSelectionView" prefHeight="40.0" prefWidth="390.0" spacing="20.0" visible="false" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="138.0" right="15.0" />
+                                       </BorderPane.margin>
+                                       <children>
+                                          <RadioButton fx:id="internationalRadioButton" mnemonicParsing="false" text="International" toggleGroup="$nonResStatusGroup">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                          <CheckBox fx:id="studyAbroadCheckBox" mnemonicParsing="false" text="Study Abroad">
+                                             <HBox.margin>
+                                                <Insets top="11.0" />
+                                             </HBox.margin>
+                                          </CheckBox>
+                                       </children>
+                                    </HBox>
+                                 </center>
+                              </BorderPane>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <ButtonBar buttonMinWidth="80.0" prefHeight="40.0" prefWidth="200.0">
+                                <buttons>
+                                  <Button fx:id="addButton" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="removeButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Remove" />
+                                    <Button fx:id="changeMajorButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Change Major" />
+                                </buttons>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" right="15.0" top="10.0" />
+                                 </VBox.margin>
+                              </ButtonBar>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <BorderPane prefHeight="50.0" prefWidth="500.0">
+                                 <right>
+                                    <Button fx:id="loadFromFileButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Load from File" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </Button>
+                                 </right>
+                                 <left>
+                                    <TextField fx:id="fileNameTextField" alignment="BASELINE_RIGHT" prefHeight="26.0" prefWidth="367.0" promptText="file name" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </left>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </BorderPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Enrollment">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="420.0" prefWidth="500.0" spacing="4.0">
+                           <children>
+                              <BorderPane prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <DatePicker prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </DatePicker>
+                                 </right>
+                              </BorderPane>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <BorderPane layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                              </BorderPane>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <ButtonBar buttonMinWidth="125.0" prefHeight="40.0" prefWidth="200.0">
+                                 <buttons>
+                                    <Button mnemonicParsing="false" text="Enroll" />
+                                    <Button layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Drop" />
+                                 </buttons>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" right="15.0" top="5.0" />
+                                 </VBox.margin>
+                              </ButtonBar>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Scholarships">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="420.0" prefWidth="500.0" spacing="4.0">
+                           <children>
+                              <BorderPane prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                              </BorderPane>
+                              <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <DatePicker prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </DatePicker>
+                                 </right>
+                              </BorderPane>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <BorderPane layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="500.0">
+                                 <left>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Amount:" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </Text>
+                                 </left>
+                                 <right>
+                                    <TextField prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </TextField>
+                                 </right>
+                              </BorderPane>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <ButtonBar buttonMinWidth="125.0" prefHeight="40.0" prefWidth="200.0">
+                                 <buttons>
+                                    <Button layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Award" />
+                                 </buttons>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" right="15.0" top="5.0" />
+                                 </VBox.margin>
+                              </ButtonBar>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Print">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="470.0" prefWidth="500.0" spacing="4.0">
+                           <children>
+                              <BorderPane prefHeight="40.0" prefWidth="500.0">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                                 <left>
+                                    <ChoiceBox prefWidth="150.0" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets left="15.0" />
+                                       </BorderPane.margin>
+                                    </ChoiceBox>
+                                 </left>
+                                 <center>
+                                    <ChoiceBox prefWidth="150.0" BorderPane.alignment="CENTER" />
+                                 </center>
+                                 <right>
+                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Print" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets right="15.0" />
+                                       </BorderPane.margin>
+                                    </Button>
+                                 </right>
+                              </BorderPane>
+                              <TextArea editable="false" prefHeight="400.0" prefWidth="500.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <TextArea fx:id="consoleTextArea" editable="false" prefHeight="150.0" prefWidth="500.0" text="console..." />
+   </children>
 </VBox>
