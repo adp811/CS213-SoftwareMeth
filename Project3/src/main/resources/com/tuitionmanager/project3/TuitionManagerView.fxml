@@ -115,7 +115,7 @@
                                                 <Insets top="11.0" />
                                              </HBox.margin>
                                           </RadioButton>
-                                          <RadioButton fx:id="eceRadioButton" layoutX="101.0" layoutY="10.0" mnemonicParsing="false" text="ECE" toggleGroup="$majorGroup">
+                                          <RadioButton fx:id="eceRadioButton" layoutX="101.0" layoutY="10.0" mnemonicParsing="false" text="EE" toggleGroup="$majorGroup">
                                              <HBox.margin>
                                                 <Insets top="11.0" />
                                              </HBox.margin>
@@ -250,8 +250,8 @@
                               <ButtonBar buttonMinWidth="80.0" prefHeight="40.0" prefWidth="200.0">
                                 <buttons>
                                   <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
-                                    <Button fx:id="removeButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Remove" />
-                                    <Button fx:id="changeMajorButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Change Major" />
+                                    <Button fx:id="removeButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleRemoveButtonClick" text="Remove" />
+                                    <Button fx:id="changeMajorButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleChangeMajorButtonClick" text="Change Major" />
                                 </buttons>
                                  <VBox.margin>
                                     <Insets bottom="10.0" right="15.0" top="10.0" />
@@ -264,14 +264,14 @@
                               </Separator>
                               <BorderPane prefHeight="50.0" prefWidth="500.0">
                                  <right>
-                                    <Button fx:id="loadFromFileButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Load from File" BorderPane.alignment="CENTER">
+                                    <Button fx:id="loadFromFileButton" mnemonicParsing="false" onAction="#handleLoadFromFileButtonClick" prefHeight="26.0" prefWidth="94.0" text="Load from File" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>
                                     </Button>
                                  </right>
                                  <left>
-                                    <TextField fx:id="fileNameTextField" alignment="BASELINE_RIGHT" prefHeight="26.0" prefWidth="367.0" promptText="file name" BorderPane.alignment="CENTER">
+                                    <TextField fx:id="fileNameTextField" alignment="BASELINE_RIGHT" editable="false" prefHeight="26.0" prefWidth="367.0" promptText="file name" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets left="15.0" />
                                        </BorderPane.margin>
