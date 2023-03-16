@@ -249,7 +249,7 @@
                               </Separator>
                               <ButtonBar buttonMinWidth="80.0" prefHeight="40.0" prefWidth="200.0">
                                 <buttons>
-                                  <Button fx:id="addButton" mnemonicParsing="false" text="Add" />
+                                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
                                     <Button fx:id="removeButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Remove" />
                                     <Button fx:id="changeMajorButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" text="Change Major" />
                                 </buttons>
