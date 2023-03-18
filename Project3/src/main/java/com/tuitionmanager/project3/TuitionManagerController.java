@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.text.DecimalFormat;
 
 public class TuitionManagerController {
 
@@ -66,6 +67,13 @@ public class TuitionManagerController {
 
     @FXML
     private DatePicker dateOfBirthPicker_S;
+
+
+    @FXML
+    private ChoiceBox<String> sortTypeChoiceBox, schoolChoiceBox;
+
+    @FXML
+    private TextArea printTextArea;
 
 
     @FXML
@@ -276,7 +284,7 @@ public class TuitionManagerController {
 
     /**
      * needs comments
-     * @param data
+     * @param studentInformation
      * @return
      */
     private Student createStudent(String studentInformation) {
@@ -398,47 +406,196 @@ public class TuitionManagerController {
      * */
     private void printRoster(Roster roster) {
         for (int i = 0; i < roster.getRosterSize(); i++) {
-            System.out.println(roster.getRoster()[i].toString());
+            printTextArea.appendText(roster.getRoster()[i] + "\n");
         }
     }
 
     /**
      *
-     * @param roster Roster object which contains the roster array we want to filter
-     *               through and print
-     * @param school String which contains the school name that we want use as a filter,
-     *               case-insensitive ("SAS", "SaS", "sas")
+     * @param enrollment
      */
-    private void printRoster(Roster roster, String school) {
-        for(Major major : Major.values()) {
-            if(major.getSchool().equalsIgnoreCase(school)) {
-                System.out.println("* Students in " + school + " *");
-                for (int i = 0; i < roster.getRosterSize(); i++) {
-                    Student student = roster.getRoster()[i];
-                    if(student.getMajor().getSchool().equalsIgnoreCase(school)){
-                        System.out.println(student);
-                    }
-                }
-                System.out.println("* end of list **");
-                return;
-            }
+    private void printEnrollment(Enrollment enrollment) {
+        for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
+            printTextArea.appendText(enrollment.getEnrollStudents()[i] + "\n");
         }
-        System.out.println("School doesn't exist: " + school);
     }
 
     /** rework
-     *
+     * Roster: Profile - Ascending
      * @param roster Roster object which contains the roster array that we are printing from
      */
-    private void executePrintRoster(Roster roster) {
+    private void executePrintRosterProfile(Roster roster) {
         if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
-            System.out.println("Student roster is empty!");
+            consoleTextArea.setText("Print Error: student roster is empty!");
         } else {
-            System.out.println("** Student roster sorted by last name, first name, DOB **");
+            printTextArea.appendText("** Student roster sorted by last name, first name, DOB **" + "\n");
             roster.print();
             printRoster(roster);
-            System.out.println("* end of roster *");
+            printTextArea.appendText("* end of roster *" + "\n");
+            consoleTextArea.setText("Print successful!");
         }
+    }
+
+    /**
+     * Roster: Standing - Ascending
+     * @param roster Roster object which contains the roster array that we are printing from
+     */
+    private void executePrintRosterStanding(Roster roster) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
+            consoleTextArea.setText("Print Error: student roster is empty!");
+        } else {
+            printTextArea.appendText("** Student roster sorted by standing **" + "\n");
+            roster.printByStanding();
+            printRoster(roster);
+            printTextArea.appendText("* end of roster *" + "\n");
+            consoleTextArea.setText("Print successful!");
+        }
+    }
+
+    /**
+     * Roster: Major, School - Ascending
+     * @param roster Roster object which contains the roster array that we are printing from
+     */
+    private void executePrintRosterMajorSchool(Roster roster) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
+            consoleTextArea.setText("Print Error: student roster is empty!");
+        } else {
+            printTextArea.appendText("** Student roster sorted by school, major **" + "\n");
+            roster.printBySchoolMajor();
+            printRoster(roster);
+            printTextArea.appendText("* end of roster *" + "\n");
+            consoleTextArea.setText("Print successful!");
+        }
+    }
+
+    /**
+     * Roster: Select School
+     * @param roster
+     * @param school
+     */
+    private void executePrintRosterSelectSchool(Roster roster, String school) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
+            consoleTextArea.setText("Print Error: student roster is empty!");
+            return;
+        }
+
+        roster.print();
+        printTextArea.appendText("* Students in " + school + " *" + "\n");
+
+        for (int i = 0; i < roster.getRosterSize(); i++) {
+            Student student = roster.getRoster()[i];
+            if(student.getMajor().getSchool().equalsIgnoreCase(school)){
+                printTextArea.appendText(student + "\n");
+            }
+        }
+
+        printTextArea.appendText("* end of list **" + "\n");
+    }
+
+    /**
+     * This method takes care of printing the enrollStudent array contained
+     * within a given Enrollment object. The order of printing is the same order
+     * of the enrollStudents array. If the array is empty, an error message is
+     * displayed.
+     *
+     * @param enrollment Enrollment object which contains the enrollStudent array
+     *                   that we want to print from
+     */
+    private void executePrintEnrollment(Enrollment enrollment) {
+        if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
+            consoleTextArea.setText("Print Error: enrollment is empty!");
+        } else {
+            printTextArea.appendText("** Enrollment **" + "\n");
+            printEnrollment(enrollment);
+            printTextArea.appendText("* end of enrollment *" + "\n");
+            consoleTextArea.setText("Print successful!");
+        }
+    }
+
+    /**
+     * This method takes in an Abstract Student object and the amount of credits they are
+     * enrolled in, to then print out their tuition due based on their credits enrolled and
+     * they type of student they are. We check which type of Student they are before, outputting
+     * this information. The DecimalFormat class is used to format the double value returned from
+     * the abstract tuitionDue() method to display as a dollar amount.
+     *
+     * @param student Abstract Student object that we are outputting the tuition information for
+     * @param creditsEnrolled int which contains the number of credits the student is enrolled for
+     */
+    private void printTuitionDueHelper (Student student, int creditsEnrolled) {
+        DecimalFormat df = new DecimalFormat("$###,###.00");
+
+        if (student instanceof Resident residentStudent) {
+            printTextArea.appendText(residentStudent.getProfile()
+                    + " (Resident)"
+                    + " enrolled " + creditsEnrolled
+                    + " credits: tuition due: "
+                    + df.format(residentStudent.tuitionDue(creditsEnrolled)) + "\n");
+
+        } else if (student instanceof NonResident nonResidentStudent) {
+            if (nonResidentStudent instanceof International internationalStudent) {
+                printTextArea.appendText(internationalStudent.getProfile()
+                        + (internationalStudent.getStudyAbroadStatus()
+                        ? " (International student: study abroad)" : " (International student)")
+                        + " enrolled " + creditsEnrolled
+                        + " credits: tuition due: "
+                        + df.format(internationalStudent.tuitionDue(creditsEnrolled)) + "\n");
+
+            } else if (nonResidentStudent instanceof TriState triStateStudent) {
+                printTextArea.appendText(triStateStudent.getProfile()
+                        + " (Tri-state: " + triStateStudent.getState() + ")"
+                        + " enrolled " + creditsEnrolled
+                        + " credits: tuition due: "
+                        + df.format(triStateStudent.tuitionDue(creditsEnrolled)) + "\n");
+
+            } else {
+                printTextArea.appendText(nonResidentStudent.getProfile()
+                        + " (Non-Resident)"
+                        + " enrolled " + creditsEnrolled
+                        + " credits: tuition due: "
+                        + df.format(nonResidentStudent.tuitionDue(creditsEnrolled)) + "\n");
+            }
+        }
+    }
+
+    /**
+     * This method takes care of printing all students in the enrollStudents array
+     * within the given Enrollment object. The total tuition due for each student is printed
+     * for each student using the printTuitionDueHelper() method. We check to see if the
+     * enrollStudent array is empty before printing, and if the student is enrolled but not
+     * in the roster.
+     *
+     * @param roster Roster object containing the roster array of Student objects that contain
+     *               information for students that we are examining in the enrollStudents array
+     * @param enrollment Enrollment object containing the enrollStudents array of EnrollStudent
+     *                   objects that we are printing the tuition due for.
+     */
+    private void executePrintTuitionDue(Roster roster, Enrollment enrollment) {
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
+            consoleTextArea.setText("Print Error: student roster is empty!");
+            return;
+        }
+        if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
+            consoleTextArea.setText("Print Error: enrollment is empty!");
+            return;
+        }
+
+        printTextArea.appendText("** Tuition due **" + "\n");
+        for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
+            EnrollStudent enrollStudent = enrollment.getEnrollStudents()[i];
+
+            Student student;
+            if ((student = getStudent(roster, enrollStudent.getProfile())) == null) {
+                consoleTextArea.setText("Fatal: " + enrollStudent.getProfile() +
+                        " is enrolled but not in the roster.");
+                return;
+            }
+
+            printTuitionDueHelper(student, enrollStudent.getCreditsEnrolled());
+        }
+
+        printTextArea.appendText("* end of tuition due *" + "\n");
+        consoleTextArea.setText("Print Successful!");
     }
 
     /**
@@ -597,8 +754,6 @@ public class TuitionManagerController {
         } catch (Exception e) {
             consoleTextArea.setText("Fatal Error: Student major could not be changed, please try again.");
         }
-
-        executePrintRoster(roster);
     }
 
     /**
@@ -767,6 +922,38 @@ public class TuitionManagerController {
 
     /**
      * needs comments
+     * @param event
+     */
+    @FXML
+    private void handlePrintButtonClick(ActionEvent event) {
+        if (sortTypeChoiceBox.getSelectionModel().isEmpty()) {
+            consoleTextArea.setText("Print Error: please choose print type!");
+            return;
+        }
+        if (schoolChoiceBox.isVisible() && schoolChoiceBox.getSelectionModel().isEmpty()) {
+            consoleTextArea.setText("Print Error: please choose a school!");
+            return;
+        }
+
+        printTextArea.setText("");
+        consoleTextArea.setText("");
+        String printType = sortTypeChoiceBox.getSelectionModel().getSelectedItem();
+
+        switch (printType) {
+            case "Roster: Profile - Ascending" -> executePrintRosterProfile(roster);
+            case "Roster: Standing - Ascending" -> executePrintRosterStanding(roster);
+            case "Roster: Major, School - Ascending" -> executePrintRosterMajorSchool(roster);
+            case "Roster: Select School" -> {
+                String school = schoolChoiceBox.getSelectionModel().getSelectedItem();
+                executePrintRosterSelectSchool(roster, school);
+            }
+            case "Enrollment" -> executePrintEnrollment(enrollment);
+            case "Tuition Due" -> executePrintTuitionDue(roster, enrollment);
+        }
+    }
+
+    /**
+     * needs comments
      */
     @FXML
     private void initialize() {
@@ -774,6 +961,26 @@ public class TuitionManagerController {
 
         roster = new Roster();
         enrollment = new Enrollment();
+
+        for(Major major : Major.values()) {
+            String school = major.getSchool();
+            if (!schoolChoiceBox.getItems().contains(school)) {
+                schoolChoiceBox.getItems().add(school);
+            }
+        }
+
+        sortTypeChoiceBox.getItems().addAll(
+                "Roster: Profile - Ascending",
+                "Roster: Standing - Ascending",
+                "Roster: Major, School - Ascending",
+                "Roster: Select School",
+                "Enrollment",
+                "Tuition Due" );
+
+        sortTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    schoolChoiceBox.setVisible(newValue.equals("Roster: Select School"));
+        });
 
         statusGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {

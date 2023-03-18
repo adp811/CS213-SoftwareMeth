@@ -493,24 +493,24 @@
                                     <Insets bottom="5.0" top="10.0" />
                                  </VBox.margin>
                                  <left>
-                                    <ChoiceBox prefWidth="150.0" BorderPane.alignment="CENTER">
+                                    <ChoiceBox fx:id="sortTypeChoiceBox" prefWidth="150.0" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets left="15.0" />
                                        </BorderPane.margin>
                                     </ChoiceBox>
                                  </left>
                                  <center>
-                                    <ChoiceBox prefWidth="150.0" BorderPane.alignment="CENTER" />
+                                    <ChoiceBox fx:id="schoolChoiceBox" prefWidth="150.0" visible="false" BorderPane.alignment="CENTER" />
                                  </center>
                                  <right>
-                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Print" BorderPane.alignment="CENTER">
+                                    <Button fx:id="printButton" mnemonicParsing="false" onAction="#handlePrintButtonClick" prefHeight="26.0" prefWidth="110.0" text="Print" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>
                                     </Button>
                                  </right>
                               </BorderPane>
-                              <TextArea editable="false" prefHeight="400.0" prefWidth="500.0" />
+                              <TextArea fx:id="printTextArea" editable="false" prefHeight="400.0" prefWidth="500.0" />
                            </children>
                         </VBox>
                      </children>
