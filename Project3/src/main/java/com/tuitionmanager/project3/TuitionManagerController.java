@@ -2,16 +2,29 @@ package com.tuitionmanager.project3;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.util.Scanner;
 import java.text.DecimalFormat;
 
+/**
+ * This is the Tuition Manager user interface controller class. It contains
+ * injected fxml java elements, and handler methods neccesary to give a user an
+ * interface to interact with the Tuition Manager API.
+ *
+ * @author Aryan Patel & Rushi Patel
+ */
 public class TuitionManagerController {
 
     private static final int MIN_AGE = 16;
@@ -20,7 +33,7 @@ public class TuitionManagerController {
     private static final int MIN_ENROLLMENT_SIZE = 0;
     private static final int MAX_SCHOLARSHIP_AMT = 10000;
     private static final int MIN_SCHOLARSHIP_AMT = 0;
-    private static final int GRAD_ELIGIBLE_CREDITS = 120;
+    // private static final int GRAD_ELIGIBLE_CREDITS = 120;
     private static final int MIN_SCHOLARSHIP_CREDITS = 12;
     private static final int DUMMY_VALUE_CREDITS = 15;
 
@@ -32,6 +45,12 @@ public class TuitionManagerController {
     private static final int TRISTATE_NY = 4;
     private static final int TRISTATE_CT = 5;
 
+    private static final int ROSTER_TAB = 0;
+    private static final int ENROLLMENT_TAB = 1;
+    private static final int SCHOLARSHIP_TAB = 2;
+
+    private static final String EMPTY_STRING = "";
+
     private Roster roster;
     private Enrollment enrollment;
 
@@ -41,6 +60,9 @@ public class TuitionManagerController {
                       fileNameTextField;
     @FXML
     private RadioButton triStateRadioButton, nyStateRadioButton, ctStateRadioButton;
+
+    @FXML
+    private RadioButton baitRadioButton, residentRadioButton;
 
     @FXML
     private ToggleGroup statusGroup, nonResStatusGroup, stateGroup, majorGroup;
@@ -81,17 +103,21 @@ public class TuitionManagerController {
 
 
     /**
-     * needs comments, regex
-     * @return
+     * This method takes care of validating the first and last name text
+     * fields across all tabs. The validation process involved checking if none, one
+     * or both text fields are empty.
+     *
+     * @param tab int value identifying which tab we are validating the text fields in
+     * @return boolean value representing if the validation was successful or not
      */
     private boolean validateFullName(int tab) {
         TextField firstName;
         TextField lastName;
 
-        if (tab == 1) {
+        if (tab == ENROLLMENT_TAB) {
             firstName = firstNameTextField_E;
             lastName = lastNameTextField_E;
-        } else if (tab == 2) {
+        } else if (tab == SCHOLARSHIP_TAB) {
             firstName = firstNameTextField_S;
             lastName = lastNameTextField_S;
         } else {
@@ -101,30 +127,34 @@ public class TuitionManagerController {
 
         if (firstName.getText().trim().isEmpty() && lastName.getText().trim().isEmpty()) {
             consoleTextArea.setText("Name Invalid: missing first and last name!");
-            return false;
-        } else {
-            if (firstName.getText().trim().isEmpty()) {
-                consoleTextArea.setText("Name Invalid: missing first name!");
-                return false;
-            }
-            if (lastName.getText().trim().isEmpty()) {
-                consoleTextArea.setText("Name Invalid: missing last name!");
-                return false;
-            }
+            return true;
+        } else if (firstName.getText().trim().isEmpty()) {
+            consoleTextArea.setText("Name Invalid: missing first name!");
+            return true;
+        } else if (lastName.getText().trim().isEmpty()) {
+            consoleTextArea.setText("Name Invalid: missing last name!");
+            return true;
         }
-        return true;
+
+        return false;
     }
 
     /**
-     * needs comments
-     * @return
+     * This method takes care of validating the date picker selection
+     * across all tabs. The validation process involved checking first if the
+     * selected date is null. Then it checks to see if the date is a future or current
+     * date using the custom Date(). Finally, it checks to see if the age represented
+     * by the given birthdate is younger than 16 years old.
+     *
+     * @param tab int value identifying which tab we are validating the date picker in
+     * @return boolean value representing if the validation was successful or not
      */
     private boolean validateDateOfBirth(int tab) {
         DatePicker dateOfBirth;
 
-        if (tab == 1) {
+        if (tab == ENROLLMENT_TAB) {
             dateOfBirth = dateOfBirthPicker_E;
-        } else if (tab == 2) {
+        } else if (tab == SCHOLARSHIP_TAB) {
             dateOfBirth = dateOfBirthPicker_S;
         } else {
             dateOfBirth = dateOfBirthPicker;
@@ -132,7 +162,7 @@ public class TuitionManagerController {
 
         if (dateOfBirth.getValue() == null) {
             consoleTextArea.setText("DOB Invalid: no date selected!");
-            return false;
+            return true;
         }
 
         String dateString = "" + dateOfBirth.getValue().getDayOfMonth()
@@ -143,7 +173,7 @@ public class TuitionManagerController {
 
         if (dob.equals(current) || dob.compareTo(current) > 0) {
             consoleTextArea.setText("DOB Invalid: cannot be current or future date!");
-            return false;
+            return true;
         }
 
         int age = current.getYear() - dob.getYear();
@@ -154,15 +184,18 @@ public class TuitionManagerController {
         }
         if (age < MIN_AGE) {
             consoleTextArea.setText("DOB Invalid: " + dob + " younger than 16 years old.");
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
-     * needs comments
-     * @return
+     * This method takes care of validating the credit completed text field. The
+     * validation process involves checking to make sure the value entered is a non-negative
+     * integer.
+     *
+     * @return boolean value representing if the validation was successful or not
      */
     private boolean validateCreditsCompleted() {
         if (creditsCompletedTextField.getText().isEmpty()) {
@@ -184,9 +217,10 @@ public class TuitionManagerController {
     }
 
     /**
-     * This method takes care of validating the number of credits enrolled by Student.
-     * It checks for any incorrect input such as negative or non-integer values. If there
-     * is an error with the value given, then a message is displayed.
+     * This method takes care of validating the number of credits enrolled by a Student
+     * given a Student object and the credits enrolled as a String. It checks for any incorrect
+     * input such as negative or non-integer values. If there is an error with the
+     * value given, then a message is displayed.
      *
      * @param student Student object representing the student for which we are validating the
      *                enrolled credits for
@@ -227,8 +261,13 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @return
+     * This method takes care of validating the radio button selections in the Roster tab
+     * that determine the status of a Student that needs to be added to the roster. It handles
+     * logic for the correct radio selections and outputs a message if there are any errors or
+     * missing selections. The method returns an int representing the status determined by the
+     * radio button selections.
+     *
+     * @return an int value representing the student status determined by the radio selections
      */
     private int validateStudentStatusSelection () {
         RadioButton selectedStatusButton = (RadioButton) statusGroup.getSelectedToggle();
@@ -283,9 +322,15 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param studentInformation
-     * @return
+     * This method creates a new Student object with the given studentInformation String. The
+     * string parameter contains information gathered from the request to create a new student
+     * from the elements in the user interface. The status integer is used to ultimately determine
+     * which type of student is returned from the method.
+     *
+     * @param studentInformation String object containing the information needed to create a
+     *                           new student. It follows the format:
+     *                           ("Aryan Patel 01/22/2002 CS 75 0")
+     * @return a Student object derived from the abstract Student class and the given information
      */
     private Student createStudent(String studentInformation) {
         String[] arrInfo = studentInformation.split("\\s+");
@@ -307,12 +352,14 @@ public class TuitionManagerController {
         };
     }
 
-    /** rework
+    /** This method takes care of finding and returning a Student object in the given
+     * Roster that matches the given Profile. It looks through the Student array contained in the
+     * roster object and looks for a student with a matching Profile attribute.
      *
      * @param roster Roster object containing roster array that we are searching through
      * @param profile Profile object containing a student's information that we are trying
      *                to look for
-     * @return Student object associated with the given Profile or null if it doesnt exist
+     * @return Student object associated with the given Profile or null if it doesn't exist
      */
     private Student getStudent(Roster roster, Profile profile){
         for(int i = 0; i < roster.getRosterSize(); i++) {
@@ -324,15 +371,15 @@ public class TuitionManagerController {
         return null;
     }
 
-    /** rework
+    /**
      * This method takes care of retrieving a Resident student object specifically for
      * awarding a scholarship. It searches through the given Roster object array and
      * finds the profile associated with the inputted information. If the Resident student is
      * not found or the input information is tied to a different type of student, an error
      * message is displayed.
      *
-     * @param searchProfile String array representing an "S" command argument body
-     *                    ("S Aryan Patel 1/22/2002 10000")
+     * @param searchProfile Profile object representing the student Profile that we are searching
+     *                      for
      * @param roster Roster object which contains the roster array which we are searching
      *               through
      * @return Resident object if it is found, or null if it does not exist or is the wrong type
@@ -368,7 +415,7 @@ public class TuitionManagerController {
         return null;
     }
 
-    /** rework
+    /**
      * This method takes care of checking if a Resident student is eligible for
      * a scholarship. First we check if the given Resident student is in the enrollStudent
      * array contained within the given Enrollment object. If it is, then we continue to
@@ -379,7 +426,7 @@ public class TuitionManagerController {
      * @param enrollment Enrollment object containing the enrollStudents array we are
      *                   searching through
      * @return boolean which represents whether the given Resident student is eligible for
-     *         a scholarship or not
+     *         a scholarship or not based on their enrolled credits
      */
     private boolean isScholarshipEligible(Resident student, Enrollment enrollment) {
         for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
@@ -411,8 +458,10 @@ public class TuitionManagerController {
     }
 
     /**
+     * THis method takes care of printing the entire enrollment array associated with the
+     * inputted Enrollment object.
      *
-     * @param enrollment
+     * @param enrollment Enrollment object which contains the enrollment array we want to print
      */
     private void printEnrollment(Enrollment enrollment) {
         for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
@@ -420,8 +469,12 @@ public class TuitionManagerController {
         }
     }
 
-    /** rework
-     * Roster: Profile - Ascending
+    /**
+     * This method takes care of printing the Student objects in the roster array associated
+     * with the given Roster object. The output is sorted by the Student's profile
+     * (lname, fname, dob) in ascending order. An error message is shown if the given Roster
+     * object contains an empty roster array.
+     *
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executePrintRosterProfile(Roster roster) {
@@ -437,7 +490,11 @@ public class TuitionManagerController {
     }
 
     /**
-     * Roster: Standing - Ascending
+     * This method takes care of printing the Student objects in the roster array associated
+     * with the given Roster object. The output is sorted by the Student's class standing
+     * (Freshman, Junior, Senior, Sophomore) in ascending order. An error message is shown
+     * if the given Roster object contains an empty roster array.
+     *
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executePrintRosterStanding(Roster roster) {
@@ -453,7 +510,11 @@ public class TuitionManagerController {
     }
 
     /**
-     * Roster: Major, School - Ascending
+     * This method takes care of printing the Student objects in the roster array associated
+     * with the given Roster object. The output is sorted by the Student's major and school
+     * in ascending order. An error message is shown if the given Roster object contains an
+     * empty roster array.
+     *
      * @param roster Roster object which contains the roster array that we are printing from
      */
     private void executePrintRosterMajorSchool(Roster roster) {
@@ -469,9 +530,15 @@ public class TuitionManagerController {
     }
 
     /**
-     * Roster: Select School
-     * @param roster
-     * @param school
+     * This method takes care of printing the Student objects in the roster array associated
+     * with the given Roster object. The output shows students that are registered to
+     * the given school representing by the school parameter. We check to make sure that
+     * the school String represents a valid school name. An error message is shown
+     * if the given Roster object contains an empty roster array.
+     *
+     * @param roster Roster object which contains the roster array that we are printing from
+     * @param school String object representing the school which we want to print students
+     *               from
      */
     private void executePrintRosterSelectSchool(Roster roster, String school) {
         if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
@@ -513,9 +580,9 @@ public class TuitionManagerController {
     }
 
     /**
-     * This method takes in an Abstract Student object and the amount of credits they are
+     * This helper method takes in an Abstract Student object and the amount of credits they are
      * enrolled in, to then print out their tuition due based on their credits enrolled and
-     * they type of student they are. We check which type of Student they are before, outputting
+     * the type of student they are. We check which type of Student they are before outputting
      * this information. The DecimalFormat class is used to format the double value returned from
      * the abstract tuitionDue() method to display as a dollar amount.
      *
@@ -559,11 +626,11 @@ public class TuitionManagerController {
     }
 
     /**
-     * This method takes care of printing all students in the enrollStudents array
-     * within the given Enrollment object. The total tuition due for each student is printed
-     * for each student using the printTuitionDueHelper() method. We check to see if the
-     * enrollStudent array is empty before printing, and if the student is enrolled but not
-     * in the roster.
+     * This method takes care of printing all students, with their total tuition due,
+     * in the enrollStudents array within the given Enrollment object. The total tuition
+     * due for each student is printed for each student using the printTuitionDueHelper()
+     * method. We check to see if the enrollStudent array is empty before printing, and if
+     * the student is enrolled but not in the roster.
      *
      * @param roster Roster object containing the roster array of Student objects that contain
      *               information for students that we are examining in the enrollStudents array
@@ -599,9 +666,14 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param line
-     * @return
+     * This helper method takes a String input line from a loaded text file, and converts
+     * it into a command that can be used to create a new student with the createStudent()
+     * method.
+     *
+     * @param line String object representing an information line extracted from a loaded
+     *             text file. It follows the format ("R,Jane,Doe,5/1/1996,CS,30")
+     * @return String object containing student information that can be used to create
+     *         a new student with the createStudent() method.
      */
     private String loadFromFileHelper(String line) {
         String[] lineInfo = line.split(",");
@@ -642,17 +714,115 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param event
+     * This method initializes the choice boxes in the print tab with pre-determined
+     * values.
+     *
+     */
+    private void initPrintChoiceBoxes() {
+        for(Major major : Major.values()) {
+            String school = major.getSchool();
+            if (!schoolChoiceBox.getItems().contains(school)) {
+                schoolChoiceBox.getItems().add(school);
+            }
+        }
+
+        sortTypeChoiceBox.getItems().addAll(
+                "Roster: Profile - Ascending",
+                "Roster: Standing - Ascending",
+                "Roster: Major, School - Ascending",
+                "Roster: Select School",
+                "Enrollment",
+                "Tuition Due" );
+    }
+
+    /**
+     * This method adds a listener to handle visibility for the Non_Resident status
+     * selection buttons in the roster tab.
+     *
+     */
+    private void addListenerStatusSelectionGroup() {
+        statusGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if (((RadioButton) newValue).getText().equals("Non-Resident")) {
+                    triStateSelectionView.setVisible(true);
+                    internationalSelectionView.setVisible(true);
+                } else {
+                    triStateSelectionView.setVisible(false);
+                    internationalSelectionView.setVisible(false);
+                }
+            }
+        });
+    }
+
+    /**
+     * This method adds a listener to handle visibility for the international and
+     * tristate selection buttons in the roster tab.
+     *
+     */
+    private void addListenerNonResStatusSelectionGroup() {
+        nonResStatusGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if (((RadioButton) newValue).getText().equals("TriState")) {
+                    nyStateRadioButton.setVisible(true);
+                    ctStateRadioButton.setVisible(true);
+                    studyAbroadCheckBox.setVisible(false);
+
+                } else {
+                    nyStateRadioButton.setVisible(false);
+                    ctStateRadioButton.setVisible(false);
+                    studyAbroadCheckBox.setVisible(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * This method adds a listener to handle visibility for the international study
+     * abroad check box in the roster tab.
+     *
+     */
+    private void addListenerStateSelectionGroup() {
+        stateGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if (((RadioButton) newValue).getText().equals("NY")) {
+                    triStateRadioButton.setSelected(true);
+                } else if (((RadioButton) newValue).getText().equals("CT")) {
+                    triStateRadioButton.setSelected(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * This method adds a listener to handle visibility for the school name
+     * choice box in the print tab.
+     *
+     */
+    private void addListenerPrintTypeChoiceBox() {
+        sortTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    schoolChoiceBox.setVisible(newValue.equals("Roster: Select School"));
+                });
+    }
+
+    /**
+     * This is an event handler method used to handle a button click on the "Add" button
+     * in the roster tab. We first validate all the necessary fields needed to add the student
+     * to the roster, then we convert all input into a String object, which is then used to create
+     * a new Student object. We then try to add the student to the roster, display any error
+     * messages that are applicable.
+     *
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handleAddButtonClick (ActionEvent event) {
-        if(!validateFullName(0) || !validateDateOfBirth(0) || !validateCreditsCompleted()) {
+        if(validateFullName(ROSTER_TAB) || validateDateOfBirth(ROSTER_TAB)
+                || !validateCreditsCompleted()) {
             return;
         }
 
         int status;
-        if ((status = validateStudentStatusSelection()) == -1) {
+        if ((status = validateStudentStatusSelection()) == UNDETERMINED_STUDENT) {
             return;
         }
 
@@ -681,12 +851,17 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param event
+     * This is an event handler method used to handle a button click on the "Remove" button
+     * in the roster tab. We first validate all the necessary fields needed to remove the student
+     * from the roster, then we convert all input into a String object, which is then used to
+     * remove the Student object from the roster if they exist inside it. We display any error
+     * messages that are applicable.
+     *
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handleRemoveButtonClick (ActionEvent event) {
-        if(!validateFullName(0) || !validateDateOfBirth(0)) {
+        if(validateFullName(ROSTER_TAB) || validateDateOfBirth(ROSTER_TAB)) {
             return;
         }
 
@@ -715,12 +890,17 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param event
+     * This is an event handler method used to handle a button click on the "Change Major" button
+     * in the roster tab. We first validate the information of the student we are trying to change
+     * the major for and then check to see if they are registered in the roster. If both are valid
+     * then we update their major to the selected major. We display any error messages that are
+     * applicable.
+     *
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handleChangeMajorButtonClick (ActionEvent event) {
-        if(!validateFullName(0) || !validateDateOfBirth(0)) {
+        if(validateFullName(ROSTER_TAB) || validateDateOfBirth(ROSTER_TAB)) {
             return;
         }
 
@@ -757,8 +937,13 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param event
+     * This is an event handler method used to handle a button click on the "Load from File" button
+     * in the roster tab. When this button is clicked, we open a file explorer window prompting the
+     * user to select a text file containing a roster of students that need to be imported. Once a
+     * file is selected we import the students into the roster array with a helper method.
+     * We display any error messages that are applicable.
+     *
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handleLoadFromFileButtonClick (ActionEvent event) {
@@ -796,12 +981,19 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param event
+     * This is an event handler method used to handle a button click on the "Enroll" button
+     * in the Enrollment tab. We first validate all the necessary fields needed to add the student
+     * to the enrollment array, then we check to see if the student is registered into the roster.
+     * If they are, then we validate their enrollment credits. We then try to add the student
+     * to the enrollment array, displaying any error messages that are applicable. Note that, we
+     * can update the enrolled credits by simply rentering the information and clicking "Enroll"
+     * with the new value for enrolled credits.
+     *
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handleEnrollButtonClick (ActionEvent event) {
-        if(!validateFullName(1) || !validateDateOfBirth(1)) {
+        if(validateFullName(ENROLLMENT_TAB) || validateDateOfBirth(ENROLLMENT_TAB)) {
             return;
         }
         if(creditsEnrolledTextField.getText().trim().isEmpty()) {
@@ -841,12 +1033,17 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param event
+     * This is an event handler method used to handle a button click on the "Drop" button
+     * in the Enrollment tab. We first validate all the necessary fields needed to drop the
+     * student from the enrollment array, then we check to see if the student is registered
+     * into the enrollment array. If they are, then we remove them from the enrollment array,
+     * displaying any error messages that are applicable.
+     *
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handleDropButtonClick (ActionEvent event) {
-        if(!validateFullName(1) || !validateDateOfBirth(1)) {
+        if(validateFullName(ENROLLMENT_TAB) || validateDateOfBirth(ENROLLMENT_TAB)) {
             return;
         }
 
@@ -876,12 +1073,19 @@ public class TuitionManagerController {
     }
 
     /**
+     * This is an event handler method used to handle a button click on the "Award" button
+     * in the Scholarship tab. We first validate all the necessary fields needed to award the
+     * student with a scholarship. Then we check to see if the student entered is eligibible for
+     * a scholarship based on their resident status and enrollment status. If both are valid,
+     * We then try to update the scholarship amount for the student, displaying any error messages
+     * that are applicable. Note that, we can update the scholarship amount by simply re-entering
+     * the information and clicking "Award" with the new value for scholarship amount.
      *
-     * @param event
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handleAwardButtonClick(ActionEvent event) {
-        if (!validateFullName(2) || !validateDateOfBirth(2)) {
+        if (validateFullName(SCHOLARSHIP_TAB) || validateDateOfBirth(SCHOLARSHIP_TAB)) {
             return;
         }
         if (scholarshipAmountTextField.getText().trim().isEmpty()) {
@@ -921,8 +1125,12 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
-     * @param event
+     * This is an event handler method used to handle a button click on the "Print" button
+     * in the Print tab. We retrieve the selections for print type and school name (if applicable)
+     * choice boxes and use them to determine which executePrint...() method to use in order to
+     * output students.
+     *
+     * @param event ActionEvent that represents a button click.
      */
     @FXML
     private void handlePrintButtonClick(ActionEvent event) {
@@ -935,8 +1143,8 @@ public class TuitionManagerController {
             return;
         }
 
-        printTextArea.setText("");
-        consoleTextArea.setText("");
+        printTextArea.setText(EMPTY_STRING);
+        consoleTextArea.setText(EMPTY_STRING);
         String printType = sortTypeChoiceBox.getSelectionModel().getSelectedItem();
 
         switch (printType) {
@@ -953,7 +1161,61 @@ public class TuitionManagerController {
     }
 
     /**
-     * needs comments
+     * This is an event handler method used to handle a button click on the "Clear" button
+     * in the roster tab. It clears out all text fields and resets all date/button selections
+     * within the roster tab.
+     *
+     * @param event ActionEvent that represents a button click.
+     */
+    @FXML
+    private void handleClearRosterButtonClick(ActionEvent event) {
+        majorGroup.selectToggle(baitRadioButton);
+        statusGroup.selectToggle(residentRadioButton);
+        stateGroup.selectToggle(null);
+        nonResStatusGroup.selectToggle(null);
+        studyAbroadCheckBox.setSelected(false);
+
+        firstNameTextField.setText(EMPTY_STRING);
+        lastNameTextField.setText(EMPTY_STRING);
+        dateOfBirthPicker.setValue(null);
+        creditsCompletedTextField.setText(EMPTY_STRING);
+
+        fileNameTextField.setText(EMPTY_STRING);
+    }
+
+    /**
+     * This is an event handler method used to handle a button click on the "Clear" button
+     * in the enrollment tab. It clears out all text fields and resets all date/button selections
+     * within the enrollment tab.
+     *
+     * @param event ActionEvent that represents a button click.
+     */
+    @FXML
+    private void handleClearEnrollmentButtonClick(ActionEvent event) {
+        firstNameTextField_E.setText(EMPTY_STRING);
+        lastNameTextField_E.setText(EMPTY_STRING);
+        dateOfBirthPicker_E.setValue(null);
+        creditsEnrolledTextField.setText(EMPTY_STRING);
+    }
+
+    /**
+     * This is an event handler method used to handle a button click on the "Clear" button
+     * in the scholarship tab. It clears out all text fields and resets all date/button selections
+     * within the scholarship tab.
+     *
+     * @param event ActionEvent that represents a button click.
+     */
+    @FXML
+    private void handleClearScholarshipButtonClick(ActionEvent event) {
+        firstNameTextField_S.setText(EMPTY_STRING);
+        lastNameTextField_S.setText(EMPTY_STRING);
+        dateOfBirthPicker_S.setValue(null);
+        scholarshipAmountTextField.setText(EMPTY_STRING);
+    }
+
+    /**
+     * This method performs any initialization/setup methods upon loading the
+     * fxml elements into the window scene.
      */
     @FXML
     private void initialize() {
@@ -962,62 +1224,12 @@ public class TuitionManagerController {
         roster = new Roster();
         enrollment = new Enrollment();
 
-        for(Major major : Major.values()) {
-            String school = major.getSchool();
-            if (!schoolChoiceBox.getItems().contains(school)) {
-                schoolChoiceBox.getItems().add(school);
-            }
-        }
+        initPrintChoiceBoxes();
 
-        sortTypeChoiceBox.getItems().addAll(
-                "Roster: Profile - Ascending",
-                "Roster: Standing - Ascending",
-                "Roster: Major, School - Ascending",
-                "Roster: Select School",
-                "Enrollment",
-                "Tuition Due" );
+        addListenerStatusSelectionGroup();
+        addListenerNonResStatusSelectionGroup();
+        addListenerStateSelectionGroup();
 
-        sortTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    schoolChoiceBox.setVisible(newValue.equals("Roster: Select School"));
-        });
-
-        statusGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                if (((RadioButton) newValue).getText().equals("Non-Resident")) {
-                    triStateSelectionView.setVisible(true);
-                    internationalSelectionView.setVisible(true);
-                } else {
-                    triStateSelectionView.setVisible(false);
-                    internationalSelectionView.setVisible(false);
-                }
-            }
-        });
-
-        nonResStatusGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                if (((RadioButton) newValue).getText().equals("TriState")) {
-                    nyStateRadioButton.setVisible(true);
-                    ctStateRadioButton.setVisible(true);
-                    studyAbroadCheckBox.setVisible(false);
-
-                } else {
-                    nyStateRadioButton.setVisible(false);
-                    ctStateRadioButton.setVisible(false);
-                    studyAbroadCheckBox.setVisible(true);
-                }
-            }
-        });
-
-        stateGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                if (((RadioButton) newValue).getText().equals("NY")) {
-                    triStateRadioButton.setSelected(true);
-                } else if (((RadioButton) newValue).getText().equals("CT")) {
-                    triStateRadioButton.setSelected(true);
-                }
-            }
-        });
-
+        addListenerPrintTypeChoiceBox();
     }
 }

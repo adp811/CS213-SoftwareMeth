@@ -97,12 +97,12 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                                  <center>
-                                    <HBox prefHeight="40.0" prefWidth="390.0" spacing="20.0" BorderPane.alignment="CENTER">
+                                    <HBox prefHeight="40.0" prefWidth="390.0" spacing="20.0">
                                        <BorderPane.margin>
                                           <Insets left="90.0" right="15.0" />
                                        </BorderPane.margin>
                                        <children>
-                                          <RadioButton fx:id="baitRadioButton" mnemonicParsing="false" text="BAIT">
+                                          <RadioButton fx:id="baitRadioButton" mnemonicParsing="false" selected="true" text="BAIT">
                                              <HBox.margin>
                                                 <Insets top="11.0" />
                                              </HBox.margin>
@@ -110,7 +110,7 @@
                                                 <ToggleGroup fx:id="majorGroup" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="csRadioButton" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" selected="true" text="CS" toggleGroup="$majorGroup">
+                                          <RadioButton fx:id="csRadioButton" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" text="CS" toggleGroup="$majorGroup">
                                              <HBox.margin>
                                                 <Insets top="11.0" />
                                              </HBox.margin>
@@ -249,6 +249,7 @@
                               </Separator>
                               <ButtonBar buttonMinWidth="80.0" prefHeight="40.0" prefWidth="200.0">
                                 <buttons>
+                                    <Button fx:id="clearButton" layoutX="193.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleClearRosterButtonClick" text="Clear" />
                                   <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddButtonClick" text="Add" />
                                     <Button fx:id="removeButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleRemoveButtonClick" text="Remove" />
                                     <Button fx:id="changeMajorButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleChangeMajorButtonClick" text="Change Major" />
@@ -372,6 +373,7 @@
                               </Separator>
                               <ButtonBar buttonMinWidth="125.0" prefHeight="40.0" prefWidth="200.0">
                                  <buttons>
+                                    <Button fx:id="clearButton_E" mnemonicParsing="false" onAction="#handleClearEnrollmentButtonClick" text="Clear" />
                                     <Button fx:id="enrollButton" mnemonicParsing="false" onAction="#handleEnrollButtonClick" text="Enroll" />
                                     <Button fx:id="dropButton" layoutX="430.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleDropButtonClick" text="Drop" />
                                  </buttons>
@@ -379,6 +381,7 @@
                                     <Insets bottom="10.0" right="15.0" top="5.0" />
                                  </VBox.margin>
                               </ButtonBar>
+                              <Separator prefWidth="200.0" />
                            </children>
                         </VBox>
                      </children>
@@ -470,12 +473,14 @@
                               </Separator>
                               <ButtonBar buttonMinWidth="125.0" prefHeight="40.0" prefWidth="200.0">
                                  <buttons>
+                                    <Button fx:id="clearButton_S" mnemonicParsing="false" onAction="#handleClearScholarshipButtonClick" text="Clear" />
                                     <Button layoutX="430.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleAwardButtonClick" text="Award" />
                                  </buttons>
                                  <VBox.margin>
                                     <Insets bottom="10.0" right="15.0" top="5.0" />
                                  </VBox.margin>
                               </ButtonBar>
+                              <Separator prefWidth="200.0" />
                            </children>
                         </VBox>
                      </children>
