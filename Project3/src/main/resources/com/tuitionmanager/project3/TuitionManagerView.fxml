@@ -522,6 +522,31 @@
                   </AnchorPane>
                </content>
             </Tab>
+            <Tab text="Semester">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="470.0" prefWidth="500.0" spacing="4.0">
+                           <children>
+                              <BorderPane prefHeight="40.0" prefWidth="500.0">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                                 <center>
+                                    <Button fx:id="endSemesterButton" mnemonicParsing="false" onAction="#handleEndCurrentSemesterButtonClick" prefHeight="26.0" prefWidth="480.0" text="End Current Semester" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets />
+                                       </BorderPane.margin>
+                                    </Button>
+                                 </center>
+                              </BorderPane>
+                              <TextArea fx:id="printTextArea_Sm" editable="false" prefHeight="400.0" prefWidth="500.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
       <TextArea fx:id="consoleTextArea" editable="false" prefHeight="150.0" prefWidth="500.0" text="console..." />

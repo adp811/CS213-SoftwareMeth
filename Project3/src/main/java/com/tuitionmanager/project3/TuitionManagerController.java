@@ -33,7 +33,7 @@ public class TuitionManagerController {
     private static final int MIN_ENROLLMENT_SIZE = 0;
     private static final int MAX_SCHOLARSHIP_AMT = 10000;
     private static final int MIN_SCHOLARSHIP_AMT = 0;
-    // private static final int GRAD_ELIGIBLE_CREDITS = 120;
+    private static final int GRAD_ELIGIBLE_CREDITS = 120;
     private static final int MIN_SCHOLARSHIP_CREDITS = 12;
     private static final int DUMMY_VALUE_CREDITS = 15;
 
@@ -48,6 +48,17 @@ public class TuitionManagerController {
     private static final int ROSTER_TAB = 0;
     private static final int ENROLLMENT_TAB = 1;
     private static final int SCHOLARSHIP_TAB = 2;
+
+    private static final int TXT_IDX_STATUS = 0;
+    private static final int TXT_IDX_FNAME = 1;
+    private static final int TXT_IDX_LNAME = 2;
+    private static final int TXT_IDX_DOB = 3;
+    private static final int TXT_IDX_MAJOR = 4;
+    private static final int TXT_IDX_CREDITS = 5;
+    private static final int TXT_IDX_SA_ST = 6;
+
+    private static final int TXT_MIN_LINE_LEN = 6;
+    private static final int TXT_MAX_LINE_LEN = 7;
 
     private static final String EMPTY_STRING = "";
 
@@ -96,6 +107,10 @@ public class TuitionManagerController {
 
     @FXML
     private TextArea printTextArea;
+
+
+    @FXML
+    private TextArea printTextArea_Sm;
 
 
     @FXML
@@ -214,6 +229,26 @@ public class TuitionManagerController {
         }
 
         return true;
+    }
+
+    /**
+     * This method takes care of updating the credits completed for a given student's Profile.
+     * We use the given Profile to find the student in the roster array within the
+     * Roster object. Once we find the student, we add the number of credits enrolled to their
+     * total credits completed.
+     *
+     * @param profile Profile object of the student we are trying to update the completed credits for
+     * @param roster Roster object containing the roster array that we are searching through
+     * @param creditsEnrolled int containing the number of credits enrolled by the student
+     */
+    private void updateCompletedCredits (Profile profile, Roster roster, int creditsEnrolled) {
+        for (int i = 0; i < roster.getRosterSize(); i++) {
+            Student student = roster.getRoster()[i];
+            if (student.getProfile().equals(profile)) {
+                int completedCredits = student.getCreditCompleted();
+                student.setCreditCompleted(completedCredits + creditsEnrolled);
+            }
+        }
     }
 
     /**
@@ -342,12 +377,12 @@ public class TuitionManagerController {
         int status = Integer.parseInt(arrInfo[5]);
 
         return switch (status) {
-            case 0 -> new Resident(profile, major, creditCompleted, 0);
-            case 1 -> new NonResident(profile, major, creditCompleted);
-            case 2 -> new International(profile, major, creditCompleted, false);
-            case 3 -> new International(profile, major, creditCompleted, true);
-            case 4 -> new TriState(profile, major, creditCompleted, "NY");
-            case 5 -> new TriState(profile, major, creditCompleted, "CT");
+            case RESIDENT -> new Resident(profile, major, creditCompleted, MIN_SCHOLARSHIP_AMT);
+            case NON_RESIDENT -> new NonResident(profile, major, creditCompleted);
+            case INTERNATIONAL -> new International(profile, major, creditCompleted, false);
+            case INTERNATIONAL_SA -> new International(profile, major, creditCompleted, true);
+            case TRISTATE_NY -> new TriState(profile, major, creditCompleted, "NY");
+            case TRISTATE_CT -> new TriState(profile, major, creditCompleted, "CT");
             default -> null;
         };
     }
@@ -364,6 +399,27 @@ public class TuitionManagerController {
     private Student getStudent(Roster roster, Profile profile){
         for(int i = 0; i < roster.getRosterSize(); i++) {
             Student student = roster.getRoster()[i];
+            if (student.getProfile().equals(profile)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    /** This method takes care of finding and returning a EnrollStudent object in the given
+     * Enrollment that matches the given Profile. It looks through the EnrollStudent array
+     * contained in the enrollment object and looks for a student with a matching Profile
+     * attribute.
+     *
+     * @param enrollment Enrollment object containing enrollStudents array that we are
+     *                   searching through
+     * @param profile Profile object containing a student's information that we are trying
+     *                to look for
+     * @return EnrollStudent object associated with the given Profile or null if it doesn't exist
+     */
+    private EnrollStudent getEnrollStudent(Enrollment enrollment, Profile profile){
+        for(int i = 0; i < enrollment.getEnrollmentSize(); i++) {
+            EnrollStudent student = enrollment.getEnrollStudents()[i];
             if (student.getProfile().equals(profile)) {
                 return student;
             }
@@ -678,18 +734,18 @@ public class TuitionManagerController {
     private String loadFromFileHelper(String line) {
         String[] lineInfo = line.split(",");
 
-        String status = lineInfo[0];
-        String studentInformation = lineInfo[1]
-                + " " + lineInfo[2]
-                + " " + lineInfo[3]
-                + " " + lineInfo[4]
-                + " " + lineInfo[5];
+        String status = lineInfo[TXT_IDX_STATUS];
+        String studentInformation = lineInfo[TXT_IDX_FNAME]
+                + " " + lineInfo[TXT_IDX_LNAME]
+                + " " + lineInfo[TXT_IDX_DOB]
+                + " " + lineInfo[TXT_IDX_MAJOR]
+                + " " + lineInfo[TXT_IDX_CREDITS];
 
         switch (status) {
             case "R" -> studentInformation = studentInformation.concat(" 0");
             case "N" -> studentInformation = studentInformation.concat(" 1");
             case "T" -> {
-                String state = lineInfo[6];
+                String state = lineInfo[TXT_IDX_SA_ST];
                 if (state.equalsIgnoreCase("NY")) {
                     studentInformation = studentInformation.concat(" 4");
                 } else if (state.equalsIgnoreCase("CT")) {
@@ -697,10 +753,10 @@ public class TuitionManagerController {
                 } else return null;
             }
             case "I" -> {
-                if (lineInfo.length == 6) {
+                if (lineInfo.length == TXT_MIN_LINE_LEN) {
                     studentInformation = studentInformation.concat(" 2");
-                } else if (lineInfo.length == 7) {
-                    String isStudyAbroad = lineInfo[6];
+                } else if (lineInfo.length == TXT_MAX_LINE_LEN) {
+                    String isStudyAbroad = lineInfo[TXT_IDX_SA_ST];
                     if (isStudyAbroad.equalsIgnoreCase("true")) {
                         studentInformation = studentInformation.concat(" 3");
                     } else if (isStudyAbroad.equalsIgnoreCase("false")){
@@ -876,10 +932,17 @@ public class TuitionManagerController {
         );
 
         Student student;
-        if((student = getStudent(roster, searchProfile)) == null) {
+        if ((student = getStudent(roster, searchProfile)) == null) {
             consoleTextArea.setText(searchProfile + " is not in the roster.");
             return;
         }
+
+        EnrollStudent enrollStudent;
+        if ((enrollStudent = getEnrollStudent(enrollment, searchProfile)) != null) {
+            consoleTextArea.setText(searchProfile + " is currently enrolled!");
+            return;
+        }
+
         try {
             if (roster.remove(student)) {
                 consoleTextArea.setText(student.getProfile().toString() + " removed from the roster.");
@@ -1158,6 +1221,40 @@ public class TuitionManagerController {
             case "Enrollment" -> executePrintEnrollment(enrollment);
             case "Tuition Due" -> executePrintTuitionDue(roster, enrollment);
         }
+    }
+
+    /**
+     *
+     * @param event ActionEvent that represents a button click.
+     */
+    @FXML
+    private void handleEndCurrentSemesterButtonClick (ActionEvent event) {
+        if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
+            consoleTextArea.setText("Semester Error: enrollment is empty!");
+            return;
+        }
+        if (roster.getRosterSize() == MIN_ROSTER_SIZE) {
+            consoleTextArea.setText("Semester Error: student roster is empty!");
+            return;
+        }
+
+        for (int i = 0; i < enrollment.getEnrollmentSize(); i++) {
+            EnrollStudent enrollStudent = enrollment.getEnrollStudents()[i];
+            updateCompletedCredits(enrollStudent.getProfile(), roster,
+                    enrollStudent.getCreditsEnrolled());
+        }
+
+        consoleTextArea.setText("Credit completed has been updated.");
+        printTextArea_Sm.appendText("** list of students eligible for graduation **" + "\n");
+
+        for(int i = 0; i < roster.getRosterSize(); i++) {
+            Student student = roster.getRoster()[i];
+            if(student.getCreditCompleted() >= GRAD_ELIGIBLE_CREDITS) {
+                printTextArea_Sm.appendText(student + "\n");
+            }
+        }
+
+        enrollment = new Enrollment();
     }
 
     /**
