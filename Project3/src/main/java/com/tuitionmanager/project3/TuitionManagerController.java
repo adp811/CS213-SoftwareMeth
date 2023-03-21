@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
  * injected fxml java elements, and handler methods necessary to give a user an
  * interface to interact with the Tuition Manager API.
  *
- * @author Aryan Patel & Rushi Patel
+ * @author Aryan Patel and Rushi Patel
  */
 public class TuitionManagerController {
 
