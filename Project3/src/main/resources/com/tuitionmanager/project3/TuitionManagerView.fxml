@@ -73,7 +73,7 @@
                                     </Text>
                                  </left>
                                  <right>
-                                    <DatePicker fx:id="dateOfBirthPicker" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                    <DatePicker fx:id="dateOfBirthPicker" editable="false" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>
@@ -338,7 +338,7 @@
                                     </Text>
                                  </left>
                                  <right>
-                                    <DatePicker fx:id="dateOfBirthPicker_E" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                    <DatePicker fx:id="dateOfBirthPicker_E" editable="false" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>
@@ -403,7 +403,7 @@
                                     </Text>
                                  </left>
                                  <right>
-                                    <TextField fx:id="firstNameTextField_S" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                    <TextField fx:id="firstNameTextField_S" alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>
@@ -422,7 +422,7 @@
                                     </Text>
                                  </left>
                                  <right>
-                                    <TextField fx:id="lastNameTextField_S" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                    <TextField fx:id="lastNameTextField_S" alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>
@@ -438,7 +438,7 @@
                                     </Text>
                                  </left>
                                  <right>
-                                    <DatePicker fx:id="dateOfBirthPicker_S" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                    <DatePicker fx:id="dateOfBirthPicker_S" editable="false" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>
@@ -459,7 +459,7 @@
                                     </Text>
                                  </left>
                                  <right>
-                                    <TextField fx:id="scholarshipAmountTextField" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+                                    <TextField fx:id="scholarshipAmountTextField" alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="380.0" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets right="15.0" />
                                        </BorderPane.margin>

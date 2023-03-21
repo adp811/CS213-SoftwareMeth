@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 
 /**
  * This is the Tuition Manager user interface controller class. It contains
- * injected fxml java elements, and handler methods neccesary to give a user an
+ * injected fxml java elements, and handler methods necessary to give a user an
  * interface to interact with the Tuition Manager API.
  *
  * @author Aryan Patel & Rushi Patel
@@ -281,7 +281,7 @@ public class TuitionManagerController {
         String status;
         if (student instanceof International) {
             if (((International) student).getStudyAbroadStatus()) {
-                status = "(International studentstudy abroad)";
+                status = "(International student study abroad)";
             } else {
                 status = "(International student)";
             }
@@ -304,7 +304,7 @@ public class TuitionManagerController {
      *
      * @return an int value representing the student status determined by the radio selections
      */
-    private int validateStudentStatusSelection () {
+    private int validateStudentStatusSelection() {
         RadioButton selectedStatusButton = (RadioButton) statusGroup.getSelectedToggle();
         if (selectedStatusButton != null) {
             switch (selectedStatusButton.getText()) {
@@ -856,9 +856,8 @@ public class TuitionManagerController {
      */
     private void addListenerPrintTypeChoiceBox() {
         sortTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    schoolChoiceBox.setVisible(newValue.equals("Roster: Select School"));
-                });
+                (observable, oldValue, newValue) ->
+                        schoolChoiceBox.setVisible(newValue.equals("Roster: Select School")));
     }
 
     /**
@@ -868,10 +867,9 @@ public class TuitionManagerController {
      * a new Student object. We then try to add the student to the roster, display any error
      * messages that are applicable.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleAddButtonClick (ActionEvent event) {
+    private void handleAddButtonClick() {
         if(validateFullName(ROSTER_TAB) || validateDateOfBirth(ROSTER_TAB)
                 || !validateCreditsCompleted()) {
             return;
@@ -913,10 +911,9 @@ public class TuitionManagerController {
      * remove the Student object from the roster if they exist inside it. We display any error
      * messages that are applicable.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleRemoveButtonClick (ActionEvent event) {
+    private void handleRemoveButtonClick() {
         if(validateFullName(ROSTER_TAB) || validateDateOfBirth(ROSTER_TAB)) {
             return;
         }
@@ -937,8 +934,7 @@ public class TuitionManagerController {
             return;
         }
 
-        EnrollStudent enrollStudent;
-        if ((enrollStudent = getEnrollStudent(enrollment, searchProfile)) != null) {
+        if (getEnrollStudent(enrollment, searchProfile) != null) {
             consoleTextArea.setText(searchProfile + " is currently enrolled!");
             return;
         }
@@ -959,10 +955,9 @@ public class TuitionManagerController {
      * then we update their major to the selected major. We display any error messages that are
      * applicable.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleChangeMajorButtonClick (ActionEvent event) {
+    private void handleChangeMajorButtonClick() {
         if(validateFullName(ROSTER_TAB) || validateDateOfBirth(ROSTER_TAB)) {
             return;
         }
@@ -1049,13 +1044,12 @@ public class TuitionManagerController {
      * to the enrollment array, then we check to see if the student is registered into the roster.
      * If they are, then we validate their enrollment credits. We then try to add the student
      * to the enrollment array, displaying any error messages that are applicable. Note that, we
-     * can update the enrolled credits by simply rentering the information and clicking "Enroll"
+     * can update the enrolled credits by simply reentering the information and clicking "Enroll"
      * with the new value for enrolled credits.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleEnrollButtonClick (ActionEvent event) {
+    private void handleEnrollButtonClick() {
         if(validateFullName(ENROLLMENT_TAB) || validateDateOfBirth(ENROLLMENT_TAB)) {
             return;
         }
@@ -1102,10 +1096,9 @@ public class TuitionManagerController {
      * into the enrollment array. If they are, then we remove them from the enrollment array,
      * displaying any error messages that are applicable.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleDropButtonClick (ActionEvent event) {
+    private void handleDropButtonClick() {
         if(validateFullName(ENROLLMENT_TAB) || validateDateOfBirth(ENROLLMENT_TAB)) {
             return;
         }
@@ -1138,16 +1131,15 @@ public class TuitionManagerController {
     /**
      * This is an event handler method used to handle a button click on the "Award" button
      * in the Scholarship tab. We first validate all the necessary fields needed to award the
-     * student with a scholarship. Then we check to see if the student entered is eligibible for
+     * student with a scholarship. Then we check to see if the student entered is eligible for
      * a scholarship based on their resident status and enrollment status. If both are valid,
      * We then try to update the scholarship amount for the student, displaying any error messages
      * that are applicable. Note that, we can update the scholarship amount by simply re-entering
      * the information and clicking "Award" with the new value for scholarship amount.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleAwardButtonClick(ActionEvent event) {
+    private void handleAwardButtonClick() {
         if (validateFullName(SCHOLARSHIP_TAB) || validateDateOfBirth(SCHOLARSHIP_TAB)) {
             return;
         }
@@ -1193,10 +1185,9 @@ public class TuitionManagerController {
      * choice boxes and use them to determine which executePrint...() method to use in order to
      * output students.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handlePrintButtonClick(ActionEvent event) {
+    private void handlePrintButtonClick() {
         if (sortTypeChoiceBox.getSelectionModel().isEmpty()) {
             consoleTextArea.setText("Print Error: please choose print type!");
             return;
@@ -1224,11 +1215,14 @@ public class TuitionManagerController {
     }
 
     /**
+     * This is an event handler method used to handle a button click on the "End Current Semester"
+     * button in the Semester tab. First it checks to see if the enrollment is empty, then the
+     * roster. If not, then it updates the completed credits for all enrolled students and then
+     * prints out a list of students that are eligible for graduation.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleEndCurrentSemesterButtonClick (ActionEvent event) {
+    private void handleEndCurrentSemesterButtonClick() {
         if (enrollment.getEnrollmentSize() == MIN_ENROLLMENT_SIZE) {
             consoleTextArea.setText("Semester Error: enrollment is empty!");
             return;
@@ -1262,10 +1256,9 @@ public class TuitionManagerController {
      * in the roster tab. It clears out all text fields and resets all date/button selections
      * within the roster tab.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleClearRosterButtonClick(ActionEvent event) {
+    private void handleClearRosterButtonClick() {
         majorGroup.selectToggle(baitRadioButton);
         statusGroup.selectToggle(residentRadioButton);
         stateGroup.selectToggle(null);
@@ -1285,10 +1278,9 @@ public class TuitionManagerController {
      * in the enrollment tab. It clears out all text fields and resets all date/button selections
      * within the enrollment tab.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleClearEnrollmentButtonClick(ActionEvent event) {
+    private void handleClearEnrollmentButtonClick() {
         firstNameTextField_E.setText(EMPTY_STRING);
         lastNameTextField_E.setText(EMPTY_STRING);
         dateOfBirthPicker_E.setValue(null);
@@ -1300,10 +1292,9 @@ public class TuitionManagerController {
      * in the scholarship tab. It clears out all text fields and resets all date/button selections
      * within the scholarship tab.
      *
-     * @param event ActionEvent that represents a button click.
      */
     @FXML
-    private void handleClearScholarshipButtonClick(ActionEvent event) {
+    private void handleClearScholarshipButtonClick() {
         firstNameTextField_S.setText(EMPTY_STRING);
         lastNameTextField_S.setText(EMPTY_STRING);
         dateOfBirthPicker_S.setValue(null);
