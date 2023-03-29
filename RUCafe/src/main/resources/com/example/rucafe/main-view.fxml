@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -51,8 +52,14 @@
                            <graphic>
                               <VBox alignment="CENTER" prefHeight="130.0" prefWidth="130.0">
                                  <children>
-                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Order Donuts" textAlignment="CENTER" />
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/iconmonstr-candy-9-64.png" />
+                                       </image></ImageView>
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Order Donuts" textAlignment="CENTER">
+                                       <padding>
+                                          <Insets top="15.0" />
+                                       </padding></Label>
                                  </children>
                               </VBox>
                            </graphic>
@@ -68,8 +75,14 @@
                            <graphic>
                               <VBox alignment="CENTER" prefHeight="130.0" prefWidth="130.0">
                                  <children>
-                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Order Coffee" textAlignment="CENTER" />
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/iconmonstr-fast-food-17-64.png" />
+                                       </image></ImageView>
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Order Coffee" textAlignment="CENTER">
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin></Label>
                                  </children>
                               </VBox>
                            </graphic>
@@ -85,8 +98,14 @@
                            <graphic>
                               <VBox alignment="CENTER" prefHeight="130.0" prefWidth="130.0">
                                  <children>
-                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label alignment="CENTER" text="Shopping Basket" textAlignment="CENTER" />
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/iconmonstr-basket-6-64.png" />
+                                       </image></ImageView>
+                                    <Label alignment="CENTER" text="Shopping Basket" textAlignment="CENTER">
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin></Label>
                                  </children>
                               </VBox>
                            </graphic>
@@ -102,8 +121,17 @@
                            <graphic>
                               <VBox alignment="CENTER" prefHeight="130.0" prefWidth="130.0">
                                  <children>
-                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label alignment="CENTER" text="Store Orders" textAlignment="CENTER" />
+                                    <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/iconmonstr-menu-4-64.png" />
+                                       </image>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></ImageView>
+                                    <Label alignment="CENTER" text="Store Orders" textAlignment="CENTER">
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin></Label>
                                  </children>
                               </VBox>
                            </graphic>
