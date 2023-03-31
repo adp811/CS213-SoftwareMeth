@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rucafe.StoreOrdersController">
+    <children>
+        <BorderPane prefHeight="52.0" prefWidth="400.0">
+            <left>
+                <Button mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="27.0" prefWidth="60.0" text="Back" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets left="17.0" top="3.0" />
+                    </BorderPane.margin>
+                </Button>
+            </left>
+            <right>
+                <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="120.0" text="Store Orders" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets right="15.0" />
+                    </BorderPane.margin>
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </right>
+        </BorderPane>
+    </children>
+</VBox>

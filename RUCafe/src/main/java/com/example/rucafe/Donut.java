@@ -37,7 +37,7 @@ public class Donut extends MenuItem {
      * @param type
      * @param flavor
      */
-    public Donut(int quantity, String type, String flavor) {
+    Donut(int quantity, String type, String flavor) {
         super(quantity);
         this.type = type;
         this.flavor = flavor;

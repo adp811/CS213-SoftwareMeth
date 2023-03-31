@@ -1,14 +1,63 @@
 package com.example.rucafe;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
+/**
+ *
+ * @author Aryan Patel, Rushi Patel
+ */
 public class MainController {
-    @FXML
-    private Label welcomeText;
 
+    private Order order;
+
+    /**
+     *
+     * @param order
+     */
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    /**
+     *
+     * @param event
+     */
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to RUCafe");
+    private void onOrderDonutsButtonClick(ActionEvent event) {
+        ViewSwitcher.switchTo(View.ORDER_DONUT, this.order);
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void onOrderCoffeeButtonClick(ActionEvent event) {
+        ViewSwitcher.switchTo(View.ORDER_COFFEE, this.order);
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void onShoppingBasketButtonClick(ActionEvent event) {
+        ViewSwitcher.switchTo(View.SHOPPING_BASKET, this.order);
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void onStoreOrdersButtonClick(ActionEvent event) {
+        ViewSwitcher.switchTo(View.STORE_ORDERS, this.order);
+    }
+
+    /**
+     *
+     */
+    public void initialize() {
     }
 }

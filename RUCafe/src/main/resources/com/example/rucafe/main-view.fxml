@@ -13,21 +13,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rucafe.MainController">
    <children>
       <BorderPane prefHeight="50.0" prefWidth="400.0">
          <left>
-            <Label text="Main Menu" BorderPane.alignment="CENTER">
+            <Label prefHeight="27.0" prefWidth="79.0" text="Main Menu" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="15.0" />
                </BorderPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
          </left>
          <right>
-            <Label fx:id="versionLabel" text="Version 1.0" textAlignment="RIGHT" BorderPane.alignment="CENTER">
+            <Label fx:id="versionLabel" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="76.0" text="Version 1.0" textAlignment="RIGHT" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="15.0" />
                </BorderPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
          </right>
       </BorderPane>
@@ -45,7 +51,7 @@
                <children>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#onOrderDonutsButtonClick" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -68,7 +74,7 @@
                   </BorderPane>
                   <BorderPane layoutX="25.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <center>
-                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#onOrderCoffeeButtonClick" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -91,7 +97,7 @@
                   </BorderPane>
                   <BorderPane layoutX="25.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <center>
-                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#onShoppingBasketButtonClick" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -114,7 +120,7 @@
                   </BorderPane>
                   <BorderPane layoutX="25.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <center>
-                        <Button mnemonicParsing="false" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Button mnemonicParsing="false" onAction="#onStoreOrdersButtonClick" prefHeight="130.0" prefWidth="130.0" textAlignment="CENTER" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="24.0" />
                            </font>

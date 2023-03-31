@@ -16,7 +16,7 @@ public class Order {
      *
      * @param orderNumber
      */
-    public Order(int orderNumber) {
+    Order(int orderNumber) {
         this.orderNumber = orderNumber;
         this.orderItems = new ArrayList<MenuItem>();
     }
@@ -67,6 +67,9 @@ public class Order {
      */
     @Override
     public String toString() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order number: ").append(orderNumber).append("\n");
+        sb.append("Order items: ").append(orderItems.toString()).append("\n");
+        return sb.toString();
     }
 }

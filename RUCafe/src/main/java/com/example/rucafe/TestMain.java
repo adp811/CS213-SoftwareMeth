@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TestMain {
     public static void main (String[] args) {
-        Coffee coffee1 = new Coffee(1, "Venti");
+        Coffee coffee1 = new Coffee(1, Coffee.TALL);
 
         coffee1.addAddIn(Coffee.IRISH_CREAM);
         coffee1.addAddIn(Coffee.MOCHA);

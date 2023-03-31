@@ -12,7 +12,7 @@ public abstract class MenuItem {
     /**
      *
      */
-    public MenuItem(int quantity) {
+    MenuItem(int quantity) {
         this.quantity = quantity;
     }
 
