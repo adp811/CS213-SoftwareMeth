@@ -15,16 +15,24 @@ public class Donut extends MenuItem {
     /* Donut Types */
     protected static final String YEAST = "Yeast Donut";
     protected static final String CAKE = "Cake Donut";
-    protected static final String HOLE = "Donut Hole";
+    protected static final String HOLE = "Hole Donut";
 
     /* Available Donut Flavors */
-    protected static final String CHOCOLATE = "Chocolate";
-    protected static final String STRAWBERRY = "Strawberry";
-    protected static final String PUMPKIN = "Pumpkin";
-    protected static final String JELLY = "Jelly";
-    protected static final String SUGAR_GLAZED = "Sugar Glazed";
-    protected static final String APPLE_CRUMB = "Apple Crumb";
+    protected static final String CHOCOLATE_FROSTED = "Chocolate Frosted";
+    protected static final String STRAWBERRY_FROSTED = "Strawberry Frosted";
+    protected static final String PUMPKIN_FROSTED = "Pumpkin Frosted";
     protected static final String BOSTON_KREME = "Boston Kreme";
+    protected static final String SUGAR_GLAZED = "Sugar Glazed";
+    protected static final String JELLY_FILLED = "Jelly Filled";
+
+    protected static final String KEY_LIME = "Key Lime";
+    protected static final String APPLE_CRUMB = "Apple Crumb";
+    protected static final String RED_VELVET = "Red Velvet";
+    protected static final String DOUBLE_CHOCOLATE = "Double Chocolate";
+
+    protected static final String MAPLE = "Maple";
+    protected static final String CINNAMON = "Cinnamon";
+    protected static final String POWDERED_SUGAR = "Powdered Sugar";
 
     /* Donut Prices by Type */
     private static final Double YEAST_PRICE = 1.59;
