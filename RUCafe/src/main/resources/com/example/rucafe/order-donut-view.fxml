@@ -54,8 +54,8 @@
                               <Insets top="40.0" />
                            </VBox.margin>
                         </ComboBox>
-                        <Button fx:id="addSelectionButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="&gt;&gt;" />
-                        <Button fx:id="removeSelectionButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" text="&lt;&lt;" />
+                        <Button fx:id="addSelectionButton" mnemonicParsing="false" onAction="#handleAddSelectionButtonClick" prefHeight="26.0" prefWidth="50.0" text="&gt;&gt;" />
+                        <Button fx:id="removeSelectionButton" mnemonicParsing="false" onAction="#handleRemoveSelectionButtonClick" prefHeight="26.0" prefWidth="50.0" text="&lt;&lt;" />
                      </children>
                   </VBox>
                   <ListView fx:id="selectedFlavorsListView" prefHeight="200.0" prefWidth="120.0" />
