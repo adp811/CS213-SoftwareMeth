@@ -1,5 +1,8 @@
-package com.example.rucafe;
+package com.example.rucafe.controller;
 
+import com.example.rucafe.model.Order;
+import com.example.rucafe.utilities.View;
+import com.example.rucafe.utilities.ViewSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -7,7 +10,7 @@ import javafx.fxml.FXML;
  *
  * @author Aryan Patel, Rushi Patel
  */
-public class StoreOrdersController {
+public class ShoppingBasketController {
 
     /* Instance Variables */
     private Order order;

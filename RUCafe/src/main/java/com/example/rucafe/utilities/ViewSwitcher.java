@@ -1,5 +1,7 @@
-package com.example.rucafe;
+package com.example.rucafe.utilities;
 
+import com.example.rucafe.controller.*;
+import com.example.rucafe.model.Order;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,7 +32,7 @@ public class ViewSwitcher {
     public static void switchTo(View view, Order order) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    ViewSwitcher.class.getResource(view.getFileName())
+                    ViewSwitcher.class.getResource("/com/example/rucafe/" + view.getFileName())
             );
 
             Parent root = loader.load();

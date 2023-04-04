@@ -1,4 +1,4 @@
-package com.example.rucafe;
+package com.example.rucafe.model;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
@@ -14,17 +14,17 @@ public class Coffee extends MenuItem {
     private HashSet<String> addIns;
 
     /* Cup Sizes */
-    protected static final String SHORT = "Short";
-    protected static final String TALL = "Tall";
-    protected static final String GRANDE = "Grande";
-    protected static final String VENTI = "Venti";
+    public static final String SHORT = "Short";
+    public static final String TALL = "Tall";
+    public static final String GRANDE = "Grande";
+    public static final String VENTI = "Venti";
 
     /* Coffee Add Ins */
-    protected static final String SWEET_CREAM = "Sweet Cream";
-    protected static final String FRENCH_VANILLA = "French Vanilla";
-    protected static final String IRISH_CREAM = "Irish Cream";
-    protected static final String CARAMEL = "Caramel";
-    protected static final String MOCHA = "Mocha";
+    public static final String SWEET_CREAM = "Sweet Cream";
+    public static final String FRENCH_VANILLA = "French Vanilla";
+    public static final String IRISH_CREAM = "Irish Cream";
+    public static final String CARAMEL = "Caramel";
+    public static final String MOCHA = "Mocha";
 
     /* Coffee Prices by Cup Size */
     private static final Double COFFEE_PRICE_INCREMENT = 0.40;

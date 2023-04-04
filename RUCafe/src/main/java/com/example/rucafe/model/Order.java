@@ -1,4 +1,6 @@
-package com.example.rucafe;
+package com.example.rucafe.model;
+
+import com.example.rucafe.model.MenuItem;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ public class Order {
      *
      * @param orderNumber
      */
-    Order(int orderNumber) {
+    public Order(int orderNumber) {
         this.orderNumber = orderNumber;
         this.orderItems = new ArrayList<MenuItem>();
     }

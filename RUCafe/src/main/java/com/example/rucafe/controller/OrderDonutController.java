@@ -1,5 +1,10 @@
-package com.example.rucafe;
+package com.example.rucafe.controller;
 
+import com.example.rucafe.model.Donut;
+import com.example.rucafe.model.Order;
+import com.example.rucafe.utilities.AlertBox;
+import com.example.rucafe.utilities.View;
+import com.example.rucafe.utilities.ViewSwitcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -114,10 +119,10 @@ public class OrderDonutController {
         String imagePath;
 
         switch (donutType){
-            case Donut.YEAST -> imagePath = "images/yeast_donuts.jpg";
-            case Donut.CAKE -> imagePath = "images/cake_donuts.jpg";
-            case Donut.HOLE -> imagePath = "images/hole_donuts.jpg";
-            default -> imagePath = "images/placeholder_donuts.png";
+            case Donut.YEAST -> imagePath = "/com/example/rucafe/images/yeast_donuts.jpg";
+            case Donut.CAKE -> imagePath = "/com/example/rucafe/images/cake_donuts.jpg";
+            case Donut.HOLE -> imagePath = "/com/example/rucafe/images/hole_donuts.jpg";
+            default -> imagePath = "/com/example/rucafe/images/placeholder_donuts.png";
         }
 
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));

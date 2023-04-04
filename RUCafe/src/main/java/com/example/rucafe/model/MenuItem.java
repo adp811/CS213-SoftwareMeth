@@ -1,4 +1,4 @@
-package com.example.rucafe;
+package com.example.rucafe.model;
 
 /**
  *

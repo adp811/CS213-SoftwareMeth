@@ -1,4 +1,4 @@
-package com.example.rucafe;
+package com.example.rucafe.model;
 
 import java.text.DecimalFormat;
 
@@ -13,26 +13,26 @@ public class Donut extends MenuItem {
     private String flavor;
 
     /* Donut Types */
-    protected static final String YEAST = "Yeast Donut";
-    protected static final String CAKE = "Cake Donut";
-    protected static final String HOLE = "Hole Donut";
+    public static final String YEAST = "Yeast Donut";
+    public static final String CAKE = "Cake Donut";
+    public static final String HOLE = "Hole Donut";
 
     /* Available Donut Flavors */
-    protected static final String CHOCOLATE_FROSTED = "Chocolate Frosted";
-    protected static final String STRAWBERRY_FROSTED = "Strawberry Frosted";
-    protected static final String PUMPKIN_FROSTED = "Pumpkin Frosted";
-    protected static final String BOSTON_KREME = "Boston Kreme";
-    protected static final String SUGAR_GLAZED = "Sugar Glazed";
-    protected static final String JELLY_FILLED = "Jelly Filled";
+    public static final String CHOCOLATE_FROSTED = "Chocolate Frosted";
+    public static final String STRAWBERRY_FROSTED = "Strawberry Frosted";
+    public static final String PUMPKIN_FROSTED = "Pumpkin Frosted";
+    public static final String BOSTON_KREME = "Boston Kreme";
+    public static final String SUGAR_GLAZED = "Sugar Glazed";
+    public static final String JELLY_FILLED = "Jelly Filled";
 
-    protected static final String KEY_LIME = "Key Lime";
-    protected static final String APPLE_CRUMB = "Apple Crumb";
-    protected static final String RED_VELVET = "Red Velvet";
-    protected static final String DOUBLE_CHOCOLATE = "Double Chocolate";
+    public static final String KEY_LIME = "Key Lime";
+    public static final String APPLE_CRUMB = "Apple Crumb";
+    public static final String RED_VELVET = "Red Velvet";
+    public static final String DOUBLE_CHOCOLATE = "Double Chocolate";
 
-    protected static final String MAPLE = "Maple";
-    protected static final String CINNAMON = "Cinnamon";
-    protected static final String POWDERED_SUGAR = "Powdered Sugar";
+    public static final String MAPLE = "Maple";
+    public static final String CINNAMON = "Cinnamon";
+    public static final String POWDERED_SUGAR = "Powdered Sugar";
 
     /* Donut Prices by Type */
     private static final Double YEAST_PRICE = 1.59;

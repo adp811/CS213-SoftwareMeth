@@ -1,5 +1,9 @@
 package com.example.rucafe;
 
+import com.example.rucafe.model.Order;
+import com.example.rucafe.utilities.IDGenerator;
+import com.example.rucafe.utilities.View;
+import com.example.rucafe.utilities.ViewSwitcher;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;

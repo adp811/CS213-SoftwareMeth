@@ -1,4 +1,4 @@
-package com.example.rucafe;
+package com.example.rucafe.utilities;
 
 import javafx.scene.control.Alert;
 
