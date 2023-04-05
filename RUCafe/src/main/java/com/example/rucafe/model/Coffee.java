@@ -25,26 +25,40 @@ public class Coffee extends MenuItem {
     public static final String IRISH_CREAM = "Irish Cream";
     public static final String CARAMEL = "Caramel";
     public static final String MOCHA = "Mocha";
+    public static final String PEPPERMINT = "Peppermint";
 
     /* Coffee Prices by Cup Size */
     private static final Double COFFEE_PRICE_INCREMENT = 0.40;
-    private static final Double SHORT_PRICE = 1.89;
-    private static final Double TALL_PRICE = SHORT_PRICE + COFFEE_PRICE_INCREMENT;
-    private static final Double GRANDE_PRICE = TALL_PRICE + COFFEE_PRICE_INCREMENT;
-    private static final Double VENTI_PRICE = GRANDE_PRICE + COFFEE_PRICE_INCREMENT;
-    private static final Double UNDETERMINED_PRICE = 0.0;
+    public static final Double SHORT_PRICE = 1.89;
+    public static final Double TALL_PRICE = SHORT_PRICE + COFFEE_PRICE_INCREMENT;
+    public static final Double GRANDE_PRICE = TALL_PRICE + COFFEE_PRICE_INCREMENT;
+    public static final Double VENTI_PRICE = GRANDE_PRICE + COFFEE_PRICE_INCREMENT;
+    public static final Double UNDETERMINED_PRICE = 0.0;
 
     /* Coffee Add In Price */
-    private static final Double SINGLE_ADD_IN_PRICE = 0.30;
+    public static final Double SINGLE_ADD_IN_PRICE = 0.30;
 
     /**
      *
+     * @param quantity
      * @param cupSize
      */
-    Coffee(int quantity, String cupSize) {
+    public Coffee(int quantity, String cupSize) {
         super(quantity);
         this.cupSize = cupSize;
         this.addIns = new HashSet<String>();
+    }
+
+    /**
+     *
+     * @param quantity
+     * @param cupSize
+     * @param addIns
+     */
+    public Coffee(int quantity, String cupSize, HashSet<String> addIns) {
+        super(quantity);
+        this.cupSize = cupSize;
+        this.addIns = addIns;
     }
 
     /**
@@ -107,23 +121,6 @@ public class Coffee extends MenuItem {
 
         return price;
     }
-
-//    /**
-//     *
-//     * @param o
-//     * @return
-//     */
-//    @Override
-//    public boolean equals(Object o) {
-//        if (o == this) {
-//            return true;
-//        }
-//        if (!(o instanceof Coffee coffeeCompare)) {
-//            return false;
-//        }
-//        return (this.cupSize.equals(coffeeCompare.cupSize) &&
-//                this.addIns.equals(coffeeCompare.addIns));
-//    }
 
     /**
      *

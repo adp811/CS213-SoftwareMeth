@@ -98,23 +98,6 @@ public class Donut extends MenuItem {
         };
     }
 
-//    /**
-//     *
-//     * @param o
-//     * @return
-//     */
-//    @Override
-//    public boolean equals(Object o) {
-//        if (o == this) {
-//            return true;
-//        }
-//        if (!(o instanceof Donut donutCompare)) {
-//            return false;
-//        }
-//        return (this.type.equals(donutCompare.type) &&
-//                this.flavor.equals(donutCompare.flavor));
-//    }
-
     /**
      *
      * @return

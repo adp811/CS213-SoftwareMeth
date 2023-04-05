@@ -1,5 +1,6 @@
 package com.example.rucafe.controller;
 
+import com.example.rucafe.model.Coffee;
 import com.example.rucafe.model.Donut;
 import com.example.rucafe.model.MenuItem;
 import com.example.rucafe.model.Order;
@@ -79,6 +80,14 @@ public class ShoppingBasketController {
                     case Donut.CAKE -> unitPrice = Donut.CAKE_PRICE;
                     case Donut.HOLE -> unitPrice = Donut.HOLE_PRICE;
                 }
+            } else if (item instanceof Coffee) {
+                switch (((Coffee) item).getCupSize()) {
+                    case Coffee.SHORT -> unitPrice = Coffee.SHORT_PRICE;
+                    case Coffee.TALL -> unitPrice = Coffee.TALL_PRICE;
+                    case Coffee.GRANDE -> unitPrice = Coffee.GRANDE_PRICE;
+                    case Coffee.VENTI -> unitPrice = Coffee.VENTI_PRICE;
+                }
+                unitPrice = unitPrice + (Coffee.SINGLE_ADD_IN_PRICE * ((Coffee) item).getAddIns().size());
             }
 
             subTotal += unitPrice * item.getQuantity();
@@ -106,6 +115,10 @@ public class ShoppingBasketController {
                 itemInformation = item.getQuantity() + " - "
                         + ((Donut) item).getType()
                         + ", " + ((Donut) item).getFlavor();
+            } else if (item instanceof Coffee) {
+                itemInformation = item.getQuantity() + " - "
+                        + "(" + ((Coffee) item).getCupSize() + ")"
+                        + " " + String.join(", ", ((Coffee) item).getAddIns());
             }
             if (itemInformation != null) {
                 items.add(itemInformation);

@@ -87,6 +87,36 @@ public class OrderDonutController {
 
     /**
      *
+     */
+    private void updateSubtotal() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        Double subTotal = 0.00;
+
+        if(selectedDonuts.isEmpty()) {
+            subtotalTextField.setText("$" + decimalFormat.format(subTotal));
+            return;
+        }
+
+        for (Map.Entry<String, String> selection : selectedDonuts.entrySet()) {
+            int quantity = Integer.parseInt(selection.getValue().split("-")[0]);
+            String type = selection.getValue().split("-")[1];
+            double selectionTotal = 0.00;
+
+            switch (type) {
+                case "Yeast Donut" -> selectionTotal = Donut.YEAST_PRICE;
+                case "Cake Donut" -> selectionTotal = Donut.CAKE_PRICE;
+                case "Hole Donut" -> selectionTotal = Donut.HOLE_PRICE;
+            }
+
+            selectionTotal *= quantity;
+            subTotal += selectionTotal;
+        }
+
+        subtotalTextField.setText("$" + decimalFormat.format(subTotal));
+    }
+
+    /**
+     *
      * @return
      */
     private void updateSelectedDonuts() {
@@ -107,36 +137,7 @@ public class OrderDonutController {
 
         selectedFlavors = FXCollections.observableArrayList(selections);
         selectedFlavorsListView.setItems(selectedFlavors);
-    }
-
-    /**
-     *
-     */
-    private void updateSubtotal() {
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-        Double subTotal = 0.00;
-
-        if(selectedDonuts.isEmpty()) {
-            subtotalTextField.setText("$" + decimalFormat.format(subTotal));
-            return;
-        }
-
-        for (Map.Entry<String, String> selection : selectedDonuts.entrySet()) {
-            int quantity = Integer.parseInt(selection.getValue().split("-")[0]);
-            String type = selection.getValue().split("-")[1];
-            Double selectionTotal = 0.00;
-
-            switch (type) {
-                case "Yeast Donut" -> selectionTotal = Donut.YEAST_PRICE;
-                case "Cake Donut" -> selectionTotal = Donut.CAKE_PRICE;
-                case "Hole Donut" -> selectionTotal = Donut.HOLE_PRICE;
-            }
-
-            selectionTotal *= quantity;
-            subTotal += selectionTotal;
-        }
-
-        subtotalTextField.setText("$" + decimalFormat.format(subTotal));
+        updateSubtotal();
     }
 
     /**
@@ -192,7 +193,6 @@ public class OrderDonutController {
 
         addToSelectedDonuts(selection);
         updateSelectedDonuts();
-        updateSubtotal();
     }
 
     /**
@@ -210,7 +210,6 @@ public class OrderDonutController {
 
         removeFromSelectedDonuts(selectedFlavor.replaceAll("\\([^\\)]*\\)\\s*", ""));
         updateSelectedDonuts();
-        updateSubtotal();
     }
 
     /**
@@ -220,11 +219,8 @@ public class OrderDonutController {
     @FXML
     private void handleAddToOrderButtonClick(ActionEvent event) {
         if (selectedDonuts.isEmpty()) {
-            AlertBox.showAlert(Alert.AlertType.WARNING,
-                    "",
-                    "No Items Are Selected!",
-                    "Please make sure to select items to add to your order.");
-            return;
+            AlertBox.showAlert(Alert.AlertType.WARNING, "", "No Items Are Selected!",
+                    "Please make sure to select items to add to your order."); return;
         }
 
         for (Map.Entry<String, String> selection : selectedDonuts.entrySet()) {
@@ -238,11 +234,8 @@ public class OrderDonutController {
 
         selectedDonuts.clear();
         updateSelectedDonuts();
-        updateSubtotal();
 
-        AlertBox.showAlert(Alert.AlertType.INFORMATION,
-                "",
-                "Selections Submitted Successfully!",
+        AlertBox.showAlert(Alert.AlertType.INFORMATION, "", "Selections Submitted Successfully!",
                 "Your donut selections have been added to your order. Please navigate to the " +
                         "shopping basket to view and edit the items.");
     }
@@ -255,7 +248,6 @@ public class OrderDonutController {
         selectedDonuts = new LinkedHashMap<String, String>();
 
         updateSelectedDonuts();
-        updateSubtotal();
 
         yeastTypeFlavors = FXCollections.observableArrayList(
                 Donut.CHOCOLATE_FROSTED, Donut.STRAWBERRY_FROSTED, Donut.PUMPKIN_FROSTED,
