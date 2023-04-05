@@ -54,8 +54,8 @@
                               <Insets top="40.0" />
                            </VBox.margin>
                         </ComboBox>
-                        <Button fx:id="addSelectionButton" mnemonicParsing="false" onAction="#handleAddSelectionButtonClick" prefHeight="26.0" prefWidth="50.0" text="&gt;&gt;" />
-                        <Button fx:id="removeSelectionButton" mnemonicParsing="false" onAction="#handleRemoveSelectionButtonClick" prefHeight="26.0" prefWidth="50.0" text="&lt;&lt;" />
+                        <Button mnemonicParsing="false" onAction="#handleAddSelectionButtonClick" prefHeight="26.0" prefWidth="50.0" text="&gt;&gt;" />
+                        <Button mnemonicParsing="false" onAction="#handleRemoveSelectionButtonClick" prefHeight="26.0" prefWidth="50.0" text="&lt;&lt;" />
                      </children>
                   </VBox>
                   <ListView fx:id="selectedFlavorsListView" prefHeight="200.0" prefWidth="120.0" />
@@ -80,7 +80,7 @@
             </TextField>
          </left>
          <right>
-            <Button fx:id="addToOrderButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="160.0" text="Add to Order" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#handleAddToOrderButtonClick" prefHeight="26.0" prefWidth="160.0" text="Add to Order" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="30.0" />
                </BorderPane.margin>

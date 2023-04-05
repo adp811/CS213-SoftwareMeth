@@ -1,6 +1,7 @@
 package com.example.rucafe.controller;
 
 import com.example.rucafe.model.Donut;
+import com.example.rucafe.model.MenuItem;
 import com.example.rucafe.model.Order;
 import com.example.rucafe.utilities.AlertBox;
 import com.example.rucafe.utilities.View;
@@ -13,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,8 +31,8 @@ public class OrderDonutController {
     /* Instance Variables */
     private Order order;
     private LinkedHashMap<String, String> selectedDonuts;
-    private ObservableList<String> yeastTypeFlavors, cakeTypeFlavors, holeTypeFlavors, donutTypes,
-                                   selectedFlavors;
+    private ObservableList<String> yeastTypeFlavors, cakeTypeFlavors, holeTypeFlavors;
+    private ObservableList<String> donutTypes, selectedFlavors;
     private ObservableList<Integer> quantityAmounts;
 
     /* FXML Elements */
@@ -42,9 +44,6 @@ public class OrderDonutController {
 
     @FXML
     private ListView<String> availableFlavorsListView, selectedFlavorsListView;
-
-    @FXML
-    private Button addSelectionButton, removeSelectionButton, addToOrderButton;
 
     @FXML
     private ImageView donutTypeImageView;
@@ -91,7 +90,6 @@ public class OrderDonutController {
      * @return
      */
     private void updateSelectedDonuts() {
-
         ArrayList<String> selections = new ArrayList<>();
         for (Map.Entry<String, String> selection : selectedDonuts.entrySet()) {
             String quantity = selection.getValue().split("-")[0];
@@ -109,6 +107,36 @@ public class OrderDonutController {
 
         selectedFlavors = FXCollections.observableArrayList(selections);
         selectedFlavorsListView.setItems(selectedFlavors);
+    }
+
+    /**
+     *
+     */
+    private void updateSubtotal() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        Double subTotal = 0.00;
+
+        if(selectedDonuts.isEmpty()) {
+            subtotalTextField.setText("$" + decimalFormat.format(subTotal));
+            return;
+        }
+
+        for (Map.Entry<String, String> selection : selectedDonuts.entrySet()) {
+            int quantity = Integer.parseInt(selection.getValue().split("-")[0]);
+            String type = selection.getValue().split("-")[1];
+            Double selectionTotal = 0.00;
+
+            switch (type) {
+                case "Yeast Donut" -> selectionTotal = Donut.YEAST_PRICE;
+                case "Cake Donut" -> selectionTotal = Donut.CAKE_PRICE;
+                case "Hole Donut" -> selectionTotal = Donut.HOLE_PRICE;
+            }
+
+            selectionTotal *= quantity;
+            subTotal += selectionTotal;
+        }
+
+        subtotalTextField.setText("$" + decimalFormat.format(subTotal));
     }
 
     /**
@@ -148,13 +176,13 @@ public class OrderDonutController {
         int selectedQuantity;
 
         if ((selectedType = donutTypeComboBox.getValue()) == null) {
-            AlertBox.showAlert(Alert.AlertType.INFORMATION,
-                    "Selection Error", "Missing Donut Type!", "Please select a donut type before" +
+            AlertBox.showAlert(Alert.AlertType.WARNING,
+                    "", "Missing Donut Type!", "Please select a donut type before" +
                             " adding to donut selections."); return;
         }
         if ((selectedFlavor = availableFlavorsListView.getSelectionModel().getSelectedItem()) == null) {
-            AlertBox.showAlert(Alert.AlertType.INFORMATION,
-                    "Selection Error", "Missing Flavor Selection!", "Please select a flavor before" +
+            AlertBox.showAlert(Alert.AlertType.WARNING,
+                    "", "Missing Flavor Selection!", "Please select a flavor before" +
                             " adding to donut selections."); return;
         }
 
@@ -164,6 +192,7 @@ public class OrderDonutController {
 
         addToSelectedDonuts(selection);
         updateSelectedDonuts();
+        updateSubtotal();
     }
 
     /**
@@ -174,13 +203,48 @@ public class OrderDonutController {
     private void handleRemoveSelectionButtonClick(ActionEvent event) {
         String selectedFlavor;
         if ((selectedFlavor = selectedFlavorsListView.getSelectionModel().getSelectedItem()) == null) {
-            AlertBox.showAlert(Alert.AlertType.INFORMATION,
-                    "Remove Error", "Missing Flavor Selection!", "Please select an added flavor" +
+            AlertBox.showAlert(Alert.AlertType.WARNING,
+                    "", "Missing Flavor Selection!", "Please select an added flavor" +
                             " in order to remove donut selection."); return;
         }
 
         removeFromSelectedDonuts(selectedFlavor.replaceAll("\\([^\\)]*\\)\\s*", ""));
         updateSelectedDonuts();
+        updateSubtotal();
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void handleAddToOrderButtonClick(ActionEvent event) {
+        if (selectedDonuts.isEmpty()) {
+            AlertBox.showAlert(Alert.AlertType.WARNING,
+                    "",
+                    "No Items Are Selected!",
+                    "Please make sure to select items to add to your order.");
+            return;
+        }
+
+        for (Map.Entry<String, String> selection : selectedDonuts.entrySet()) {
+            int quantity = Integer.parseInt(selection.getValue().split("-")[0]);
+            String type = selection.getValue().split("-")[1];
+            String flavor = selection.getKey();
+
+            MenuItem item = new Donut(quantity, type, flavor);
+            this.order.addToOrderItems(item);
+        }
+
+        selectedDonuts.clear();
+        updateSelectedDonuts();
+        updateSubtotal();
+
+        AlertBox.showAlert(Alert.AlertType.INFORMATION,
+                "",
+                "Selections Submitted Successfully!",
+                "Your donut selections have been added to your order. Please navigate to the " +
+                        "shopping basket to view and edit the items.");
     }
 
     /**
@@ -188,9 +252,10 @@ public class OrderDonutController {
      */
     @FXML
     private void initialize() {
-
         selectedDonuts = new LinkedHashMap<String, String>();
+
         updateSelectedDonuts();
+        updateSubtotal();
 
         yeastTypeFlavors = FXCollections.observableArrayList(
                 Donut.CHOCOLATE_FROSTED, Donut.STRAWBERRY_FROSTED, Donut.PUMPKIN_FROSTED,

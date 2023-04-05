@@ -35,17 +35,17 @@ public class Donut extends MenuItem {
     public static final String POWDERED_SUGAR = "Powdered Sugar";
 
     /* Donut Prices by Type */
-    private static final Double YEAST_PRICE = 1.59;
-    private static final Double CAKE_PRICE = 1.79;
-    private static final Double HOLE_PRICE = 0.39;
-    private static final Double UNDETERMINED_PRICE = 0.0;
+    public static final Double YEAST_PRICE = 1.59;
+    public static final Double CAKE_PRICE = 1.79;
+    public static final Double HOLE_PRICE = 0.39;
+    public static final Double UNDETERMINED_PRICE = 0.0;
 
     /**
      *
      * @param type
      * @param flavor
      */
-    Donut(int quantity, String type, String flavor) {
+    public Donut(int quantity, String type, String flavor) {
         super(quantity);
         this.type = type;
         this.flavor = flavor;
@@ -98,22 +98,22 @@ public class Donut extends MenuItem {
         };
     }
 
-    /**
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Donut donutCompare)) {
-            return false;
-        }
-        return (this.type.equals(donutCompare.type) &&
-                this.flavor.equals(donutCompare.flavor));
-    }
+//    /**
+//     *
+//     * @param o
+//     * @return
+//     */
+//    @Override
+//    public boolean equals(Object o) {
+//        if (o == this) {
+//            return true;
+//        }
+//        if (!(o instanceof Donut donutCompare)) {
+//            return false;
+//        }
+//        return (this.type.equals(donutCompare.type) &&
+//                this.flavor.equals(donutCompare.flavor));
+//    }
 
     /**
      *

@@ -108,22 +108,22 @@ public class Coffee extends MenuItem {
         return price;
     }
 
-    /**
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Coffee coffeeCompare)) {
-            return false;
-        }
-        return (this.cupSize.equals(coffeeCompare.cupSize) &&
-                this.addIns.equals(coffeeCompare.addIns));
-    }
+//    /**
+//     *
+//     * @param o
+//     * @return
+//     */
+//    @Override
+//    public boolean equals(Object o) {
+//        if (o == this) {
+//            return true;
+//        }
+//        if (!(o instanceof Coffee coffeeCompare)) {
+//            return false;
+//        }
+//        return (this.cupSize.equals(coffeeCompare.cupSize) &&
+//                this.addIns.equals(coffeeCompare.addIns));
+//    }
 
     /**
      *
