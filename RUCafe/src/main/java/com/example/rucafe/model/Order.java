@@ -12,6 +12,9 @@ public class Order {
 
     /* Instance Variables */
     private int orderNumber;
+    private double orderSubtotal;
+    private double orderSalesTax;
+    private double orderTotalAmount;
     private ArrayList<MenuItem> orderItems;
 
     /**
@@ -20,6 +23,9 @@ public class Order {
      */
     public Order(int orderNumber) {
         this.orderNumber = orderNumber;
+        this.orderSubtotal = 0.00;
+        this.orderSalesTax = 0.00;
+        this.orderTotalAmount = 0.00;
         this.orderItems = new ArrayList<MenuItem>();
     }
 
@@ -37,6 +43,54 @@ public class Order {
      */
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public double getOrderSubtotal() {
+        return orderSubtotal;
+    }
+
+    /**
+     *
+     * @param orderSubtotal
+     */
+    public void setOrderSubtotal(double orderSubtotal) {
+        this.orderSubtotal = orderSubtotal;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public double getOrderSalesTax() {
+        return orderSalesTax;
+    }
+
+    /**
+     *
+     * @param orderSalesTax
+     */
+    public void setOrderSalesTax(double orderSalesTax) {
+        this.orderSalesTax = orderSalesTax;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public double getOrderTotalAmount() {
+        return orderTotalAmount;
+    }
+
+    /**
+     *
+     * @param orderTotalAmount
+     */
+    public void setOrderTotalAmount(double orderTotalAmount) {
+        this.orderTotalAmount = orderTotalAmount;
     }
 
     /**

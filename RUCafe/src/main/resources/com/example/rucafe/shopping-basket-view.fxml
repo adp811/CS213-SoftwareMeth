@@ -21,7 +21,7 @@
             </Button>
          </left>
          <right>
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="120.0" text="Shopping Basket" BorderPane.alignment="CENTER">
+            <Label fx:id="viewHeaderLabel" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="290.0" text="Shopping Basket" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="15.0" />
                </BorderPane.margin>

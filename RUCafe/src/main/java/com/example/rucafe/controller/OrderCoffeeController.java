@@ -26,6 +26,7 @@ public class OrderCoffeeController {
 
     /* Instance Variables */
     private Order order;
+    private LinkedHashMap<Integer, Order> storeOrders;
     private LinkedHashMap<String, Integer> coffeeItems;
     private ObservableList<String> cupSizes, selectedCoffeeItems;
     private ObservableList<Integer> quantityAmounts;
@@ -50,8 +51,9 @@ public class OrderCoffeeController {
      *
      * @param order
      */
-    public void setOrder(Order order) {
+    public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
+        this.storeOrders = storeOrders;
     }
 
     /**
@@ -166,7 +168,7 @@ public class OrderCoffeeController {
      */
     @FXML
     private void onBackButtonClick(ActionEvent event) {
-        ViewSwitcher.switchTo(View.MAIN_MENU, this.order);
+        ViewSwitcher.switchTo(View.MAIN_MENU, this.order, this.storeOrders);
     }
 
     /**

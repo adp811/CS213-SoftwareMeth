@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -28,8 +30,9 @@ public class ViewSwitcher {
      *
      * @param view
      * @param order
+     * @param storeOrders
      */
-    public static void switchTo(View view, Order order) {
+    public static void switchTo(View view, Order order, LinkedHashMap<Integer, Order> storeOrders) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     ViewSwitcher.class.getResource("/com/example/rucafe/" + view.getFileName())
@@ -39,15 +42,15 @@ public class ViewSwitcher {
             Object controller = loader.getController();
 
             if (controller instanceof MainController) {
-                ((MainController) controller).setOrder(order);
+                ((MainController) controller).setOrders(order, storeOrders);
             } else if (controller instanceof OrderDonutController) {
-                ((OrderDonutController) controller).setOrder(order);
+                ((OrderDonutController) controller).setOrders(order, storeOrders);
             } else if (controller instanceof OrderCoffeeController) {
-                ((OrderCoffeeController) controller).setOrder(order);
+                ((OrderCoffeeController) controller).setOrders(order, storeOrders);
             } else if (controller instanceof ShoppingBasketController) {
-                ((ShoppingBasketController) controller).setOrder(order);
+                ((ShoppingBasketController) controller).setOrders(order, storeOrders);
             } else if (controller instanceof StoreOrdersController) {
-                ((StoreOrdersController) controller).setOrder(order);
+                ((StoreOrdersController) controller).setOrders(order, storeOrders);
             }
 
             scene.setRoot(root);

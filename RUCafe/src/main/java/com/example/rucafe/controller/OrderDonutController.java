@@ -30,6 +30,7 @@ public class OrderDonutController {
 
     /* Instance Variables */
     private Order order;
+    private LinkedHashMap<Integer, Order> storeOrders;
     private LinkedHashMap<String, String> selectedDonuts;
     private ObservableList<String> yeastTypeFlavors, cakeTypeFlavors, holeTypeFlavors;
     private ObservableList<String> donutTypes, selectedFlavors;
@@ -55,8 +56,9 @@ public class OrderDonutController {
      *
      * @param order
      */
-    public void setOrder(Order order) {
+    public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
+        this.storeOrders = storeOrders;
     }
 
     /**
@@ -164,7 +166,7 @@ public class OrderDonutController {
      */
     @FXML
     private void onBackButtonClick(ActionEvent event) {
-        ViewSwitcher.switchTo(View.MAIN_MENU, this.order);
+        ViewSwitcher.switchTo(View.MAIN_MENU, this.order, this.storeOrders);
     }
 
     /**

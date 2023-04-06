@@ -6,6 +6,8 @@ import com.example.rucafe.utilities.ViewSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import java.util.LinkedHashMap;
+
 /**
  *
  * @author Aryan Patel, Rushi Patel
@@ -13,13 +15,15 @@ import javafx.fxml.FXML;
 public class MainController {
 
     private Order order;
+    private LinkedHashMap<Integer, Order> storeOrders;
 
     /**
      *
      * @param order
      */
-    public void setOrder(Order order) {
+    public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
+        this.storeOrders = storeOrders;
     }
 
     /**
@@ -28,7 +32,7 @@ public class MainController {
      */
     @FXML
     private void onOrderDonutsButtonClick(ActionEvent event) {
-        ViewSwitcher.switchTo(View.ORDER_DONUT, this.order);
+        ViewSwitcher.switchTo(View.ORDER_DONUT, this.order, this.storeOrders);
     }
 
     /**
@@ -37,7 +41,7 @@ public class MainController {
      */
     @FXML
     private void onOrderCoffeeButtonClick(ActionEvent event) {
-        ViewSwitcher.switchTo(View.ORDER_COFFEE, this.order);
+        ViewSwitcher.switchTo(View.ORDER_COFFEE, this.order, this.storeOrders);
     }
 
     /**
@@ -46,7 +50,7 @@ public class MainController {
      */
     @FXML
     private void onShoppingBasketButtonClick(ActionEvent event) {
-        ViewSwitcher.switchTo(View.SHOPPING_BASKET, this.order);
+        ViewSwitcher.switchTo(View.SHOPPING_BASKET, this.order, this.storeOrders);
     }
 
     /**
@@ -55,7 +59,7 @@ public class MainController {
      */
     @FXML
     private void onStoreOrdersButtonClick(ActionEvent event) {
-        ViewSwitcher.switchTo(View.STORE_ORDERS, this.order);
+        ViewSwitcher.switchTo(View.STORE_ORDERS, this.order, this.storeOrders);
     }
 
     /**
