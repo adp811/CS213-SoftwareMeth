@@ -1,7 +1,6 @@
 package com.example.rucafe.controller;
 
 import com.example.rucafe.model.Coffee;
-import com.example.rucafe.model.Donut;
 import com.example.rucafe.model.MenuItem;
 import com.example.rucafe.model.Order;
 import com.example.rucafe.utilities.AlertBox;
@@ -28,8 +27,6 @@ public class OrderCoffeeController {
     private Order order;
     private LinkedHashMap<Integer, Order> storeOrders;
     private LinkedHashMap<String, Integer> coffeeItems;
-    private ObservableList<String> cupSizes, selectedCoffeeItems;
-    private ObservableList<Integer> quantityAmounts;
 
     /* FXML Elements */
     @FXML
@@ -118,7 +115,7 @@ public class OrderCoffeeController {
             }
         }
 
-        selectedCoffeeItems = FXCollections.observableArrayList(items);
+        ObservableList<String> selectedCoffeeItems = FXCollections.observableArrayList(items);
         coffeeItemListView.setItems(selectedCoffeeItems);
         updateSubtotal();
     }
@@ -262,14 +259,14 @@ public class OrderCoffeeController {
     /**
      *
      */
+    @FXML
     public void initialize() {
-
         coffeeItems = new LinkedHashMap<String, Integer>();
 
-        cupSizes = FXCollections.observableArrayList(Coffee.SHORT, Coffee.TALL, Coffee.GRANDE,
+        ObservableList<String> cupSizes = FXCollections.observableArrayList(Coffee.SHORT, Coffee.TALL, Coffee.GRANDE,
                 Coffee.VENTI);
 
-        quantityAmounts = FXCollections.observableArrayList(
+        ObservableList<Integer> quantityAmounts = FXCollections.observableArrayList(
                 IntStream.rangeClosed(1, 5).boxed().collect(Collectors.toList()));
 
         cupSizeComboBox.setItems(cupSizes);

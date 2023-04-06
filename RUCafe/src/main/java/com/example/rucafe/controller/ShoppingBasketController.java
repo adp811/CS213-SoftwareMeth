@@ -30,7 +30,6 @@ public class ShoppingBasketController {
     /* Instance Variables */
     private Order order;
     private LinkedHashMap<Integer, Order> storeOrders;
-    private ObservableList<String> orderItems;
 
     private static final double NJ_SALES_TAX_RATE = 0.06625;
 
@@ -138,7 +137,7 @@ public class ShoppingBasketController {
             }
         }
 
-        orderItems = FXCollections.observableArrayList(items);
+        ObservableList<String> orderItems = FXCollections.observableArrayList(items);
         orderItemsListView.setItems(orderItems);
         updateAmounts();
     }
@@ -196,13 +195,5 @@ public class ShoppingBasketController {
 
         this.order = new Order(IDGenerator.generateRandomID(9));
         viewHeaderLabel.setText("Shopping Basket (#" + this.order.getOrderNumber() + ")");
-    }
-
-
-    /**
-     *
-     */
-    @FXML
-    public void initialize() {
     }
 }

@@ -15,12 +15,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  *
@@ -31,8 +36,6 @@ public class StoreOrdersController {
     /* Instance Variables */
     private Order order;
     private LinkedHashMap<Integer, Order> storeOrders;
-    private ObservableList<Integer> orderNumbers;
-    private ObservableList<String> orderItems;
 
     /* FXML Elements */
     @FXML
@@ -44,6 +47,9 @@ public class StoreOrdersController {
     @FXML
     private TextField subTotalTextField, salesTaxTextField, orderTotalTextField;
 
+    @FXML
+    private Button exportButton;
+
     /**
      *
      * @param order
@@ -51,6 +57,7 @@ public class StoreOrdersController {
     public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
         this.storeOrders = storeOrders;
+
         updateOrderNumbers();
     }
 
@@ -66,7 +73,7 @@ public class StoreOrdersController {
             keys = new ArrayList<Integer>(storeOrders.keySet());
         }
 
-        orderNumbers = FXCollections.observableArrayList(keys);
+        ObservableList<Integer> orderNumbers = FXCollections.observableArrayList(keys);
         orderNumberComboBox.setItems(orderNumbers);
     }
 
@@ -100,7 +107,7 @@ public class StoreOrdersController {
             }
         }
 
-        orderItems = FXCollections.observableArrayList(items);
+        ObservableList<String> orderItems = FXCollections.observableArrayList(items);
         orderItemsListView.setItems(orderItems);
         updateOrderAmounts(selectedOrder);
     }
@@ -121,7 +128,6 @@ public class StoreOrdersController {
     @FXML
     private void handleCancelOrderButtonClick(ActionEvent event) {
         Integer orderNumber = orderNumberComboBox.getSelectionModel().getSelectedItem();
-
         if (orderNumber == null) {
             AlertBox.showAlert(Alert.AlertType.WARNING, "", "No Order Selected!",
                     "Please select the order you would like to cancel.");
@@ -147,6 +153,42 @@ public class StoreOrdersController {
      */
     @FXML
     private void handleExportButtonClick(ActionEvent event) {
+        Integer orderNumber = orderNumberComboBox.getSelectionModel().getSelectedItem();
+        if (orderNumber == null) {
+            AlertBox.showAlert(Alert.AlertType.WARNING, "", "No Order Selected!",
+                    "Please select the order you would like to export.");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Text File");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialFileName("ORDER_" + orderNumber + "_INFO.txt");
+
+        Stage stage = (Stage) exportButton.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("Order Number: " + orderNumber);
+                writer.newLine(); writer.newLine(); writer.newLine();
+
+                for (String item : orderItemsListView.getItems()) {
+                    writer.write(item + "\n");
+                }
+
+                writer.newLine(); writer.newLine(); writer.newLine();
+                writer.write("Order Subtotal: " + this.storeOrders.get(orderNumber).getOrderSubtotal() + "\n");
+                writer.write("Order Sales Tax: " + this.storeOrders.get(orderNumber).getOrderSalesTax() + "\n");
+                writer.write("Order Total: " + this.storeOrders.get(orderNumber).getOrderTotalAmount() + "\n");
+                writer.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

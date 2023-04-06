@@ -89,7 +89,7 @@
                         <Insets left="5.0" right="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#handleExportButtonClick" prefHeight="64.0" prefWidth="200.0" text="EXPORT">
+                  <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExportButtonClick" prefHeight="64.0" prefWidth="200.0" text="EXPORT">
                      <VBox.margin>
                         <Insets left="5.0" right="10.0" top="10.0" />
                      </VBox.margin>

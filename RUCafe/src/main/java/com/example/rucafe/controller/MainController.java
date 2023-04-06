@@ -61,10 +61,4 @@ public class MainController {
     private void onStoreOrdersButtonClick(ActionEvent event) {
         ViewSwitcher.switchTo(View.STORE_ORDERS, this.order, this.storeOrders);
     }
-
-    /**
-     *
-     */
-    public void initialize() {
-    }
 }

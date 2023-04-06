@@ -33,8 +33,6 @@ public class OrderDonutController {
     private LinkedHashMap<Integer, Order> storeOrders;
     private LinkedHashMap<String, String> selectedDonuts;
     private ObservableList<String> yeastTypeFlavors, cakeTypeFlavors, holeTypeFlavors;
-    private ObservableList<String> donutTypes, selectedFlavors;
-    private ObservableList<Integer> quantityAmounts;
 
     /* FXML Elements */
     @FXML
@@ -137,7 +135,7 @@ public class OrderDonutController {
             selections.add("(" + quantity + ", " + type + ") " + flavor);
         }
 
-        selectedFlavors = FXCollections.observableArrayList(selections);
+        ObservableList<String> selectedFlavors = FXCollections.observableArrayList(selections);
         selectedFlavorsListView.setItems(selectedFlavors);
         updateSubtotal();
     }
@@ -262,11 +260,11 @@ public class OrderDonutController {
                 Donut.MAPLE, Donut.CINNAMON, Donut.POWDERED_SUGAR
         );
 
-        donutTypes = FXCollections.observableArrayList(
+        ObservableList<String> donutTypes = FXCollections.observableArrayList(
                 Donut.YEAST, Donut.CAKE, Donut.HOLE
         );
 
-        quantityAmounts = FXCollections.observableArrayList(
+        ObservableList<Integer> quantityAmounts = FXCollections.observableArrayList(
                 IntStream.rangeClosed(1, 50).boxed().collect(Collectors.toList()));
 
         quantityComboBox.setValue(1);
