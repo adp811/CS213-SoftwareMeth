@@ -1,46 +1,46 @@
 package com.example.rucafe.model;
 
 /**
+ * Super class of menu item.
  *
- * @author Aryan Patel, Rushi Patel
+ * @author Rushi Patel
  */
 public abstract class MenuItem {
 
-    /* instance variables */
+    /**
+     * variable quantity.
+     */
     private int quantity;
 
     /**
+     * abstract method for getting price of item.
      *
-     */
-    MenuItem(int quantity) {
-        this.quantity = quantity;
-    }
-
-    /**
-     *
-     * @return
+     * @return price.
      */
     public abstract double itemPrice();
 
     /**
+     * constructor of class.
      *
-     * @return
+     * @param quantity quantity of item.
+     */
+    public MenuItem(int quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
+     * getter of quantity.
+     *
+     * @return quantity.
      */
     public int getQuantity() {
-        return this.quantity;
+        return quantity;
     }
 
     /**
+     * toString() method.
      *
-     * @param itemQuantity
-     */
-    public void setQuantity(int itemQuantity) {
-        this.quantity = itemQuantity;
-    }
-
-    /**
-     *
-     * @return
+     * @return menu item details.
      */
     @Override
     public String toString() {

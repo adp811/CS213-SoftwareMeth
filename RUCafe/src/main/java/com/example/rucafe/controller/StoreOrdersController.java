@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 /**
+ * This is the controller class for the Store Orders View.
  *
  * @author Aryan Patel, Rushi Patel
  */
@@ -51,8 +52,10 @@ public class StoreOrdersController {
     private Button exportButton;
 
     /**
+     * Setter method for the current order and store orders.
      *
-     * @param order
+     * @param order current order of the application instance.
+     * @param storeOrders current store orders of the application instance.
      */
     public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
@@ -62,8 +65,7 @@ public class StoreOrdersController {
     }
 
     /**
-     *
-     * @return
+     * This method updates the order numbers currently available to view.
      */
     public void updateOrderNumbers() {
         ArrayList<Integer> keys;
@@ -77,6 +79,12 @@ public class StoreOrdersController {
         orderNumberComboBox.setItems(orderNumbers);
     }
 
+    /**
+     * This method takes care of updating the order amount text fields given a
+     * specific order.
+     *
+     * @param order Order object representing the order to print the amounts for.
+     */
     public void updateOrderAmounts(Order order) {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
         subTotalTextField.setText("Subtotal: \t$" + decimalFormat.format(order.getOrderSubtotal()));
@@ -84,6 +92,12 @@ public class StoreOrdersController {
         orderTotalTextField.setText("Order Total: \t$" + decimalFormat.format(order.getOrderTotalAmount()));
     }
 
+    /**
+     * This method lists all the order items in the list view. The order items are
+     * retrieved using the given order number.
+     *
+     * @param orderNumber int which represents the order ID of the order.
+     */
     public void updateOrderItems(int orderNumber) {
         if (!this.storeOrders.containsKey(orderNumber)){
             return;
@@ -113,8 +127,10 @@ public class StoreOrdersController {
     }
 
     /**
+     * Event handler for the back button to switch the view
+     * back to the main menu.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void onBackButtonClick(ActionEvent event) {
@@ -122,8 +138,10 @@ public class StoreOrdersController {
     }
 
     /**
+     * Event handler for the cancel order button click to cancel the current
+     * selected order, removing it from the current store orders.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handleCancelOrderButtonClick(ActionEvent event) {
@@ -148,8 +166,11 @@ public class StoreOrdersController {
     }
 
     /**
+     * Event handler for the export order button click to export the current
+     * selected order as a text file. A File Chooser is prompted to the user in order
+     * to select the destination path of the file that being exported.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handleExportButtonClick(ActionEvent event) {
@@ -192,14 +213,23 @@ public class StoreOrdersController {
     }
 
     /**
-     *
+     * This method takes care of adding a listener to the order number combobox for any new
+     * value changes. The listener updates the order items list based on the selected order
+     * number.
      */
-    @FXML
-    public void initialize() {
+    private void addOrderNumberComboBoxListener() {
         orderNumberComboBox.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             if (this.storeOrders.containsKey(newValue)) {
                 updateOrderItems(newValue);
             }
         });
+    }
+
+    /**
+     * This method takes care any initial setup when loading the view.
+     */
+    @FXML
+    public void initialize() {
+        addOrderNumberComboBoxListener();
     }
 }

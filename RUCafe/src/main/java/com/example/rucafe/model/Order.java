@@ -1,10 +1,10 @@
 package com.example.rucafe.model;
 
-import com.example.rucafe.model.MenuItem;
-
 import java.util.ArrayList;
 
 /**
+ *  This is the class for the Order object. It is used to
+ *  help keep track of all the store orders.
  *
  * @author Aryan Patel, Rushi Patel
  */
@@ -18,8 +18,10 @@ public class Order {
     private ArrayList<MenuItem> orderItems;
 
     /**
+     * Constructor for the Order class. Order number is passed
+     * as a randomly generated ID integer.
      *
-     * @param orderNumber
+     * @param orderNumber int which contains the ID number of the order.
      */
     public Order(int orderNumber) {
         this.orderNumber = orderNumber;
@@ -30,96 +32,99 @@ public class Order {
     }
 
     /**
+     * Getter method for the order number.
      *
-     * @return
+     * @return int which is the order number.
      */
     public int getOrderNumber() {
         return this.orderNumber;
     }
 
     /**
+     * Getter method for the order subtotal.
      *
-     * @param orderNumber
-     */
-    public void setOrderNumber(int orderNumber) {
-        this.orderNumber = orderNumber;
-    }
-
-    /**
-     *
-     * @return
+     * @return double which is the order subtotal.
      */
     public double getOrderSubtotal() {
         return orderSubtotal;
     }
 
     /**
+     * Setter method for the order subtotal.
      *
-     * @param orderSubtotal
+     * @param orderSubtotal double which contains the new order subtotal.
      */
     public void setOrderSubtotal(double orderSubtotal) {
         this.orderSubtotal = orderSubtotal;
     }
 
     /**
+     * Getter method for the order sales tax.
      *
-     * @return
+     * @return double which is the order sales tax.
      */
     public double getOrderSalesTax() {
         return orderSalesTax;
     }
 
     /**
+     * Setter method for the order sales tax.
      *
-     * @param orderSalesTax
+     * @param orderSalesTax double which contains the new order sales tax.
      */
     public void setOrderSalesTax(double orderSalesTax) {
         this.orderSalesTax = orderSalesTax;
     }
 
     /**
+     * Getter method for the order total.
      *
-     * @return
+     * @return double which is the order total.
      */
     public double getOrderTotalAmount() {
         return orderTotalAmount;
     }
 
     /**
+     * Setter method for the order total.
      *
-     * @param orderTotalAmount
+     * @param orderTotalAmount double which contains the new order total.
      */
     public void setOrderTotalAmount(double orderTotalAmount) {
         this.orderTotalAmount = orderTotalAmount;
     }
 
     /**
+     * Adds a new MenuItem to the orderItems array.
      *
-     * @param item
+     * @param item MenuItem to be added into the array.
      */
     public void addToOrderItems (MenuItem item) {
         orderItems.add(item);
     }
 
     /**
+     *  Removes a MenuItem from the orderItems array at the given index.
      *
-     * @param item
+     * @param index int which contains the index of the item to remove.
      */
-    public void removeFromOrderItems (MenuItem item) {
-        orderItems.remove(item);
+    public void removeFromOrderItems (int index) {
+        orderItems.remove(index);
     }
 
     /**
+     * Getter method for the list of order items.
      *
-     * @return
+     * @return ArrayList of MenuItems in the order.
      */
     public ArrayList<MenuItem> getOrderItems() {
         return this.orderItems;
     }
 
     /**
+     * toString() method for the Order object.
      *
-     * @return
+     * @return order information as a String.
      */
     @Override
     public String toString() {

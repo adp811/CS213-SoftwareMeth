@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.HashSet;
 
 /**
+ * Class for Coffee.
  *
  * @author Aryan Patel, Rushi Patel
  */
@@ -39,9 +40,9 @@ public class Coffee extends MenuItem {
     public static final Double SINGLE_ADD_IN_PRICE = 0.30;
 
     /**
-     *
-     * @param quantity
-     * @param cupSize
+     * constructor of class.
+     * @param quantity quantity of item.
+     * @param cupSize size of cup.
      */
     public Coffee(int quantity, String cupSize) {
         super(quantity);
@@ -50,10 +51,11 @@ public class Coffee extends MenuItem {
     }
 
     /**
+     * overloaded constructor of class.
      *
-     * @param quantity
-     * @param cupSize
-     * @param addIns
+     * @param quantity quantity of item.
+     * @param cupSize size of cup.
+     * @param addIns list of add ins.
      */
     public Coffee(int quantity, String cupSize, HashSet<String> addIns) {
         super(quantity);
@@ -62,47 +64,36 @@ public class Coffee extends MenuItem {
     }
 
     /**
+     * getter of cup size.
      *
-     * @return
+     * @return cup size.
      */
     public String getCupSize() {
         return this.cupSize;
     }
 
     /**
+     * setter of cup size.
      *
+     * @param cupSize size of cup.
      */
     public void setCupSize(String cupSize) {
         this.cupSize = cupSize;
     }
 
     /**
+     * getter of add ins.
      *
-     * @param item
-     */
-    public void addAddIn(String item) {
-        this.addIns.add(item);
-    }
-
-    /**
-     *
-     * @param item
-     */
-    public void removeAddIn(String item) {
-        this.addIns.remove(item);
-    }
-
-    /**
-     *
-     * @return
+     * @return set of add ins.
      */
     public HashSet<String> getAddIns() {
         return this.addIns;
     }
 
     /**
+     * method for getting price of coffee.
      *
-     * @return
+     * @return price of coffee.
      */
     @Override
     public double itemPrice() {
@@ -123,13 +114,13 @@ public class Coffee extends MenuItem {
     }
 
     /**
+     * toString() method.
      *
-     * @return
+     * @return details of coffee.
      */
     @Override
     public String toString() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-
         return "(Black Coffee) "
                 + super.toString()
                 + " (Unit Price: $" + decimalFormat.format(itemPrice()) + ")"

@@ -1,36 +1,44 @@
 package com.example.rucafe.utilities;
 
-import com.example.rucafe.controller.*;
+import com.example.rucafe.controller.MainController;
+import com.example.rucafe.controller.OrderCoffeeController;
+import com.example.rucafe.controller.OrderDonutController;
+import com.example.rucafe.controller.ShoppingBasketController;
+import com.example.rucafe.controller.StoreOrdersController;
 import com.example.rucafe.model.Order;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
+ * This is a utility class to handle switching between different views of
+ * the application while maintained the shared current order and store orders data.
  *
  * @author Aryan Patel
  */
 public class ViewSwitcher {
 
-    /* instance variables */
+    /* Instance Variables */
     private static Scene scene;
 
     /**
+     * Setter method for the scene.
      *
-     * @param scene
+     * @param scene Scene containing the new scene to set.
      */
     public static void setScene(Scene scene) {
         ViewSwitcher.scene = scene;
     }
 
     /**
+     * This method takes care of switching the window view to a given view. The current
+     * order and store orders are given as well since the data is shared between the views.
      *
-     * @param view
-     * @param order
-     * @param storeOrders
+     * @param view View containing the view to display in the window.
+     * @param order Order containing the current shared order.
+     * @param storeOrders LinkedHashMap containing the current shared store orders.
      */
     public static void switchTo(View view, Order order, LinkedHashMap<Integer, Order> storeOrders) {
         try {

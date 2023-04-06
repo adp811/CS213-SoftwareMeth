@@ -10,7 +10,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * This is the controller class for the Order Donut View.
  *
  * @author Aryan Patel, Rushi Patel
  */
@@ -51,8 +55,10 @@ public class OrderDonutController {
     private TextField subtotalTextField;
 
     /**
+     * Setter method for the current order and store orders.
      *
-     * @param order
+     * @param order current order of the application instance.
+     * @param storeOrders current store orders of the application instance.
      */
     public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
@@ -60,8 +66,11 @@ public class OrderDonutController {
     }
 
     /**
+     * This method adds a donut item key value pair into the hashmap representing
+     * the list of donuts waiting to be submitted to the order. The key is the
+     * flavor and the value is the quantity and donut type.
      *
-     * @param selection
+     * @param selection String which contains information of the donut item.
      */
     private void addToSelectedDonuts(String selection) {
         String[] selectionInfo = selection.split(",");
@@ -78,15 +87,19 @@ public class OrderDonutController {
     }
 
     /**
+     * This method removes a donut item key value pair from the hashmap representing
+     * the list of donuts waiting to be submitted to the order. The key is the
+     * flavor, which is used to retrieve the pair.
      *
-     * @param flavor
+     * @param flavor String which contains the donut flavor.
      */
     private void removeFromSelectedDonuts(String flavor) {
         selectedDonuts.remove(flavor);
     }
 
     /**
-     *
+     * This method updates the subtotal for the items currently in the donut selection
+     * item list.
      */
     private void updateSubtotal() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
@@ -116,8 +129,8 @@ public class OrderDonutController {
     }
 
     /**
-     *
-     * @return
+     * This method updates the list view of donut selection items waiting to be submitted
+     * to the current order.
      */
     private void updateSelectedDonuts() {
         ArrayList<String> selections = new ArrayList<>();
@@ -141,8 +154,9 @@ public class OrderDonutController {
     }
 
     /**
+     * This method sets the image view in the Order Donut view based on the donut type given.
      *
-     * @param donutType
+     * @param donutType String which contains the donut type.
      */
     private void setDonutTypeImage(String donutType) {
         String imagePath;
@@ -159,8 +173,10 @@ public class OrderDonutController {
     }
 
     /**
+     * Event handler for the back button to switch the view
+     * back to the main menu.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void onBackButtonClick(ActionEvent event) {
@@ -168,8 +184,10 @@ public class OrderDonutController {
     }
 
     /**
+     * Event handler for the add donut selection button click to add the selected
+     * donut item to the list of donut selection items.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handleAddSelectionButtonClick(ActionEvent event) {
@@ -196,8 +214,10 @@ public class OrderDonutController {
     }
 
     /**
+     * Event handler for the remove donut selection button click to remove the selected
+     * donut item from the list of donut selection items.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handleRemoveSelectionButtonClick(ActionEvent event) {
@@ -213,8 +233,10 @@ public class OrderDonutController {
     }
 
     /**
+     * Event handler to add the items in the list of donut selection items into the
+     * current order.
      *
-     * @param event
+     * @param event Action event of the button click.
      */
     @FXML
     private void handleAddToOrderButtonClick(ActionEvent event) {
@@ -241,12 +263,35 @@ public class OrderDonutController {
     }
 
     /**
-     *
+     * This method takes care of adding a listener to the donut type combobox for any new
+     * value changes. The listener updates the image view and available flavors list view
+     * depending on the selected donut type.
+     */
+    private void addDonutTypeComboBoxListener() {
+        donutTypeComboBox.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            switch (newValue) {
+                case Donut.YEAST -> {
+                    availableFlavorsListView.setItems(yeastTypeFlavors);
+                    setDonutTypeImage(Donut.YEAST);
+                }
+                case Donut.CAKE -> {
+                    availableFlavorsListView.setItems(cakeTypeFlavors);
+                    setDonutTypeImage(Donut.CAKE);
+                }
+                case Donut.HOLE -> {
+                    availableFlavorsListView.setItems(holeTypeFlavors);
+                    setDonutTypeImage(Donut.HOLE);
+                }
+            }
+        });
+    }
+
+    /**
+     * This method takes care any initial setup when loading the view.
      */
     @FXML
     private void initialize() {
         selectedDonuts = new LinkedHashMap<String, String>();
-
         updateSelectedDonuts();
 
         yeastTypeFlavors = FXCollections.observableArrayList(
@@ -270,22 +315,5 @@ public class OrderDonutController {
         quantityComboBox.setValue(1);
         donutTypeComboBox.setItems(donutTypes);
         quantityComboBox.setItems(quantityAmounts);
-
-        donutTypeComboBox.valueProperty().addListener((observableValue, oldValue, newValue) -> {
-            switch (newValue) {
-                case Donut.YEAST -> {
-                    availableFlavorsListView.setItems(yeastTypeFlavors);
-                    setDonutTypeImage(Donut.YEAST);
-                }
-                case Donut.CAKE -> {
-                    availableFlavorsListView.setItems(cakeTypeFlavors);
-                    setDonutTypeImage(Donut.CAKE);
-                }
-                case Donut.HOLE -> {
-                    availableFlavorsListView.setItems(holeTypeFlavors);
-                    setDonutTypeImage(Donut.HOLE);
-                }
-            }
-        });
     }
 }

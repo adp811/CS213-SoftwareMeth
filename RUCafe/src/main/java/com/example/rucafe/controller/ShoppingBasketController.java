@@ -164,7 +164,7 @@ public class ShoppingBasketController {
         }
 
         int selectedIndex = orderItemsListView.getSelectionModel().getSelectedIndex();
-        order.getOrderItems().remove(selectedIndex);
+        order.removeFromOrderItems(selectedIndex);
         updateOrderItems();
 
         AlertBox.showAlert(Alert.AlertType.INFORMATION, "", "Item Removed Successfully!",

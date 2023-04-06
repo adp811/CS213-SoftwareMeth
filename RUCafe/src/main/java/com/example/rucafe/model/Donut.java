@@ -3,6 +3,7 @@ package com.example.rucafe.model;
 import java.text.DecimalFormat;
 
 /**
+ * Class for Donut.
  *
  * @author Aryan Patel, Rushi Patel
  */
@@ -41,9 +42,10 @@ public class Donut extends MenuItem {
     public static final Double UNDETERMINED_PRICE = 0.0;
 
     /**
-     *
-     * @param type
-     * @param flavor
+     * constructor for initialize object.
+     * @param quantity quantity of item.
+     * @param type type of donut
+     * @param flavor name of flavor
      */
     public Donut(int quantity, String type, String flavor) {
         super(quantity);
@@ -52,40 +54,27 @@ public class Donut extends MenuItem {
     }
 
     /**
+     * getter of type.
      *
-     * @return
+     * @return type.
      */
     public String getType() {
         return this.type;
     }
 
     /**
+     * getter of flavor.
      *
-     * @return
+     * @return flavor.
      */
     public String getFlavor() {
         return this.flavor;
     }
 
     /**
+     * method for price of donut.
      *
-     * @param type
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     *
-     * @param flavor
-     */
-    public void setFlavor(String flavor){
-        this.flavor = flavor;
-    }
-
-    /**
-     *
-     * @return
+     * @return price.
      */
     @Override
     public double itemPrice() {
@@ -99,13 +88,13 @@ public class Donut extends MenuItem {
     }
 
     /**
+     * toString() method.
      *
-     * @return
+     * @return donut details.
      */
     @Override
     public String toString() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-
         return  "(Donut) "
                 + super.toString()
                 + " (Unit Price: $" + decimalFormat.format(itemPrice()) + ")"

@@ -10,14 +10,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * This is the controller class for the Order Coffee view.
  *
  * @author Aryan Patel, Rushi Patel
  */
@@ -45,8 +55,10 @@ public class OrderCoffeeController {
     private TextField subtotalTextField;
 
     /**
+     * Setter method for the current order and store orders.
      *
-     * @param order
+     * @param order current order of the application instance.
+     * @param storeOrders current store orders of the application instance.
      */
     public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
@@ -54,8 +66,10 @@ public class OrderCoffeeController {
     }
 
     /**
+     * This method takes the current checkbox selections in the view and puts them
+     * into an ArrayList of Strings. An empty array is returned if nothing is checked.
      *
-     * @return
+     * @return ArrayList of Strings containing the checked flavor boxes.
      */
     private String getSelectedAddIns() {
         ArrayList<String> addIns = new ArrayList<>();
@@ -70,10 +84,13 @@ public class OrderCoffeeController {
     }
 
     /**
+     * This method adds a coffee item key value pair into the hashmap representing
+     * the list of coffeeItems waiting to be submitted to the order. The key is the
+     * cup size and add-in flavors, the value is the quantity.
      *
-     * @param cupSize
-     * @param addins
-     * @param quantity
+     * @param cupSize String which contins the cup size.
+     * @param addins String which contains the add-in flavors, comma separated.
+     * @param quantity int which contains the quantity of the coffee item
      */
     private void addToCoffeeItems(String cupSize, String addins, int quantity) {
         String key = cupSize;
@@ -87,9 +104,12 @@ public class OrderCoffeeController {
     }
 
     /**
+     * This method removes a coffee item key value pair from the hashmap representing
+     * the list of coffeeItems waiting to be submitted to the order. The key is the
+     * cup size and add-in flavors, the value is the quantity.
      *
-     * @param cupSize
-     * @param addins
+     * @param cupSize String which contains the cup size.
+     * @param addins String which contains the add-in flavors, comma separated.
      */
     private void removeFromCoffeeItems(String cupSize, String addins) {
         String key = cupSize;
@@ -98,7 +118,7 @@ public class OrderCoffeeController {
     }
 
     /**
-     *
+     * This method updates the list view of coffee items waiting to be submitted.
      */
     private void updateCoffeeItems() {
         ArrayList<String> items = new ArrayList<>();
@@ -121,7 +141,7 @@ public class OrderCoffeeController {
     }
 
     /**
-     *
+     * This method updates the subtotal for the items currently in the coffee item list.
      */
     private void updateSubtotal() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
@@ -160,8 +180,10 @@ public class OrderCoffeeController {
     }
 
     /**
+     * Event handler for the back button to switch the view
+     * back to the main menu.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void onBackButtonClick(ActionEvent event) {
@@ -169,8 +191,10 @@ public class OrderCoffeeController {
     }
 
     /**
+     * Event handler for the add coffee button click to add the selected coffee item to
+     * the list of coffee items.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handleAddCoffeeItemButtonClick(ActionEvent event) {
@@ -188,8 +212,10 @@ public class OrderCoffeeController {
     }
 
     /**
+     * Event handler for the remove coffee button click to remove the selected coffee
+     * item from the list of coffee items.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handleRemoveCoffeeItemButtonClick(ActionEvent event) {
@@ -219,8 +245,10 @@ public class OrderCoffeeController {
     }
 
     /**
+     * Event handler to add the items in the list of coffee items into the
+     * current order.
      *
-     * @param event
+     * @param event Action event of the button click.
      */
     @FXML
     private void handleAddToOrderButtonClick(ActionEvent event) {
@@ -257,7 +285,7 @@ public class OrderCoffeeController {
     }
 
     /**
-     *
+     * This method takes care any initial setup when loading the view.
      */
     @FXML
     public void initialize() {
@@ -272,6 +300,5 @@ public class OrderCoffeeController {
         cupSizeComboBox.setItems(cupSizes);
         quantityComboBox.setItems(quantityAmounts);
         quantityComboBox.setValue(1);
-
     }
 }
