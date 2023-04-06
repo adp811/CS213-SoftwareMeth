@@ -28,7 +28,7 @@ public class Order {
         this.orderSubtotal = 0.00;
         this.orderSalesTax = 0.00;
         this.orderTotalAmount = 0.00;
-        this.orderItems = new ArrayList<MenuItem>();
+        this.orderItems = new ArrayList<>();
     }
 
     /**
@@ -128,9 +128,7 @@ public class Order {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Order number: ").append(orderNumber).append("\n");
-        sb.append("Order items: ").append(orderItems.toString()).append("\n");
-        return sb.toString();
+        return "Order number: " + orderNumber + "\n" +
+                "Order items: " + orderItems.toString() + "\n";
     }
 }

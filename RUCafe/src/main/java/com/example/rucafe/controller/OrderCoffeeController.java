@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 
 import java.text.DecimalFormat;
@@ -22,7 +23,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -88,7 +88,7 @@ public class OrderCoffeeController {
      * the list of coffeeItems waiting to be submitted to the order. The key is the
      * cup size and add-in flavors, the value is the quantity.
      *
-     * @param cupSize String which contins the cup size.
+     * @param cupSize String which contains the cup size.
      * @param addins String which contains the add-in flavors, comma separated.
      * @param quantity int which contains the quantity of the coffee item
      */
@@ -230,7 +230,7 @@ public class OrderCoffeeController {
         String cupSize, addIns;
         if(itemInfo.contains("-")) { /* contains addins  */
             addIns = itemInfo.split(" - ")[1].replaceAll(",\\s*", ",");
-            cupSize = itemInfo.split(" - ")[0].split(",")[1].trim().replaceAll("\\)", "");;
+            cupSize = itemInfo.split(" - ")[0].split(",")[1].trim().replaceAll("\\)", "");
             System.out.println(addIns);
             System.out.println(cupSize);
             removeFromCoffeeItems(cupSize, addIns);
@@ -264,8 +264,8 @@ public class OrderCoffeeController {
             if (item.getKey().contains(",")) { /* contains addins */
                 String cupSize = item.getKey().split(",", 2)[0];
                 String[] addInsArray = item.getKey().split(",", 2)[1].split(",");
-                Set<String> addIns = new HashSet<>(Arrays.asList(addInsArray));
-                coffeeItem = new Coffee(quantity, cupSize, (HashSet<String>) addIns);
+                HashSet<String> addIns = new HashSet<>(Arrays.asList(addInsArray));
+                coffeeItem = new Coffee(quantity, cupSize, addIns);
 
             } else { /* no addins */
                 String cupSize = item.getKey();
@@ -289,7 +289,9 @@ public class OrderCoffeeController {
      */
     @FXML
     public void initialize() {
-        coffeeItems = new LinkedHashMap<String, Integer>();
+        coffeeItems = new LinkedHashMap<>();
+
+        coffeeItemListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         ObservableList<String> cupSizes = FXCollections.observableArrayList(Coffee.SHORT, Coffee.TALL, Coffee.GRANDE,
                 Coffee.VENTI);

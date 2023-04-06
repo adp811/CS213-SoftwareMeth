@@ -47,7 +47,7 @@ public class Coffee extends MenuItem {
     public Coffee(int quantity, String cupSize) {
         super(quantity);
         this.cupSize = cupSize;
-        this.addIns = new HashSet<String>();
+        this.addIns = new HashSet<>();
     }
 
     /**
@@ -70,15 +70,6 @@ public class Coffee extends MenuItem {
      */
     public String getCupSize() {
         return this.cupSize;
-    }
-
-    /**
-     * setter of cup size.
-     *
-     * @param cupSize size of cup.
-     */
-    public void setCupSize(String cupSize) {
-        this.cupSize = cupSize;
     }
 
     /**

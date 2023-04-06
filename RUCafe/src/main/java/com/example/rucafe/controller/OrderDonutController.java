@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -191,15 +192,12 @@ public class OrderDonutController {
      */
     @FXML
     private void handleAddSelectionButtonClick(ActionEvent event) {
-        String selectedType, selectedFlavor;
-        int selectedQuantity;
-
-        if ((selectedType = donutTypeComboBox.getValue()) == null) {
+        if (donutTypeComboBox.getValue() == null) {
             AlertBox.showAlert(Alert.AlertType.WARNING,
                     "", "Missing Donut Type!", "Please select a donut type before" +
                             " adding to donut selections."); return;
         }
-        if ((selectedFlavor = availableFlavorsListView.getSelectionModel().getSelectedItem()) == null) {
+        if (availableFlavorsListView.getSelectionModel().getSelectedItem() == null) {
             AlertBox.showAlert(Alert.AlertType.WARNING,
                     "", "Missing Flavor Selection!", "Please select a flavor before" +
                             " adding to donut selections."); return;
@@ -228,7 +226,7 @@ public class OrderDonutController {
                             " in order to remove donut selection."); return;
         }
 
-        removeFromSelectedDonuts(selectedFlavor.replaceAll("\\([^\\)]*\\)\\s*", ""));
+        removeFromSelectedDonuts(selectedFlavor.replaceAll("\\([^)]*\\)\\s*", ""));
         updateSelectedDonuts();
     }
 
@@ -291,8 +289,11 @@ public class OrderDonutController {
      */
     @FXML
     private void initialize() {
-        selectedDonuts = new LinkedHashMap<String, String>();
+        selectedDonuts = new LinkedHashMap<>();
         updateSelectedDonuts();
+
+        availableFlavorsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        selectedFlavorsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         yeastTypeFlavors = FXCollections.observableArrayList(
                 Donut.CHOCOLATE_FROSTED, Donut.STRAWBERRY_FROSTED, Donut.PUMPKIN_FROSTED,
@@ -315,5 +316,7 @@ public class OrderDonutController {
         quantityComboBox.setValue(1);
         donutTypeComboBox.setItems(donutTypes);
         quantityComboBox.setItems(quantityAmounts);
+
+        addDonutTypeComboBoxListener();
     }
 }

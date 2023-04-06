@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 
 import java.text.DecimalFormat;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 /**
+ * This is the controller class for the Shopping Basket View.
  *
  * @author Aryan Patel, Rushi Patel
  */
@@ -44,8 +46,10 @@ public class ShoppingBasketController {
     private Label viewHeaderLabel;
 
     /**
+     * Setter method for the current order and store orders.
      *
-     * @param order
+     * @param order current order of the application instance.
+     * @param storeOrders current store orders of the application instance.
      */
     public void setOrders(Order order, LinkedHashMap<Integer, Order> storeOrders) {
         this.order = order;
@@ -55,9 +59,11 @@ public class ShoppingBasketController {
     }
 
     /**
+     * This method takes care of setting the current order totals in the text fields as well
+     * as setting the amounts in the current order object.
      *
-     * @param subTotal
-     * @param taxRate
+     * @param subTotal double which is the current order subtotal.
+     * @param taxRate double which is the current order tax rate.
      */
     private void setAmounts(double subTotal, double taxRate) {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
@@ -74,7 +80,7 @@ public class ShoppingBasketController {
     }
 
     /**
-     *
+     * This method updates the current order totals based on the current order items.
      */
     private void updateAmounts() {
         double subTotal = 0.00;
@@ -109,7 +115,8 @@ public class ShoppingBasketController {
     }
 
     /**
-     *
+     * This method updates the list view of current order items waiting to be placed
+     * as a store order.
      */
     public void updateOrderItems() {
         if (this.order.getOrderItems().isEmpty()) {
@@ -143,8 +150,10 @@ public class ShoppingBasketController {
     }
 
     /**
+     * Event handler for the back button to switch the view
+     * back to the main menu.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void onBackButtonClick(ActionEvent event) {
@@ -152,8 +161,10 @@ public class ShoppingBasketController {
     }
 
     /**
+     * Event handler for the remove item button click to remove the selected
+     * item from the list of order items.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handleRemoveItemButtonClick(ActionEvent event) {
@@ -172,8 +183,11 @@ public class ShoppingBasketController {
     }
 
     /**
+     * Event handler for the place order button click to add the current order
+     * to the current store orders. A new current order instance is generated and the view
+     * is cleared.
      *
-     * @param event
+     * @param event ActionEvent of the button click.
      */
     @FXML
     private void handlePlaceOrderButtonClick(ActionEvent event) {
@@ -195,5 +209,13 @@ public class ShoppingBasketController {
 
         this.order = new Order(IDGenerator.generateRandomID(9));
         viewHeaderLabel.setText("Shopping Basket (#" + this.order.getOrderNumber() + ")");
+    }
+
+    /**
+     * This method takes care any initial setup when loading the view.
+     */
+    @FXML
+    private void initialize() {
+        orderItemsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 }

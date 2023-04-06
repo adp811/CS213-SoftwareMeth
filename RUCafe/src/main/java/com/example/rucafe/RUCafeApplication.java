@@ -22,13 +22,13 @@ public class RUCafeApplication extends Application {
 
     /* Instance Variables */
     private Order order = new Order(IDGenerator.generateRandomID(9));
-    private LinkedHashMap<Integer, Order> storeOrders = new LinkedHashMap<Integer, Order>();
+    private LinkedHashMap<Integer, Order> storeOrders = new LinkedHashMap<>();
 
     /**
      * This method launches the application with a new scene and stage. The scene
      * and initial view is passed to the ViewSwitcher to set.
      *
-     * @param stage
+     * @param stage stage of the application.
      * @throws IOException if page is not found, throw an exception.
      */
     @Override

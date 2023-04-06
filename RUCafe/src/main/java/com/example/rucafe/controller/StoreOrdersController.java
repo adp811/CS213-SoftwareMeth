@@ -12,10 +12,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -70,9 +71,9 @@ public class StoreOrdersController {
     public void updateOrderNumbers() {
         ArrayList<Integer> keys;
         if (this.storeOrders.isEmpty()) {
-            keys = new ArrayList<Integer>();
+            keys = new ArrayList<>();
         } else {
-            keys = new ArrayList<Integer>(storeOrders.keySet());
+            keys = new ArrayList<>(storeOrders.keySet());
         }
 
         ObservableList<Integer> orderNumbers = FXCollections.observableArrayList(keys);
@@ -104,7 +105,7 @@ public class StoreOrdersController {
         }
 
         Order selectedOrder = storeOrders.get(orderNumber);
-        ArrayList<String> items = new ArrayList<String>();
+        ArrayList<String> items = new ArrayList<>();
         for (MenuItem item: selectedOrder.getOrderItems()) {
             String itemInformation = null;
             if (item instanceof Donut) {
@@ -230,6 +231,7 @@ public class StoreOrdersController {
      */
     @FXML
     public void initialize() {
+        orderItemsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         addOrderNumberComboBoxListener();
     }
 }
