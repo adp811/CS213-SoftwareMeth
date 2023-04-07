@@ -231,13 +231,10 @@ public class OrderCoffeeController {
         if(itemInfo.contains("-")) { /* contains addins  */
             addIns = itemInfo.split(" - ")[1].replaceAll(",\\s*", ",");
             cupSize = itemInfo.split(" - ")[0].split(",")[1].trim().replaceAll("\\)", "");
-            System.out.println(addIns);
-            System.out.println(cupSize);
             removeFromCoffeeItems(cupSize, addIns);
 
         } else { /* no addins */
             cupSize = itemInfo.split(",")[1].trim().replaceAll("\\)", "");
-            System.out.println(cupSize);
             removeFromCoffeeItems(cupSize, "");
         }
 
