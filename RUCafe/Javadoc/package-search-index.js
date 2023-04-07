@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.example.rucafe","l":"com.example.rucafe"},{"m":"com.example.rucafe","l":"com.example.rucafe.controller"},{"m":"com.example.rucafe","l":"com.example.rucafe.model"},{"m":"com.example.rucafe","l":"com.example.rucafe.utilities"}];updateSearchResults();

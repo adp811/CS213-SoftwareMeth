@@ -1,0 +1,5 @@
+module:com.example.rucafe
+com.example.rucafe
+com.example.rucafe.controller
+com.example.rucafe.model
+com.example.rucafe.utilities
