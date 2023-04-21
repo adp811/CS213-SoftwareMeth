@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainMenuFragment">
+
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.example.rucafeandroid.MainMenuFragment"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_orderCoffeeFragment"
+            app:destination="@id/orderCoffeeFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_orderDonutFragment"
+            app:destination="@id/orderDonutFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_storeOrdersFragment"
+            app:destination="@id/storeOrdersFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_shoppingBasketFragment"
+            app:destination="@id/shoppingBasketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderCoffeeFragment"
+        android:name="com.example.rucafeandroid.OrderCoffeeFragment"
+        android:label="fragment_order_coffee"
+        tools:layout="@layout/fragment_order_coffee" />
+    <fragment
+        android:id="@+id/orderDonutFragment"
+        android:name="com.example.rucafeandroid.OrderDonutFragment"
+        android:label="fragment_order_donut"
+        tools:layout="@layout/fragment_order_donut" />
+    <fragment
+        android:id="@+id/shoppingBasketFragment"
+        android:name="com.example.rucafeandroid.ShoppingBasketFragment"
+        android:label="fragment_shopping_basket"
+        tools:layout="@layout/fragment_shopping_basket" />
+    <fragment
+        android:id="@+id/storeOrdersFragment"
+        android:name="com.example.rucafeandroid.StoreOrdersFragment"
+        android:label="fragment_store_orders"
+        tools:layout="@layout/fragment_store_orders" />
+</navigation>
