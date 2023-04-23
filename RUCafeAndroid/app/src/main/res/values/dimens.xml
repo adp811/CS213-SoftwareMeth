@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Donut Prices -->
+    <dimen name="yeast_donut_price">1.59</dimen>
+    <dimen name="cake_donut_price">1.79</dimen>
+    <dimen name="hole_donut_price">0.39</dimen>
+
+    <!-- Misc -->
+    <dimen name="undetermined_price">0.00</dimen>
+
+</resources>

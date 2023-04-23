@@ -1,5 +1,59 @@
 <resources>
     <string name="app_name">RUCafeAndroid</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Donut Types -->
+    <string name="yeast_donut">Yeast Donut</string>
+    <string name="cake_donut">Cake Donut</string>
+    <string name="hole_donut">Hole Donut</string>
+
+    <!-- Donut Flavors -->
+    <string name="chocolate_frosted_flavor">Chocolate Frosted</string>
+    <string name="strawberry_frosted_flavor">Strawberry Frosted</string>
+    <string name="pumpkin_frosted_flavor">Pumpkin Frosted</string>
+    <string name="boston_kreme_flavor">Boston Kreme</string>
+    <string name="sugar_glazed_flavor">Sugar Glazed</string>
+    <string name="jelly_filled_flavor">Jelly Filled</string>
+
+    <string name="key_lime_flavor">Key Lime</string>
+    <string name="apple_crumb_flavor">Apple Crumb</string>
+    <string name="red_velvet_flavor">Red Velvet</string>
+    <string name="double_chocolate_flavor">Double Chocolate</string>
+
+    <string name="maple_flavor">Maple</string>
+    <string name="cinnamon_flavor">Cinnamon</string>
+    <string name="powdered_sugar_flavor">Powdered Sugar</string>
+
+    <!-- Order Donut Fragment Spinner Value Arrays -->
+    <string-array name="donut_type_spinner_values">
+        <item>Yeast Donut</item>
+        <item>Cake Donut</item>
+        <item>Hole Donut</item>
+    </string-array>
+
+    <string-array name="donut_flavor_spinner_values_yeast">
+        <item>Chocolate Frosted</item>
+        <item>Strawberry Frosted</item>
+        <item>Pumpkin Frosted</item>
+        <item>Boston Kreme</item>
+        <item>Sugar Glazed</item>
+        <item>Jelly Filled</item>
+    </string-array>
+
+    <string-array name="donut_flavor_spinner_values_cake">
+        <item>Key Lime</item>
+        <item>Apple Crumb</item>
+        <item>Red Velvet</item>
+        <item>Double Chocolate</item>
+    </string-array>
+
+    <string-array name="donut_flavor_spinner_values_hole">
+        <item>Maple</item>
+        <item>Cinnamon</item>
+        <item>Powdered Sugar</item>
+    </string-array>
+
+    <string-array name="empty_donut_flavor_spinner_values">
+        <item>None</item>
+    </string-array>
+
 </resources>
