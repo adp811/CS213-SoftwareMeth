@@ -58,4 +58,18 @@
         <item>None</item>
     </string-array>
 
+    <!-- Coffee Cup Sizes -->
+    <string name="short_size">Short</string>
+    <string name="tall_size">Tall</string>
+    <string name="grande_size">Grande</string>
+    <string name="venti_size">Venti</string>
+
+    <!-- Order Coffee Fragment Spinner Value Arrays-->
+    <string-array name="cup_size_spinner_values">
+        <item>Short</item>
+        <item>Tall</item>
+        <item>Grande</item>
+        <item>Venti</item>
+    </string-array>
+
 </resources>

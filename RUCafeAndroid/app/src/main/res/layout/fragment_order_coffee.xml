@@ -56,60 +56,74 @@
         <LinearLayout
             android:layout_width="325dp"
             android:layout_height="100dp"
+            android:layout_marginBottom="25dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/flavorSelectionChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:checkedChip="@id/sweetCreamChip">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/sweetCreamChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checkable="true"
                     android:text="Sweet Cream" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/frenchVanillaChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checkable="true"
                     android:text="French Vanilla" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/mochaChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checkable="true"
                     android:text="Mocha" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/irishCreamChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checkable="true"
                     android:text="Irish Cream" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/peppermintChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checkable="true"
                     android:text="Peppermint" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/caramelChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checkable="true"
                     android:text="Caramel" />
             </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/addCoffeeSelectionButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/coffeeSelectionsRecyclerView"
             android:layout_width="325dp"
-            android:layout_height="350dp"
+            android:layout_height="275dp"
             android:layout_marginTop="25dp" />
 
         <Button
-            android:id="@+id/addCoffeeToOrderButton"
+            android:id="@+id/addCoffeesToOrderButton"
             android:layout_width="325dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
