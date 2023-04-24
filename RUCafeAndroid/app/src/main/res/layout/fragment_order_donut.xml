@@ -78,7 +78,7 @@
             <Button
                 android:id="@+id/addDonutSelectionButton"
                 style="@style/Widget.Material3.Button"
-                android:layout_width="70dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -92,15 +92,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/removeDonutSelectionButton"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:icon="@drawable/trash_can"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

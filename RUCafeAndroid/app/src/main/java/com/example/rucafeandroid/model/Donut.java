@@ -17,32 +17,15 @@ public class Donut extends MenuItem {
     private String flavor;
 
     /* Donut Types */
-    public static final String YEAST = "Yeast Donut";
-    public static final String CAKE = "Cake Donut";
-    public static final String HOLE = "Hole Donut";
-
-    /* Available Donut Flavors */
-    public static final String CHOCOLATE_FROSTED = "Chocolate Frosted";
-    public static final String STRAWBERRY_FROSTED = "Strawberry Frosted";
-    public static final String PUMPKIN_FROSTED = "Pumpkin Frosted";
-    public static final String BOSTON_KREME = "Boston Kreme";
-    public static final String SUGAR_GLAZED = "Sugar Glazed";
-    public static final String JELLY_FILLED = "Jelly Filled";
-
-    public static final String KEY_LIME = "Key Lime";
-    public static final String APPLE_CRUMB = "Apple Crumb";
-    public static final String RED_VELVET = "Red Velvet";
-    public static final String DOUBLE_CHOCOLATE = "Double Chocolate";
-
-    public static final String MAPLE = "Maple";
-    public static final String CINNAMON = "Cinnamon";
-    public static final String POWDERED_SUGAR = "Powdered Sugar";
+    private static final String YEAST = "Yeast Donut";
+    private static final String CAKE = "Cake Donut";
+    private static final String HOLE = "Hole Donut";
 
     /* Donut Prices by Type */
-    public static final Double YEAST_PRICE = 1.59;
-    public static final Double CAKE_PRICE = 1.79;
-    public static final Double HOLE_PRICE = 0.39;
-    public static final Double UNDETERMINED_PRICE = 0.0;
+    private static final double YEAST_PRICE = 1.59;
+    private static final double CAKE_PRICE = 1.79;
+    private static final double HOLE_PRICE = 0.39;
+    private static final double UNDETERMINED_PRICE = 0.0;
 
     /**
      * constructor for initialize object.

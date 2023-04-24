@@ -24,22 +24,19 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 
-public class OrderDonutFragment extends Fragment {
+public class OrderDonutFragment extends Fragment implements DonutSelectionRecyclerViewAdapter.DonutSelectionListener {
+
+    private static final int MIN_DONUT_QUANTITY = 1;
 
     private Spinner donutTypeSpinner, donutFlavorSpinner;
-    private MaterialButton addDonutsToOrderButton, removeDonutSelectionButton;
     private EditText quantityTextField;
     private ImageView donutTypeImageView;
+    private MaterialButton addDonutsToOrderButton;
 
-    private RecyclerView donutSelectionRecyclerView;
     private DonutSelectionRecyclerViewAdapter adapter;
-
     private LinkedHashSet<Donut> donutSelections = new LinkedHashSet<>();
-    private int selectedPosition = -1;
 
-    public OrderDonutFragment() {
-        // Required empty public constructor
-    }
+    public OrderDonutFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,24 +55,16 @@ public class OrderDonutFragment extends Fragment {
         addDonutSpinnerListener(donutTypeSpinner, donutFlavorSpinner);
 
         quantityTextField = view.findViewById(R.id.quantityTextField);
+        quantityTextField.setText(R.string.min_donut_qty);
+
         MaterialButton addDonutSelectionButton = view.findViewById(R.id.addDonutSelectionButton);
         addDonutSelectionButton.setOnClickListener(this::onAddDonutSelectionButtonClick);
-        MaterialButton removeDonutSelectionButton = view.findViewById(R.id.removeDonutSelectionButton);
-        removeDonutSelectionButton.setOnClickListener(this::onRemoveDonutSelectionButtonClick);
 
-        donutSelectionRecyclerView = view.findViewById(R.id.donutSelectionsRecyclerView);
+        RecyclerView donutSelectionRecyclerView = view.findViewById(R.id.donutSelectionsRecyclerView);
         donutSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new DonutSelectionRecyclerViewAdapter(getContext(), donutSelections);
+        adapter.setListener(this);
         donutSelectionRecyclerView.setAdapter(adapter);
-
-        adapter.setOnItemSelectedListener(new DonutSelectionRecyclerViewAdapter.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int position) {
-                if (selectedPosition != position) {
-                    selectedPosition = position;
-                }
-            }
-        });
 
         donutTypeImageView = view.findViewById(R.id.donutTypeImageView);
         addDonutsToOrderButton = view.findViewById(R.id.addDonutsToOrderButton);
@@ -134,21 +123,38 @@ public class OrderDonutFragment extends Fragment {
     public boolean validateInputs() {
         String donutTypeSpinnerValue = donutTypeSpinner.getSelectedItem().toString();
         String donutFlavorSpinnerValue = donutFlavorSpinner.getSelectedItem().toString();
-        String quantityTextFieldValue = quantityTextField.getText().toString().trim();
 
-        return !donutTypeSpinnerValue.equals("Select") && !donutFlavorSpinnerValue.equals("Select")
-                && !quantityTextFieldValue.isEmpty();
+        try {
+            int value = Integer.parseInt(quantityTextField.getText().toString().trim());
+            if (value < MIN_DONUT_QUANTITY) {
+                // The input is negative, or zero
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            // The input is not an integer
+            return false;
+        }
+
+        return !donutTypeSpinnerValue.equals("Select") && !donutFlavorSpinnerValue.equals("Select");
     }
 
-    public void updateSelectionTotal() {
+    @SuppressLint("SetTextI18n")
+    public void updateSubtotal(MaterialButton addDonutsToOrderButton) {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-        Double selectionTotal = 0.00;
+        Double subTotal = 0.00;
 
         if(donutSelections.isEmpty()) {
-            addDonutsToOrderButton.setText(decimalFormat.format(selectionTotal));
+            addDonutsToOrderButton.setText("$" + decimalFormat.format(subTotal));
             return;
         }
-        //iterate through set and update total...
+
+        for (Donut selection : donutSelections) {
+            int quantity = selection.getQuantity();
+            double selectionTotal = quantity * selection.itemPrice();
+            subTotal += selectionTotal;
+        }
+
+        addDonutsToOrderButton.setText("$" + decimalFormat.format(subTotal));
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -166,12 +172,18 @@ public class OrderDonutFragment extends Fragment {
         adapter.updateData(donutSelections);
         adapter.notifyDataSetChanged();
 
-        selectedPosition = -1;
-
-        System.out.println(donutSelections);
+        updateSubtotal(addDonutsToOrderButton);
     }
 
-    public void onRemoveDonutSelectionButtonClick(View view) {
-        System.out.println(selectedPosition);
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onDeleteRowItemButtonClicked(int position) {
+        Donut selection = new ArrayList<>(donutSelections).get(position);
+        donutSelections.remove(selection);
+
+        adapter.updateData(donutSelections);
+        adapter.notifyDataSetChanged();
+
+        updateSubtotal(addDonutsToOrderButton);
     }
 }

@@ -23,6 +23,8 @@
     <string name="cinnamon_flavor">Cinnamon</string>
     <string name="powdered_sugar_flavor">Powdered Sugar</string>
 
+    <string name="min_donut_qty">1</string>
+
     <!-- Order Donut Fragment Spinner Value Arrays -->
     <string-array name="donut_type_spinner_values">
         <item>Yeast Donut</item>

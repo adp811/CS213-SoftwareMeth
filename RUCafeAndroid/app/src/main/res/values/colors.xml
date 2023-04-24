@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="highlight">#4D90FE</color>
+    <color name="rutgers_red">#C8102E</color>
 </resources>
