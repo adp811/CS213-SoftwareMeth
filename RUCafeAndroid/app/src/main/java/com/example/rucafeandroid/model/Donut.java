@@ -73,6 +73,11 @@ public class Donut extends MenuItem {
         };
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,6 +86,10 @@ public class Donut extends MenuItem {
         return type.equals(donut.type) && flavor.equals(donut.flavor);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(type, flavor);

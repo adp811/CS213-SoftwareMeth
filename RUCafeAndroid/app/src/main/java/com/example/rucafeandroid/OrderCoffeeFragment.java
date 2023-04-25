@@ -42,8 +42,15 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     private LinkedHashSet<MenuItem> coffeeSelections;
     private HashSet<String> chipGroupSelections;
 
+    /**
+     *
+     */
     public OrderCoffeeFragment() {}
 
+    /**
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +64,17 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         order = orderViewModel.getOrderLiveData().getValue();
     }
 
+    /**
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,6 +109,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         return view;
     }
 
+    /**
+     *
+     * @param view
+     */
     private void setCupSizeSpinnerValues(View view) {
         Spinner spinner = view.findViewById(R.id.cupSizeSpinner);
 
@@ -103,6 +125,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         spinner.setSelection(0);
     }
 
+    /**
+     *
+     * @param view
+     */
     private void setQuantityAmountSpinnerValues(View view) {
         Spinner spinner = view.findViewById(R.id.quantityAmountSpinner);
 
@@ -115,6 +141,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         spinner.setSelection(0);
     }
 
+    /**
+     *
+     * @param view
+     */
     private void addChipGroupSelectionListener(View view) {
         ChipGroup chipGroup = view.findViewById(R.id.flavorSelectionChipGroup);
 
@@ -131,6 +161,9 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         }
     }
 
+    /**
+     *
+     */
     @SuppressLint("SetTextI18n")
     private void updateSubtotal() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
@@ -150,6 +183,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         addCoffeesToOrderButton.setText("$" + decimalFormat.format(subTotal));
     }
 
+    /**
+     *
+     * @param v
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void onAddCoffeeSelectionButtonClick(View v) {
         Spinner cupSizeSpinner = requireView().findViewById(R.id.cupSizeSpinner);
@@ -169,6 +206,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         updateSubtotal();
     }
 
+    /**
+     *
+     * @param v
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void onAddCoffeesToOrderButtonClick(View v) {
         if (coffeeSelections.isEmpty()) {
@@ -184,6 +225,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         addCoffeesToOrderButton.setText(getResources().getString(R.string.zero_total_));
     }
 
+    /**
+     *
+     * @param position
+     */
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onDeleteRowItemButtonClicked(int position) {

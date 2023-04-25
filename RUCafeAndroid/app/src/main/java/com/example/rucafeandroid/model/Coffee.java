@@ -96,6 +96,11 @@ public class Coffee extends MenuItem {
         return price;
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,6 +109,10 @@ public class Coffee extends MenuItem {
         return cupSize.equals(coffee.cupSize) && addIns.equals(coffee.addIns);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(cupSize, addIns);

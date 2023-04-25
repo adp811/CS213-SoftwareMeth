@@ -47,8 +47,16 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     private MenuItemRecyclerViewAdapter adapter;
     private TextView subtotalTextViewSO, salesTaxTextViewSO, orderTotalTextViewSO;
 
+    /**
+     *
+     */
     public StoreOrdersFragment() {}
 
+    /**
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +68,18 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         storeOrders = storeOrdersViewModel.getStoreOrdersLiveData().getValue();
     }
 
+    /**
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,6 +110,11 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         return view;
     }
 
+    /**
+     *
+     * @param orderNumber
+     * @return
+     */
     private Order retrieveOrderByNumber (int orderNumber) {
         for (Order placedOrder : storeOrders) {
             if (placedOrder.getOrderNumber() == orderNumber) {
@@ -99,6 +124,10 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     private ArrayList<String> retrieveAllOrderNumbers () {
         ArrayList<String> orderNumbers = new ArrayList<>();
 
@@ -114,6 +143,12 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         return orderNumbers;
     }
 
+    /**
+     *
+     * @param subTotal
+     * @param salesTax
+     * @param orderTotal
+     */
     private void setTotals(double subTotal, double salesTax, double orderTotal) {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
@@ -130,6 +165,9 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
                 decimalFormat.format(orderTotal)));
     }
 
+    /**
+     *
+     */
     private void updateTotals() {
         double salesTax, orderTotal, subTotal = ZERO_DOLLARS;
 
@@ -150,6 +188,10 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         setTotals(subTotal, salesTax, orderTotal);
     }
 
+    /**
+     *
+     * @param view
+     */
     private void setOrderNumberSpinner (View view) {
         Spinner spinner = view.findViewById(R.id.orderNumberSpinner);
 
@@ -162,6 +204,10 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         spinner.setSelection(0);
     }
 
+    /**
+     *
+     * @param view
+     */
     public void addOrderNumberSpinnerListener(View view) {
         Spinner orderNumberSpinner = view.findViewById(R.id.orderNumberSpinner);
         orderNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -186,6 +232,9 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         });
     }
 
+    /**
+     *
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void updateRecyclerViewAdapterData() {
         if (selectedOrder != null) {
@@ -196,6 +245,10 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     *
+     * @param v
+     */
     private void onCancelOrderButtonClick(View v) {
         if (selectedOrder != null) {
             storeOrders.remove(selectedOrder);

@@ -19,8 +19,14 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
+/**
+ * @author Aryan Patel
+ */
 public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRecyclerViewAdapter.MyMenuItemViewHolder> {
 
+    /**
+     *
+     */
     public interface MenuItemListener {
         void onDeleteRowItemButtonClicked(int position);
     }
@@ -30,6 +36,12 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     private boolean hideDeleteButton;
     private MenuItemListener listener;
 
+    /**
+     *
+     * @param context
+     * @param items
+     * @param hideDeleteButton
+     */
     public MenuItemRecyclerViewAdapter(Context context, LinkedHashSet<MenuItem> items,
                                        boolean hideDeleteButton) {
         this.context = context;
@@ -37,6 +49,12 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
         this.hideDeleteButton = hideDeleteButton;
     }
 
+    /**
+     *
+     * @param context
+     * @param items
+     * @param hideDeleteButton
+     */
     public MenuItemRecyclerViewAdapter(Context context, ArrayList<MenuItem> items,
                                        boolean hideDeleteButton) {
         this.context = context;
@@ -44,22 +62,42 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
         this.hideDeleteButton = hideDeleteButton;
     }
 
+    /**
+     *
+     * @param newData
+     */
     @SuppressLint("NotifyDataSetChanged")
     public void updateData(LinkedHashSet<MenuItem> newData) {
         this.items = new ArrayList<>(newData);
         notifyDataSetChanged();
     }
 
+    /**
+     *
+     * @param newData
+     */
     @SuppressLint("NotifyDataSetChanged")
     public void updateData(ArrayList<MenuItem> newData) {
         this.items = new ArrayList<>(newData);
         notifyDataSetChanged();
     }
 
+    /**
+     *
+     * @param listener
+     */
     public void setListener(MenuItemRecyclerViewAdapter.MenuItemListener listener) {
         this.listener = listener;
     }
 
+    /**
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to
+     *               an adapter position.
+     * @param viewType The view type of the new View.
+     *
+     * @return
+     */
     @NonNull
     @Override
     public MenuItemRecyclerViewAdapter.MyMenuItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,6 +107,12 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
         return new MenuItemRecyclerViewAdapter.MyMenuItemViewHolder(view);
     }
 
+    /**
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MenuItemRecyclerViewAdapter.MyMenuItemViewHolder holder, int position) {
@@ -95,16 +139,27 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
         });
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    /**
+     * @author Aryan Patel
+     */
     public static class MyMenuItemViewHolder extends RecyclerView.ViewHolder {
 
         MaterialButton deleteRowItemButton;
         TextView quantityAmountTextView, infoTextView;
 
+        /**
+         *
+         * @param itemView
+         */
         public MyMenuItemViewHolder(@NonNull View itemView) {
             super(itemView);
 

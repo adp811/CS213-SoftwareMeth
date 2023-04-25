@@ -28,6 +28,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
+/**
+ * @author Aryan Patel and Rushi Patel
+ */
 public class OrderDonutFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener {
 
     private OrderViewModel orderViewModel;
@@ -37,8 +40,16 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     private MenuItemRecyclerViewAdapter adapter;
     private LinkedHashSet<MenuItem> donutSelections;
 
+    /**
+     *
+     */
     public OrderDonutFragment() {}
 
+    /**
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +63,17 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         order = orderViewModel.getOrderLiveData().getValue();
     }
 
+    /**
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,6 +110,10 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         return view;
     }
 
+    /**
+     *
+     * @param view
+     */
     public void setDonutTypeSpinnerValues(View view) {
         Spinner spinner = view.findViewById(R.id.donutTypeSpinner);
 
@@ -98,6 +124,11 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         spinner.setSelection(0);
     }
 
+    /**
+     *
+     * @param view
+     * @param donutType
+     */
     public void setDonutFlavorSpinnerValues(View view, String donutType) {
         Spinner spinner = view.findViewById(R.id.donutFlavorSpinner);
 
@@ -117,6 +148,11 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         spinner.setSelection(0);
     }
 
+    /**
+     *
+     * @param view
+     * @param donutType
+     */
     public void setDonutTypeImageView(View view, String donutType) {
         ImageView imageView = view.findViewById(R.id.donutTypeImageView);
 
@@ -131,6 +167,10 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         }
     }
 
+    /**
+     *
+     * @param view
+     */
     public void addDonutSpinnerListener(View view) {
         Spinner donutTypeSpinner = view.findViewById(R.id.donutTypeSpinner);
         Spinner donutFlavorSpinner = view.findViewById(R.id.donutFlavorSpinner);
@@ -148,6 +188,12 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         });
     }
 
+    /**
+     * @param donutTypeSpinner
+     * @param donutFlavorSpinner
+     * @param quantityTextField
+     * @return
+     */
     public boolean validateInputs(Spinner donutTypeSpinner, Spinner donutFlavorSpinner,
                                   EditText quantityTextField) {
         String donutTypeSpinnerValue = donutTypeSpinner.getSelectedItem().toString();
@@ -168,6 +214,9 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         return !donutTypeSpinnerValue.equals("Select") && !donutFlavorSpinnerValue.equals("Select");
     }
 
+    /**
+     *
+     */
     @SuppressLint("SetTextI18n")
     public void updateSubtotal() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
@@ -187,6 +236,10 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         addDonutsToOrderButton.setText("$" + decimalFormat.format(subTotal));
     }
 
+    /**
+     *
+     * @param v
+     */
     @SuppressLint("NotifyDataSetChanged")
     public void onAddDonutSelectionButtonClick(View v) {
         Spinner donutTypeSpinner = requireView().findViewById(R.id.donutTypeSpinner);
@@ -209,6 +262,10 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         updateSubtotal();
     }
 
+    /**
+     *
+     * @param v
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void onAddDonutsToOrderButtonClick(View v) {
         if (donutSelections.isEmpty()) {
@@ -224,6 +281,10 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         addDonutsToOrderButton.setText(getResources().getString(R.string.zero_total_));
     }
 
+    /**
+     *
+     * @param position
+     */
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onDeleteRowItemButtonClicked(int position) {
