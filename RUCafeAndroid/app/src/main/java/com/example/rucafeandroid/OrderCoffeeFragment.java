@@ -1,8 +1,11 @@
 package com.example.rucafeandroid;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,26 +13,30 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.rucafeandroid.adapter.CoffeeSelectionRecyclerViewAdapter;
+
 import com.example.rucafeandroid.model.Coffee;
+import com.example.rucafeandroid.model.Donut;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 /**
  * @author Aryan Patel and Rushi Patel
  */
-public class OrderCoffeeFragment extends Fragment {
+public class OrderCoffeeFragment extends Fragment implements CoffeeSelectionRecyclerViewAdapter.CoffeeSelectionListener{
 
+    private MaterialButton addCoffeesToOrderButton;
+    private CoffeeSelectionRecyclerViewAdapter adapter;
     private LinkedHashSet<Coffee> coffeeSelections;
     private HashSet<String> chipGroupSelections;
 
-    public OrderCoffeeFragment() {
-        // Required empty public constructor
-    }
+    public OrderCoffeeFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,14 +46,26 @@ public class OrderCoffeeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_coffee, container, false);
 
-        setCupSizeSpinnerValues(view);
-        setQuantityAmountSpinnerValues(view, getResources().getInteger(R.integer.min_selection_coffee_qty),
-                getResources().getInteger(R.integer.max_selection_coffee_qty));
+        coffeeSelections = new LinkedHashSet<>();
+        chipGroupSelections = new HashSet<>();
 
         addChipGroupSelectionListener(view);
+
+        addCoffeesToOrderButton = view.findViewById(R.id.addCoffeesToOrderButton);
+
+        MaterialButton addCoffeeSelectionButton = view.findViewById(R.id.addCoffeeSelectionButton);
+        addCoffeeSelectionButton.setOnClickListener(this::onAddCoffeeSelectionButtonClick);
+
+        setCupSizeSpinnerValues(view);
+        setQuantityAmountSpinnerValues(view);
+
+        RecyclerView coffeeSelectionRecyclerView = view.findViewById(R.id.coffeeSelectionsRecyclerView);
+        coffeeSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new CoffeeSelectionRecyclerViewAdapter(getContext(), coffeeSelections);
+        adapter.setListener(this);
+        coffeeSelectionRecyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -60,49 +79,84 @@ public class OrderCoffeeFragment extends Fragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(0);
     }
 
-    private void setQuantityAmountSpinnerValues(View view, int min_qty, int max_qty) {
+    private void setQuantityAmountSpinnerValues(View view) {
         Spinner spinner = view.findViewById(R.id.quantityAmountSpinner);
 
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getContext(),
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.quantity_spinner_values,
                 android.R.layout.simple_spinner_item);
-        for (int i = min_qty; i <= max_qty; i++) adapter.add(i);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(0);
     }
 
     private void addChipGroupSelectionListener(View view) {
         ChipGroup chipGroup = view.findViewById(R.id.flavorSelectionChipGroup);
 
-        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup group, int checkedId) {
-                chipGroupSelections = new HashSet<String>();
-                List<Integer> selectedIds = group.getCheckedChipIds();
-
-                for (int id : selectedIds) {
-                    Chip flavorChip = group.findViewById(id);
-                    chipGroupSelections.add(flavorChip.getText().toString());
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroup.getChildAt(i);
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                String chipText = chip.getText().toString();
+                if (isChecked) {
+                    chipGroupSelections.add(chipText);
+                } else {
+                    chipGroupSelections.remove(chipText);
                 }
-            }
-        });
+            });
+        }
     }
 
-    private boolean validateInputs(View view) {
-        return false;
+    @SuppressLint("SetTextI18n")
+    private void updateSubtotal() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        Double subTotal = 0.00;
+
+        if(coffeeSelections.isEmpty()) {
+            addCoffeesToOrderButton.setText("$" + decimalFormat.format(subTotal));
+            return;
+        }
+
+        for (Coffee selection : coffeeSelections) {
+            int quantity = selection.getQuantity();
+            double selectionTotal = quantity * selection.itemPrice();
+            subTotal += selectionTotal;
+        }
+
+        addCoffeesToOrderButton.setText("$" + decimalFormat.format(subTotal));
     }
 
-    private void updateSubtotal(View view) {
-        return;
+    @SuppressLint("NotifyDataSetChanged")
+    private void onAddCoffeeSelectionButtonClick(View v) {
+        Spinner cupSizeSpinner = requireView().findViewById(R.id.cupSizeSpinner);
+        Spinner quantityAmountSpinner = requireView().findViewById(R.id.quantityAmountSpinner);
+
+        int quantity = Integer.parseInt(quantityAmountSpinner.getSelectedItem().toString());
+        String cupSize = cupSizeSpinner.getSelectedItem().toString();
+        HashSet<String> flavorAddIns = new HashSet<>(chipGroupSelections);
+
+        Coffee selection = new Coffee(quantity, cupSize, flavorAddIns);
+        coffeeSelections.remove(selection);
+        coffeeSelections.add(selection);
+
+        adapter.updateData(coffeeSelections);
+        adapter.notifyDataSetChanged();
+
+        updateSubtotal();
     }
 
-    private void onAddCoffeeSelectionButtonClick(View view) {
-        return;
-    }
-
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
     public void onDeleteRowItemButtonClicked(int position) {
-        return;
+        Coffee selection = new ArrayList<>(coffeeSelections).get(position);
+        coffeeSelections.remove(selection);
+
+        adapter.updateData(coffeeSelections);
+        adapter.notifyDataSetChanged();
+
+        updateSubtotal();
     }
 }

@@ -23,14 +23,6 @@ public class Coffee extends MenuItem {
     public static final String GRANDE = "Grande";
     public static final String VENTI = "Venti";
 
-    /* Coffee Add Ins */
-    public static final String SWEET_CREAM = "Sweet Cream";
-    public static final String FRENCH_VANILLA = "French Vanilla";
-    public static final String IRISH_CREAM = "Irish Cream";
-    public static final String CARAMEL = "Caramel";
-    public static final String MOCHA = "Mocha";
-    public static final String PEPPERMINT = "Peppermint";
-
     /* Coffee Prices by Cup Size */
     private static final Double COFFEE_PRICE_INCREMENT = 0.40;
     public static final Double SHORT_PRICE = 1.89;
@@ -38,9 +30,6 @@ public class Coffee extends MenuItem {
     public static final Double GRANDE_PRICE = TALL_PRICE + COFFEE_PRICE_INCREMENT;
     public static final Double VENTI_PRICE = GRANDE_PRICE + COFFEE_PRICE_INCREMENT;
     public static final Double UNDETERMINED_PRICE = 0.0;
-
-    /* Coffee Add In Price */
-    public static final Double SINGLE_ADD_IN_PRICE = 0.30;
 
     /**
      * constructor of class.

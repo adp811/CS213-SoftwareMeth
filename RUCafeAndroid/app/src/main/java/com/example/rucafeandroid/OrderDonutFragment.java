@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import com.example.rucafeandroid.adapter.DonutSelectionRecyclerViewAdapter;
 import com.example.rucafeandroid.model.Donut;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.shape.MaterialShapeUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -26,13 +27,7 @@ import java.util.LinkedHashSet;
 
 public class OrderDonutFragment extends Fragment implements DonutSelectionRecyclerViewAdapter.DonutSelectionListener {
 
-    private static final int MIN_DONUT_QUANTITY = 1;
-
-    private Spinner donutTypeSpinner, donutFlavorSpinner;
-    private EditText quantityTextField;
-    private ImageView donutTypeImageView;
     private MaterialButton addDonutsToOrderButton;
-
     private DonutSelectionRecyclerViewAdapter adapter;
     private LinkedHashSet<Donut> donutSelections = new LinkedHashSet<>();
 
@@ -48,17 +43,18 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_donut, container, false);
 
-        donutTypeSpinner = view.findViewById(R.id.donutTypeSpinner);
-        donutFlavorSpinner = view.findViewById(R.id.donutFlavorSpinner);
-        setDonutTypeSpinnerValues(donutTypeSpinner);
-        setDonutFlavorSpinnerValues(donutFlavorSpinner, getString(R.string.yeast_donut));
-        addDonutSpinnerListener(donutTypeSpinner, donutFlavorSpinner);
+        addDonutSpinnerListener(view);
 
-        quantityTextField = view.findViewById(R.id.quantityTextField);
+        EditText quantityTextField = view.findViewById(R.id.quantityTextField);
         quantityTextField.setText(R.string.min_donut_qty);
+
+        addDonutsToOrderButton = view.findViewById(R.id.addDonutsToOrderButton);
 
         MaterialButton addDonutSelectionButton = view.findViewById(R.id.addDonutSelectionButton);
         addDonutSelectionButton.setOnClickListener(this::onAddDonutSelectionButtonClick);
+
+        setDonutTypeSpinnerValues(view);
+        setDonutFlavorSpinnerValues(view, getString(R.string.yeast_donut));
 
         RecyclerView donutSelectionRecyclerView = view.findViewById(R.id.donutSelectionsRecyclerView);
         donutSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -66,20 +62,22 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
         adapter.setListener(this);
         donutSelectionRecyclerView.setAdapter(adapter);
 
-        donutTypeImageView = view.findViewById(R.id.donutTypeImageView);
-        addDonutsToOrderButton = view.findViewById(R.id.addDonutsToOrderButton);
-
         return view;
     }
 
-    public void setDonutTypeSpinnerValues(Spinner spinner) {
+    public void setDonutTypeSpinnerValues(View view) {
+        Spinner spinner = view.findViewById(R.id.donutTypeSpinner);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getContext(), R.array.donut_type_spinner_values, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(0);
     }
 
-    public void setDonutFlavorSpinnerValues(Spinner spinner, String donutType) {
+    public void setDonutFlavorSpinnerValues(View view, String donutType) {
+        Spinner spinner = view.findViewById(R.id.donutFlavorSpinner);
+
         int typeID = 0;
         if(donutType.equals(getString(R.string.yeast_donut))) {
             typeID = R.array.donut_flavor_spinner_values_yeast;
@@ -93,9 +91,12 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
                 getContext(), typeID, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(0);
     }
 
-    public void setDonutTypeImageView(ImageView imageView, String donutType) {
+    public void setDonutTypeImageView(View view, String donutType) {
+        ImageView imageView = view.findViewById(R.id.donutTypeImageView);
+
         if (donutType.equals(getString(R.string.yeast_donut))) {
             imageView.setImageResource(R.drawable.yeast_donut);
         } else if (donutType.equals(getString(R.string.cake_donut))) {
@@ -107,7 +108,11 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
         }
     }
 
-    public void addDonutSpinnerListener (Spinner donutTypeSpinner, Spinner donutFlavorSpinner) {
+    public void addDonutSpinnerListener(View view) {
+        Spinner donutTypeSpinner = view.findViewById(R.id.donutTypeSpinner);
+        Spinner donutFlavorSpinner = view.findViewById(R.id.donutFlavorSpinner);
+        ImageView donutTypeImageView = view.findViewById(R.id.donutTypeImageView);
+
         donutTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String donutType = parent.getItemAtPosition(position).toString();
@@ -120,14 +125,16 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
         });
     }
 
-    public boolean validateInputs() {
+    public boolean validateInputs(Spinner donutTypeSpinner, Spinner donutFlavorSpinner,
+                                  EditText quantityTextField) {
         String donutTypeSpinnerValue = donutTypeSpinner.getSelectedItem().toString();
         String donutFlavorSpinnerValue = donutFlavorSpinner.getSelectedItem().toString();
 
         try {
             int value = Integer.parseInt(quantityTextField.getText().toString().trim());
-            if (value < MIN_DONUT_QUANTITY) {
-                // The input is negative, or zero
+            if (value < getResources().getInteger(R.integer.min_selection_donut_qty) ||
+                value > getResources().getInteger(R.integer.max_selection_donut_qty)) {
+                // The input is negative, zero, or over max
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -139,7 +146,7 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
     }
 
     @SuppressLint("SetTextI18n")
-    public void updateSubtotal(MaterialButton addDonutsToOrderButton) {
+    public void updateSubtotal() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
         Double subTotal = 0.00;
 
@@ -158,12 +165,16 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void onAddDonutSelectionButtonClick(View view) {
-        if(!validateInputs()) return;
+    public void onAddDonutSelectionButtonClick(View v) {
+        Spinner donutTypeSpinner = requireView().findViewById(R.id.donutTypeSpinner);
+        Spinner donutFlavorSpinner = requireView().findViewById(R.id.donutFlavorSpinner);
+        EditText quantityTextField = requireView().findViewById(R.id.quantityTextField);
 
+        if (!validateInputs(donutTypeSpinner, donutFlavorSpinner, quantityTextField)) return;
+
+        int quantity = Integer.parseInt(quantityTextField.getText().toString().trim());
         String type = donutTypeSpinner.getSelectedItem().toString();
         String flavor = donutFlavorSpinner.getSelectedItem().toString();
-        int quantity = Integer.parseInt(quantityTextField.getText().toString().trim());
 
         Donut selection = new Donut(quantity, type, flavor);
         donutSelections.remove(selection);
@@ -172,7 +183,7 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
         adapter.updateData(donutSelections);
         adapter.notifyDataSetChanged();
 
-        updateSubtotal(addDonutsToOrderButton);
+        updateSubtotal();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -184,6 +195,6 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
         adapter.updateData(donutSelections);
         adapter.notifyDataSetChanged();
 
-        updateSubtotal(addDonutsToOrderButton);
+        updateSubtotal();
     }
 }
