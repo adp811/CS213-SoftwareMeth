@@ -41,6 +41,28 @@ public abstract class MenuItem {
     }
 
     /**
+     *
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuItem menuItem = (MenuItem) o;
+        return quantity == menuItem.quantity;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(quantity);
+    }
+
+    /**
      * toString() method.
      *
      * @return menu item details.

@@ -124,6 +124,7 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="onAddDonutsToOrderButtonClick"
                 android:text="$0.00"
                 app:icon="@drawable/iconmonstr_basket_13"
                 app:iconGravity="textStart" />

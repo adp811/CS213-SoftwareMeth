@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.rucafeandroid.adapter.CoffeeSelectionRecyclerViewAdapter;
-
+import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
 import com.example.rucafeandroid.model.Coffee;
-import com.example.rucafeandroid.model.Donut;
+import com.example.rucafeandroid.model.MenuItem;
+import com.example.rucafeandroid.model.Order;
+import com.example.rucafeandroid.model.OrderViewModel;
+import com.example.rucafeandroid.utils.randomIDGenerator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -29,11 +32,14 @@ import java.util.LinkedHashSet;
 /**
  * @author Aryan Patel and Rushi Patel
  */
-public class OrderCoffeeFragment extends Fragment implements CoffeeSelectionRecyclerViewAdapter.CoffeeSelectionListener{
+public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener{
+
+    private OrderViewModel orderViewModel;
+    private Order order;
 
     private MaterialButton addCoffeesToOrderButton;
-    private CoffeeSelectionRecyclerViewAdapter adapter;
-    private LinkedHashSet<Coffee> coffeeSelections;
+    private MenuItemRecyclerViewAdapter adapter;
+    private LinkedHashSet<MenuItem> coffeeSelections;
     private HashSet<String> chipGroupSelections;
 
     public OrderCoffeeFragment() {}
@@ -41,12 +47,24 @@ public class OrderCoffeeFragment extends Fragment implements CoffeeSelectionRecy
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        orderViewModel = new ViewModelProvider(requireActivity()).get(OrderViewModel.class);
+
+        if (orderViewModel.getOrderLiveData().getValue() == null) {
+            orderViewModel.setOrder(new Order(randomIDGenerator.generateRandomID(9)));
+        }
+
+        order = orderViewModel.getOrderLiveData().getValue();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_coffee, container, false);
+
+        orderViewModel.getOrderLiveData().observe(getViewLifecycleOwner(), newOrder -> {
+            order = newOrder;
+        });
 
         coffeeSelections = new LinkedHashSet<>();
         chipGroupSelections = new HashSet<>();
@@ -58,12 +76,15 @@ public class OrderCoffeeFragment extends Fragment implements CoffeeSelectionRecy
         MaterialButton addCoffeeSelectionButton = view.findViewById(R.id.addCoffeeSelectionButton);
         addCoffeeSelectionButton.setOnClickListener(this::onAddCoffeeSelectionButtonClick);
 
+        MaterialButton addCoffeesToOrderButton = view.findViewById(R.id.addCoffeesToOrderButton);
+        addCoffeesToOrderButton.setOnClickListener(this::onAddCoffeesToOrderButtonClick);
+
         setCupSizeSpinnerValues(view);
         setQuantityAmountSpinnerValues(view);
 
         RecyclerView coffeeSelectionRecyclerView = view.findViewById(R.id.coffeeSelectionsRecyclerView);
         coffeeSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CoffeeSelectionRecyclerViewAdapter(getContext(), coffeeSelections);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), coffeeSelections);
         adapter.setListener(this);
         coffeeSelectionRecyclerView.setAdapter(adapter);
 
@@ -120,7 +141,7 @@ public class OrderCoffeeFragment extends Fragment implements CoffeeSelectionRecy
             return;
         }
 
-        for (Coffee selection : coffeeSelections) {
+        for (MenuItem selection : coffeeSelections) {
             int quantity = selection.getQuantity();
             double selectionTotal = quantity * selection.itemPrice();
             subTotal += selectionTotal;
@@ -149,9 +170,24 @@ public class OrderCoffeeFragment extends Fragment implements CoffeeSelectionRecy
     }
 
     @SuppressLint("NotifyDataSetChanged")
+    private void onAddCoffeesToOrderButtonClick(View v) {
+        if (coffeeSelections.isEmpty()) {
+            return;
+        }
+
+        order.getOrderItems().addAll(coffeeSelections);
+        coffeeSelections.clear();
+
+        adapter.updateData(coffeeSelections);
+        adapter.notifyDataSetChanged();
+
+        addCoffeesToOrderButton.setText(getResources().getString(R.string.zero_total));
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onDeleteRowItemButtonClicked(int position) {
-        Coffee selection = new ArrayList<>(coffeeSelections).get(position);
+        MenuItem selection = new ArrayList<>(coffeeSelections).get(position);
         coffeeSelections.remove(selection);
 
         adapter.updateData(coffeeSelections);

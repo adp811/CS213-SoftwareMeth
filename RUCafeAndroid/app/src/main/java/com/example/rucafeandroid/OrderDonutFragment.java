@@ -3,6 +3,7 @@ package com.example.rucafeandroid;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,33 +16,52 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.example.rucafeandroid.adapter.DonutSelectionRecyclerViewAdapter;
+import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
 import com.example.rucafeandroid.model.Donut;
+import com.example.rucafeandroid.model.MenuItem;
+import com.example.rucafeandroid.model.Order;
+import com.example.rucafeandroid.model.OrderViewModel;
+import com.example.rucafeandroid.utils.randomIDGenerator;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.shape.MaterialShapeUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 
-public class OrderDonutFragment extends Fragment implements DonutSelectionRecyclerViewAdapter.DonutSelectionListener {
+public class OrderDonutFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener {
+
+    private OrderViewModel orderViewModel;
+    private Order order;
 
     private MaterialButton addDonutsToOrderButton;
-    private DonutSelectionRecyclerViewAdapter adapter;
-    private LinkedHashSet<Donut> donutSelections = new LinkedHashSet<>();
+    private MenuItemRecyclerViewAdapter adapter;
+    private LinkedHashSet<MenuItem> donutSelections;
 
     public OrderDonutFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        orderViewModel = new ViewModelProvider(requireActivity()).get(OrderViewModel.class);
+
+        if (orderViewModel.getOrderLiveData().getValue() == null) {
+            orderViewModel.setOrder(new Order(randomIDGenerator.generateRandomID(9)));
+        }
+
+        order = orderViewModel.getOrderLiveData().getValue();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_donut, container, false);
+
+        orderViewModel.getOrderLiveData().observe(getViewLifecycleOwner(), newOrder -> {
+            order = newOrder;
+        });
+
+        donutSelections = new LinkedHashSet<>();
 
         addDonutSpinnerListener(view);
 
@@ -53,12 +73,15 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
         MaterialButton addDonutSelectionButton = view.findViewById(R.id.addDonutSelectionButton);
         addDonutSelectionButton.setOnClickListener(this::onAddDonutSelectionButtonClick);
 
+        MaterialButton addDonutsToOrderButton = view.findViewById(R.id.addDonutsToOrderButton);
+        addDonutsToOrderButton.setOnClickListener(this::onAddDonutsToOrderButtonClick);
+
         setDonutTypeSpinnerValues(view);
         setDonutFlavorSpinnerValues(view, getString(R.string.yeast_donut));
 
         RecyclerView donutSelectionRecyclerView = view.findViewById(R.id.donutSelectionsRecyclerView);
         donutSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new DonutSelectionRecyclerViewAdapter(getContext(), donutSelections);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), donutSelections);
         adapter.setListener(this);
         donutSelectionRecyclerView.setAdapter(adapter);
 
@@ -155,7 +178,7 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
             return;
         }
 
-        for (Donut selection : donutSelections) {
+        for (MenuItem selection : donutSelections) {
             int quantity = selection.getQuantity();
             double selectionTotal = quantity * selection.itemPrice();
             subTotal += selectionTotal;
@@ -187,9 +210,24 @@ public class OrderDonutFragment extends Fragment implements DonutSelectionRecycl
     }
 
     @SuppressLint("NotifyDataSetChanged")
+    private void onAddDonutsToOrderButtonClick(View v) {
+        if (donutSelections.isEmpty()) {
+            return;
+        }
+
+        order.getOrderItems().addAll(donutSelections);
+        donutSelections.clear();
+
+        adapter.updateData(donutSelections);
+        adapter.notifyDataSetChanged();
+
+        addDonutsToOrderButton.setText(getResources().getString(R.string.zero_total));
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onDeleteRowItemButtonClicked(int position) {
-        Donut selection = new ArrayList<>(donutSelections).get(position);
+        MenuItem selection = new ArrayList<>(donutSelections).get(position);
         donutSelections.remove(selection);
 
         adapter.updateData(donutSelections);

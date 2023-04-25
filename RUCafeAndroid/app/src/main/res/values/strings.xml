@@ -100,4 +100,7 @@
         <item>25</item>
     </string-array>
 
+    <!-- Misc -->
+    <string name="zero_total">$0.00</string>
+
 </resources>

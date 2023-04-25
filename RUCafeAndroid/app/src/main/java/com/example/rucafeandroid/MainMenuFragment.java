@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -11,18 +12,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.rucafeandroid.model.Order;
+import com.example.rucafeandroid.model.OrderViewModel;
+import com.example.rucafeandroid.utils.randomIDGenerator;
+
 /**
  * @author Aryan Patel and Rushi Patel
  */
 public class MainMenuFragment extends Fragment {
 
-    public MainMenuFragment () {
-        // Required empty public constructor
-    }
+    private OrderViewModel orderViewModel;
+    private Order order;
+
+    public MainMenuFragment () {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        orderViewModel = new ViewModelProvider(requireActivity()).get(OrderViewModel.class);
+
+        if (orderViewModel.getOrderLiveData().getValue() == null) {
+            orderViewModel.setOrder(new Order(randomIDGenerator.generateRandomID(9)));
+        }
+
+        order = orderViewModel.getOrderLiveData().getValue();
     }
 
     @Override
@@ -30,6 +44,10 @@ public class MainMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
+
+        orderViewModel.getOrderLiveData().observe(getViewLifecycleOwner(), newOrder -> {
+            order = newOrder;
+        });
 
         AppCompatImageButton orderDonutsButton = view.findViewById(R.id.orderDonutsButton);
         AppCompatImageButton orderCoffeeButton = view.findViewById(R.id.orderCoffeeButton);
