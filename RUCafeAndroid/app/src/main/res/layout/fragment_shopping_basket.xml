@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShoppingBasketFragment" >
+    tools:context=".ShoppingBasketFragment">
 
     <LinearLayout
         android:layout_width="409dp"
@@ -23,11 +23,11 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:title=" Shopping Basket # "
+            app:title="Shopping Basket #"
             app:titleTextColor="@color/white" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/storeOrdersRecyclerView"
+            android:id="@+id/orderItemsRecyclerView"
             android:layout_width="325dp"
             android:layout_height="450dp"
             android:layout_marginTop="25dp" />
@@ -35,35 +35,38 @@
         <LinearLayout
             android:layout_width="325dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/subtotalTextViewSO"
+                    android:id="@+id/subtotalTextViewSB"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Subtotal:"
+                    android:layout_marginTop="6dp"
+                    android:text="Subtotal: "
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/salesTaxTextViewSO"
+                    android:id="@+id/salesTaxTextViewSB"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:text="Sales Tax:"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/orderTotalTextViewSO"
+                    android:id="@+id/orderTotalTextViewSB"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Order Total: "
+                    android:text="Order Total:"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -75,16 +78,18 @@
             <LinearLayout
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/placeOrderButtonSO"
+                    android:id="@+id/placeOrderButton"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
+                    android:onClick="onPlaceOrderButtonClick"
                     android:text="Place Order"
+                    android:textSize="16sp"
                     app:cornerRadius="10dp" />
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

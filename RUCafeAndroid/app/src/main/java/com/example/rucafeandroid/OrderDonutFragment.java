@@ -81,7 +81,7 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
 
         RecyclerView donutSelectionRecyclerView = view.findViewById(R.id.donutSelectionsRecyclerView);
         donutSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MenuItemRecyclerViewAdapter(getContext(), donutSelections);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), donutSelections, false);
         adapter.setListener(this);
         donutSelectionRecyclerView.setAdapter(adapter);
 
@@ -143,7 +143,7 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
                 setDonutTypeImageView(donutTypeImageView, donutType);
             }
             public void onNothingSelected(AdapterView<?> parent) {
-                // do nothing for now...
+                /* do nothing for now... */
             }
         });
     }
@@ -221,7 +221,7 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         adapter.updateData(donutSelections);
         adapter.notifyDataSetChanged();
 
-        addDonutsToOrderButton.setText(getResources().getString(R.string.zero_total));
+        addDonutsToOrderButton.setText(getResources().getString(R.string.zero_total_));
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -84,7 +84,7 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
 
         RecyclerView coffeeSelectionRecyclerView = view.findViewById(R.id.coffeeSelectionsRecyclerView);
         coffeeSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MenuItemRecyclerViewAdapter(getContext(), coffeeSelections);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), coffeeSelections, false);
         adapter.setListener(this);
         coffeeSelectionRecyclerView.setAdapter(adapter);
 
@@ -181,7 +181,7 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         adapter.updateData(coffeeSelections);
         adapter.notifyDataSetChanged();
 
-        addCoffeesToOrderButton.setText(getResources().getString(R.string.zero_total));
+        addCoffeesToOrderButton.setText(getResources().getString(R.string.zero_total_));
     }
 
     @SuppressLint("NotifyDataSetChanged")

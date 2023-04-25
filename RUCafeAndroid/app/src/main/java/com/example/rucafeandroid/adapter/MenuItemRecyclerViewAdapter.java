@@ -27,15 +27,31 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
 
     private Context context;
     private ArrayList<MenuItem> items;
+    private boolean hideDeleteButton;
     private MenuItemListener listener;
 
-    public MenuItemRecyclerViewAdapter(Context context, LinkedHashSet<MenuItem> items) {
+    public MenuItemRecyclerViewAdapter(Context context, LinkedHashSet<MenuItem> items,
+                                       boolean hideDeleteButton) {
         this.context = context;
         this.items = new ArrayList<>(items);
+        this.hideDeleteButton = hideDeleteButton;
+    }
+
+    public MenuItemRecyclerViewAdapter(Context context, ArrayList<MenuItem> items,
+                                       boolean hideDeleteButton) {
+        this.context = context;
+        this.items = new ArrayList<>(items);
+        this.hideDeleteButton = hideDeleteButton;
     }
 
     @SuppressLint("NotifyDataSetChanged")
     public void updateData(LinkedHashSet<MenuItem> newData) {
+        this.items = new ArrayList<>(newData);
+        notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateData(ArrayList<MenuItem> newData) {
         this.items = new ArrayList<>(newData);
         notifyDataSetChanged();
     }
@@ -65,9 +81,12 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
 
         } else if (rowItem instanceof Coffee) {
             holder.quantityAmountTextView.setText("x" + rowItem.getQuantity());
-            holder.infoTextView.setText(((Coffee) rowItem).getCupSize() + "   " +
+            holder.infoTextView.setText(((Coffee) rowItem).getCupSize() + " " +
                     ((Coffee) rowItem).getAddIns().toString().replace("[", "(").replace("]", ")"));
         }
+
+        if (hideDeleteButton) holder.deleteRowItemButton.setVisibility(View.GONE);
+        else holder.deleteRowItemButton.setVisibility(View.VISIBLE);
 
         holder.deleteRowItemButton.setOnClickListener(v -> {
             if (listener != null) {

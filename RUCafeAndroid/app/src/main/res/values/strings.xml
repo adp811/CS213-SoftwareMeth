@@ -100,7 +100,14 @@
         <item>25</item>
     </string-array>
 
+    <!-- Shopping Basket / Store Orders Fragment -->
+    <string name="subtotal_">Subtotal: $</string>
+    <string name="sales_tax_">Sales Tax: $</string>
+    <string name="order_total_">Order Total: $</string>
+    <string name="shopping_basket_title">"Shopping Basket #: "</string>
+    <string name="order_num">Order #:</string>
+
     <!-- Misc -->
-    <string name="zero_total">$0.00</string>
+    <string name="zero_total_">$0.00</string>
 
 </resources>

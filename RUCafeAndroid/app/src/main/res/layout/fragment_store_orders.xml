@@ -32,43 +32,46 @@
             android:layout_marginTop="25dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/storeOrdersRecyclerView"
+            android:id="@+id/storeOrderItemsRecyclerView"
             android:layout_width="325dp"
-            android:layout_height="370dp"
-            android:layout_marginTop="25dp" />
+            android:layout_height="400dp"
+            android:layout_marginTop="20dp" />
 
         <LinearLayout
             android:layout_width="325dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/subtotalTextViewSO"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Subtotal:"
+                    android:layout_marginTop="6dp"
+                    android:text="Subtotal: "
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/salesTaxTextViewSO"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Sales Tax:"
+                    android:text="Sales Tax: "
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/orderTotalTextViewSO"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Order Total: "
+                    android:text="Order Total:"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -80,17 +83,25 @@
             <LinearLayout
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/placeOrderButtonSO"
+                    android:id="@+id/cancelOrderButton"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:text="Place Order"
+                    android:layout_height="60dp"
+                    android:onClick="onCancelOrderButtonClick"
+                    android:text="Cancel Order"
+                    android:textSize="16sp"
+                    app:cornerRadius="10dp" />
+
+                <Button
+                    android:id="@+id/exportOrderButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Export Order"
+                    android:textSize="16sp"
                     app:cornerRadius="10dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
