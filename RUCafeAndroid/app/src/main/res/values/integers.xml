@@ -1,10 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Order Donut Fragment -->
-    <integer name="min_selection_donut_qty">1</integer>
-    <integer name="max_selection_donut_qty">500</integer>
-
-    <!-- Order Coffee Fragment -->
-    <integer name="min_selection_coffee_qty">1</integer>
-    <integer name="max_selection_coffee_qty">25</integer>
 </resources>

@@ -2,17 +2,16 @@ package com.example.rucafeandroid.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rucafeandroid.R;
 import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
@@ -27,10 +26,12 @@ import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 /**
+ * This is the controlling class for the Shopping Basket Fragment. It contains
+ * the life cycle and UI methods of the fragment.
+ *
  * @author Aryan Patel and Rushi Patel
  */
 public class ShoppingBasketFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener {
@@ -49,11 +50,13 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
     private MaterialToolbar shoppingBasketFragmentToolbar;
 
     /**
-     *
+     * Required public empty constructor().
      */
     public ShoppingBasketFragment() {}
 
     /**
+     * This method is called when the fragment is created. The shared data
+     * is initialized here.
      *
      * @param savedInstanceState If the fragment is being re-created from
      * a previous saved state, this is the state.
@@ -76,6 +79,8 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
     }
 
     /**
+     * This method is called when the view within the fragment is created. The
+     * UI elements are initialized here.
      *
      * @param inflater The LayoutInflater object that can be used to inflate
      * any views in the fragment,
@@ -85,7 +90,7 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      *
-     * @return
+     * @return root view that contains the UI for the ShoppingBasketFragment.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,7 +105,7 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
 
         RecyclerView orderItemsRecyclerView = view.findViewById(R.id.orderItemsRecyclerView);
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MenuItemRecyclerViewAdapter(getContext(), order.getOrderItems(), false);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), false, order.getOrderItems());
         adapter.setListener(this);
         orderItemsRecyclerView.setAdapter(adapter);
 
@@ -120,8 +125,9 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
     }
 
     /**
+     * This method sets the tool bar title to contain the given order number.
      *
-     * @param orderNumber
+     * @param orderNumber string which contains the 9-digit order number,
      */
     private void setToolBarTitleOrderNumber (String orderNumber) {
         shoppingBasketFragmentToolbar.setTitle(getString(R.string.shopping_basket_title)
@@ -129,10 +135,13 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
     }
 
     /**
+     * This method sets the total text views to formatted dollar amounts that are
+     * given as doubles. The method updates the subtotal, sales tax, and order
+     * total text views.
      *
-     * @param subTotal
-     * @param salesTax
-     * @param orderTotal
+     * @param subTotal double containing the current order subtotal.
+     * @param salesTax double containing the current order sales tax.
+     * @param orderTotal double containing the current order total.
      */
     private void setTotals(double subTotal, double salesTax, double orderTotal) {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
@@ -151,6 +160,9 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
     }
 
     /**
+     * This method refreshes the totals displayed in UI text views.
+     * The method is called whenever there is a change to the current
+     * order items in the shopping basket.
      *
      */
     private void updateTotals() {
@@ -174,8 +186,12 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
     }
 
     /**
+     * This method is the on click action for the place order button.
+     * Once clicked, the current order is stored in the set containing all
+     * the current store orders. A new order is created and set as the current
+     * order.
      *
-     * @param v
+     * @param v root view that contains the UI for the ShoppingBasketFragment.
      */
     @SuppressLint("NotifyDataSetChanged")
     private void onPlaceOrderButtonClick(View v) {
@@ -196,8 +212,12 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
     }
 
     /**
+     * This method is the on click action implemented for the delete
+     * row item button in each row item of the recycler view.
      *
-     * @param position
+     * @param position int which contains the index position of the
+     *                 row item where the delete row item button was
+     *                 clicked.
      */
     @SuppressLint("NotifyDataSetChanged")
     @Override

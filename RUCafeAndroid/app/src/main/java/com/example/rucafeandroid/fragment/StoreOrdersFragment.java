@@ -1,7 +1,6 @@
 package com.example.rucafeandroid.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,27 +14,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rucafeandroid.R;
 import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
 import com.example.rucafeandroid.model.MenuItem;
 import com.example.rucafeandroid.model.Order;
-import com.example.rucafeandroid.model.OrderViewModel;
 import com.example.rucafeandroid.model.StoreOrdersViewModel;
-import com.example.rucafeandroid.utils.randomIDGenerator;
+import com.example.rucafeandroid.utils.ToastUtils;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Objects;
 
 /**
+ * This is the controlling class for the Store Orders Fragment. It contains
+ * the life cycle and UI methods of the fragment.
  *
+ * @author Aryan Patel and Rushi Patel
  */
 public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener {
 
@@ -51,11 +51,13 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     private TextView subtotalTextViewSO, salesTaxTextViewSO, orderTotalTextViewSO;
 
     /**
-     *
+     * Required empty public constructor().
      */
     public StoreOrdersFragment() {}
 
     /**
+     * This method is called when the fragment is created. The shared data
+     * is initialized here.
      *
      * @param savedInstanceState If the fragment is being re-created from
      * a previous saved state, this is the state.
@@ -72,6 +74,8 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method is called when the view within the fragment is created. The
+     * UI elements are initialized here.
      *
      * @param inflater The LayoutInflater object that can be used to inflate
      * any views in the fragment,
@@ -80,8 +84,7 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
      * but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
-     *
-     * @return
+     * @return root view that contains the UI for the StoreOrdersFragment.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,7 +101,7 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         RecyclerView storeOrderItemsRecyclerView = view.findViewById(R.id.storeOrderItemsRecyclerView);
         storeOrderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new MenuItemRecyclerViewAdapter(getContext(), new ArrayList<>(), true);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), true, new ArrayList<>());
         adapter.setListener(this);
         storeOrderItemsRecyclerView.setAdapter(adapter);
         updateRecyclerViewAdapterData();
@@ -110,13 +113,19 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
         MaterialButton cancelOrderButton = view.findViewById(R.id.cancelOrderButton);
         cancelOrderButton.setOnClickListener(this::onCancelOrderButtonClick);
 
+        MaterialButton exportOrderButton = view.findViewById(R.id.exportOrderButton);
+        exportOrderButton.setOnClickListener(this::onExportOrderButtonClick);
+
         return view;
     }
 
     /**
+     * This helper method retrieves the order associated with the
+     * given order number, from the set of current store orders. If the
+     * order is not found, null is returned.
      *
-     * @param orderNumber
-     * @return
+     * @param orderNumber int which is the order number of the order to find.
+     * @return Order representing the order associated with the given order number.
      */
     private Order retrieveOrderByNumber (int orderNumber) {
         for (Order placedOrder : storeOrders) {
@@ -128,14 +137,18 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This helper method retrieves all the order numbers of the orders
+     * contained in the current set of store orders. The method returns the
+     * numbers contained in an array list of strings.
      *
-     * @return
+     * @return array list of strings representing the orders numbers of the
+     * current store orders.
      */
     private ArrayList<String> retrieveAllOrderNumbers () {
         ArrayList<String> orderNumbers = new ArrayList<>();
 
         if (storeOrders.isEmpty()) {
-            orderNumbers.add("No orders available");
+            orderNumbers.add(getString(R.string.no_orders_available));
         } else {
             for (Order placedOrder : storeOrders) {
                 orderNumbers.add(getString(R.string.order_num) +
@@ -147,10 +160,13 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method sets the total text views to formatted dollar amounts that are
+     * given as doubles. The method updates the subtotal, sales tax, and order
+     * total text views.
      *
-     * @param subTotal
-     * @param salesTax
-     * @param orderTotal
+     * @param subTotal double containing the current order subtotal.
+     * @param salesTax double containing the current order sales tax.
+     * @param orderTotal double containing the current order total.
      */
     private void setTotals(double subTotal, double salesTax, double orderTotal) {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
@@ -169,6 +185,9 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method refreshes the totals displayed in UI text views.
+     * The method is called whenever there is a change to the current
+     * selected order.
      *
      */
     private void updateTotals() {
@@ -192,8 +211,10 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method sets the values of the order number spinner that are retrieved
+     * from the current set of store orders.
      *
-     * @param view
+     * @param view root view that contains the UI for the StoreOrdersFragment.
      */
     private void setOrderNumberSpinner (View view) {
         Spinner spinner = view.findViewById(R.id.orderNumberSpinner);
@@ -208,8 +229,11 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method adds a listener to the order number spinner to detect any changed to
+     * the selected order value. Based on the selected order, the items in the recycler view
+     * and the totals are updated to reflect the order information in the selected order.
      *
-     * @param view
+     * @param view root view that contains the UI for the StoreOrdersFragment.
      */
     public void addOrderNumberSpinnerListener(View view) {
         Spinner orderNumberSpinner = view.findViewById(R.id.orderNumberSpinner);
@@ -218,7 +242,7 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedOrderNumberString = parent.getItemAtPosition(position).toString();
 
-                if (selectedOrderNumberString.equals("No orders available")) {
+                if (selectedOrderNumberString.equals(getString(R.string.no_orders_available))) {
                     selectedOrder = null;
                     updateRecyclerViewAdapterData();
                     updateTotals();
@@ -236,6 +260,8 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This is a helper method to update the recycler view items based on
+     * the selected order.
      *
      */
     @SuppressLint("NotifyDataSetChanged")
@@ -249,22 +275,26 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method is the on click action for the cancel order button.
+     * Once clicked, an confirmation dialogue is shown. If canceled, the
+     * selected order from the order number spinner is removed from the set of
+     * current store orders.
      *
-     * @param v
+     * @param v root view that contains the UI for the StoreOrdersFragment.
      */
     private void onCancelOrderButtonClick(View v) {
         if (selectedOrder != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("Cancel Order");
-            builder.setMessage("Are you sure you want to cancel this order?");
+            builder.setTitle(R.string.alert_cancel_order);
+            builder.setMessage(R.string.alert_cancel_order_desc);
 
-            builder.setPositiveButton("Yes", (dialog, which) -> {
+            builder.setPositiveButton(R.string.alert_yes, (dialog, which) -> {
                 storeOrders.remove(selectedOrder);
                 storeOrdersViewModel.getStoreOrdersLiveData().setValue(storeOrders);
                 setOrderNumberSpinner(requireView());
             });
 
-            builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
+            builder.setNegativeButton(R.string.alert_no, (dialog, which) -> dialog.cancel());
 
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
@@ -272,8 +302,28 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method is the on click action for the export order button.
+     * <p>
+     * (FEATURE IS NOT IMPLEMENTED)
      *
-     * @param position
+     * @param v root view that contains the UI for the StoreOrdersFragment.
+     */
+    private void onExportOrderButtonClick(View v) {
+        /* feature not implemented, toast is show for now */
+        ToastUtils.showToast(getContext(),
+                getString(R.string.toast_feature_unavailable),
+                Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * This method is the on click action implemented for the delete
+     * row item button in each row item of the recycler view.
+     * <p>
+     * (BUTTON IS DISABLED FOR THIS FRAGMENT)
+     *
+     * @param position int which contains the index position of the
+     *                 row item where the delete row item button was
+     *                 clicked.
      */
     @Override
     public void onDeleteRowItemButtonClicked(int position) {

@@ -20,12 +20,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 /**
+ * This is the Recycler View Adapter class for a MenuItem recycler view. This adapter
+ * is used throughout all the RecyclerViews within the application.
+ *
  * @author Aryan Patel
  */
 public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRecyclerViewAdapter.MyMenuItemViewHolder> {
 
     /**
-     *
+     * MenuItemListener interface that needs to be implemented in order to
+     * use the adapter. Defines header for the delete button action in each
+     * row item.
      */
     public interface MenuItemListener {
         void onDeleteRowItemButtonClicked(int position);
@@ -37,34 +42,42 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     private MenuItemListener listener;
 
     /**
+     * Overloaded constructor to create a new adapter instance
+     * given a set of MenuItem objects.
      *
-     * @param context
-     * @param items
-     * @param hideDeleteButton
+     * @param context context of the current application state.
+     * @param hideDeleteButton boolean flag to indicate whether the recycler view
+     *                         should display the delete button or not for each row item.
+     * @param items linked hash set of menu items to pass into the adaptor.
      */
-    public MenuItemRecyclerViewAdapter(Context context, LinkedHashSet<MenuItem> items,
-                                       boolean hideDeleteButton) {
+    public MenuItemRecyclerViewAdapter(Context context, boolean hideDeleteButton,
+                                       LinkedHashSet<MenuItem> items) {
         this.context = context;
         this.items = new ArrayList<>(items);
         this.hideDeleteButton = hideDeleteButton;
     }
 
     /**
+     * Overloaded constructor to create a new adapter instance
+     * given an arraylist of MenuItem objects.
      *
-     * @param context
-     * @param items
-     * @param hideDeleteButton
+     * @param context context of the current application state.
+     * @param hideDeleteButton boolean flag to indicate whether the recycler view
+     *                         should display the delete button or not for each row item.
+     * @param items array list of menu items to pass into the adaptor.
      */
-    public MenuItemRecyclerViewAdapter(Context context, ArrayList<MenuItem> items,
-                                       boolean hideDeleteButton) {
+    public MenuItemRecyclerViewAdapter(Context context, boolean hideDeleteButton,
+                                       ArrayList<MenuItem> items) {
         this.context = context;
         this.items = new ArrayList<>(items);
         this.hideDeleteButton = hideDeleteButton;
     }
 
     /**
+     * This method updates the items class variable with the given
+     * linked hash set containing the new data.
      *
-     * @param newData
+     * @param newData set containing the new menu items data.
      */
     @SuppressLint("NotifyDataSetChanged")
     public void updateData(LinkedHashSet<MenuItem> newData) {
@@ -73,8 +86,10 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     }
 
     /**
+     * This method updates the items class variable with the given
+     * array list containing the new data.
      *
-     * @param newData
+     * @param newData array list containing the new menu items data.
      */
     @SuppressLint("NotifyDataSetChanged")
     public void updateData(ArrayList<MenuItem> newData) {
@@ -83,8 +98,9 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     }
 
     /**
+     * Sets the listener for this adapter to the given MenuItemListener.
      *
-     * @param listener
+     * @param listener the listener to set
      */
     public void setListener(MenuItemRecyclerViewAdapter.MenuItemListener listener) {
         this.listener = listener;
@@ -96,7 +112,8 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
      *               an adapter position.
      * @param viewType The view type of the new View.
      *
-     * @return
+     * @return MyMenuItemViewHolder object, that is a custom ViewHolder class which
+     *         holds the views for each item in the RecyclerView.
      */
     @NonNull
     @Override
@@ -140,8 +157,10 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     }
 
     /**
+     * This method is used by the RecyclerView to determine the count of row
+     * items needed.
      *
-     * @return
+     * @return int containing the size of the items array list.
      */
     @Override
     public int getItemCount() {
@@ -149,6 +168,9 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     }
 
     /**
+     * This is the custom view holder class used to construct each
+     * row item in the Recycler View
+     *
      * @author Aryan Patel
      */
     public static class MyMenuItemViewHolder extends RecyclerView.ViewHolder {
@@ -157,8 +179,9 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
         TextView quantityAmountTextView, infoTextView;
 
         /**
+         * Constructor to create new row item from layout.
          *
-         * @param itemView
+         * @param itemView View that is holding the row item.
          */
         public MyMenuItemViewHolder(@NonNull View itemView) {
             super(itemView);

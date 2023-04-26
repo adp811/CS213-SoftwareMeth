@@ -20,6 +20,10 @@ import com.google.android.material.button.MaterialButton;
 import java.util.LinkedHashSet;
 
 /**
+ * This is the controlling class for the Main Menu Fragment. It contains
+ * the life cycle and UI methods of the fragment. The navigation actions
+ * are also initialized in the class.
+ *
  * @author Aryan Patel and Rushi Patel
  */
 public class MainMenuFragment extends Fragment {
@@ -36,6 +40,8 @@ public class MainMenuFragment extends Fragment {
     public MainMenuFragment () {}
 
     /**
+     * This method is called when the fragment is created. The shared data
+     * is initialized here.
      *
      * @param savedInstanceState If the fragment is being re-created from
      * a previous saved state, this is the state.
@@ -58,6 +64,8 @@ public class MainMenuFragment extends Fragment {
     }
 
     /**
+     * This method is called when the view within the fragment is created. The
+     * UI elements and navigation actions are initialized here.
      *
      * @param inflater The LayoutInflater object that can be used to inflate
      * any views in the fragment,
@@ -67,7 +75,7 @@ public class MainMenuFragment extends Fragment {
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      *
-     * @return
+     * @return root view that contains the UI for the MainMenuFragment.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,10 +84,10 @@ public class MainMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
         orderViewModel.getOrderLiveData().observe(getViewLifecycleOwner(),
-                newOrder -> { order = newOrder; });
+                newOrder -> order = newOrder);
 
         storeOrdersViewModel.getStoreOrdersLiveData().observe(getViewLifecycleOwner(),
-                newStoreOrders -> { storeOrders = newStoreOrders; });
+                newStoreOrders -> storeOrders = newStoreOrders);
 
         MaterialButton orderDonutsButton = view.findViewById(R.id.orderDonutsButton);
         MaterialButton orderCoffeeButton = view.findViewById(R.id.orderCoffeeButton);

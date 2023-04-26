@@ -33,6 +33,9 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 /**
+ * This is the controlling class for the Order Coffee Fragment. It Contains
+ * the life cycle and UI methods of the Fragment.
+ *
  * @author Aryan Patel and Rushi Patel
  */
 public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener{
@@ -46,11 +49,14 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     private HashSet<String> chipGroupSelections;
 
     /**
-     *
+     * Required empty public constructor().
      */
     public OrderCoffeeFragment() {}
 
     /**
+     * This method is called when the fragment is created. The shared data
+     * is initialized here.
+     *
      * @param savedInstanceState If the fragment is being re-created from
      * a previous saved state, this is the state.
      */
@@ -68,6 +74,9 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method is called when the view within the fragment is created. The
+     * UI elements are initialized here.
+     *
      * @param inflater The LayoutInflater object that can be used to inflate
      * any views in the fragment,
      * @param container If non-null, this is the parent view that the fragment's
@@ -76,16 +85,15 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      *
-     * @return
+     * @return root view that contains the UI for the OrderCoffeeFragment
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_coffee, container, false);
 
-        orderViewModel.getOrderLiveData().observe(getViewLifecycleOwner(), newOrder -> {
-            order = newOrder;
-        });
+        orderViewModel.getOrderLiveData().observe(
+                getViewLifecycleOwner(), newOrder -> order = newOrder);
 
         coffeeSelections = new LinkedHashSet<>();
         chipGroupSelections = new HashSet<>();
@@ -105,7 +113,7 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
 
         RecyclerView coffeeSelectionRecyclerView = view.findViewById(R.id.coffeeSelectionsRecyclerView);
         coffeeSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MenuItemRecyclerViewAdapter(getContext(), coffeeSelections, false);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), false, coffeeSelections);
         adapter.setListener(this);
         coffeeSelectionRecyclerView.setAdapter(adapter);
 
@@ -113,8 +121,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method sets the cup size spinner values retrieved from
+     * the string resource file.
      *
-     * @param view
+     * @param view root view that contains the UI for the OrderCoffeeFragment
      */
     private void setCupSizeSpinnerValues(View view) {
         Spinner spinner = view.findViewById(R.id.cupSizeSpinner);
@@ -129,8 +139,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method sets the quantity amount spinner values retrieved
+     * from the string resource file.
      *
-     * @param view
+     * @param view root view that contains the UI for the OrderCoffeeFragment
      */
     private void setQuantityAmountSpinnerValues(View view) {
         Spinner spinner = view.findViewById(R.id.quantityAmountSpinner);
@@ -145,8 +157,11 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method adds the selection listener for the chip group of
+     * flavor selections. It checks for any changes in the chip group
+     * selection and updates the current selections set.
      *
-     * @param view
+     * @param view root view that contains the UI for the OrderCoffeeFragment
      */
     private void addChipGroupSelectionListener(View view) {
         ChipGroup chipGroup = view.findViewById(R.id.flavorSelectionChipGroup);
@@ -165,6 +180,9 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method refreshes the subtotal displayed in the add to order
+     * button. The method is called whenever there is a change to the current
+     * selected coffee items.
      *
      */
     @SuppressLint("SetTextI18n")
@@ -173,7 +191,8 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         Double subTotal = 0.00;
 
         if(coffeeSelections.isEmpty()) {
-            addCoffeesToOrderButton.setText("$" + decimalFormat.format(subTotal));
+            addCoffeesToOrderButton.setText(getString(R.string.dollar_sign)
+                    + decimalFormat.format(subTotal));
             return;
         }
 
@@ -183,12 +202,16 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
             subTotal += selectionTotal;
         }
 
-        addCoffeesToOrderButton.setText("$" + decimalFormat.format(subTotal));
+        addCoffeesToOrderButton.setText(getString(R.string.dollar_sign)
+                + decimalFormat.format(subTotal));
     }
 
     /**
+     * This method is the on click action for the add coffee selection
+     * button. If the same item is added again with a different quantity, the
+     * quantity will simply be updated.
      *
-     * @param v
+     * @param v root view that contains the UI for the OrderCoffeeFragment
      */
     @SuppressLint("NotifyDataSetChanged")
     private void onAddCoffeeSelectionButtonClick(View v) {
@@ -210,12 +233,18 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method is the on click action for the add coffees to order button. If there
+     * are no coffee items selected, the user is notified and the action is cancelled.
      *
-     * @param v
+     * @param v root view that contains the UI for the OrderCoffeeFragment
      */
     @SuppressLint("NotifyDataSetChanged")
     private void onAddCoffeesToOrderButtonClick(View v) {
         if (coffeeSelections.isEmpty()) {
+            ToastUtils.showToast(getContext(),
+                    getString(R.string.toast_please_select_items),
+                    Toast.LENGTH_SHORT);
+
             return;
         }
 
@@ -233,8 +262,12 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
     }
 
     /**
+     * This method is the on click action implemented for the delete
+     * row item button in each row item of the recycler view.
      *
-     * @param position
+     * @param position int which contains the index position of the
+     *                 row item where the delete row item button was
+     *                 clicked.
      */
     @SuppressLint("NotifyDataSetChanged")
     @Override

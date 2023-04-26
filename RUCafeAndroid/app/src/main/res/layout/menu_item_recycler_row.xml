@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 app:cornerRadius="30dp"
-                app:icon="@drawable/trash_can"
+                app:icon="@drawable/trash_can_icon"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"

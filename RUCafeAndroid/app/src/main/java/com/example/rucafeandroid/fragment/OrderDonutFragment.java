@@ -32,9 +32,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 /**
+ * This is the controlling class for the Order Donut Fragment. It contains
+ * the life cycle and UI methods of the fragment.
+ *
  * @author Aryan Patel and Rushi Patel
  */
 public class OrderDonutFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener {
+
+    private static final int MIN_DONUT_QTY = 1;
+    private static final int MAX_DONUT_QTY = 50;
 
     private OrderViewModel orderViewModel;
     private Order order;
@@ -44,11 +50,14 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     private LinkedHashSet<MenuItem> donutSelections;
 
     /**
+     * Required empty public constructor().
      *
      */
     public OrderDonutFragment() {}
 
     /**
+     * This method is called when the fragment is created. The shared data
+     * is initialized here.
      *
      * @param savedInstanceState If the fragment is being re-created from
      * a previous saved state, this is the state.
@@ -67,6 +76,9 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
+     * This method is called when the view within the fragment is created. The
+     * UI elements are initialized here.
+     *
      * @param inflater The LayoutInflater object that can be used to inflate
      * any views in the fragment,
      * @param container If non-null, this is the parent view that the fragment's
@@ -75,16 +87,15 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      *
-     * @return
+     * @return root view that contains the UI for the OrderDonutFragment.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_donut, container, false);
 
-        orderViewModel.getOrderLiveData().observe(getViewLifecycleOwner(), newOrder -> {
-            order = newOrder;
-        });
+        orderViewModel.getOrderLiveData().observe(
+                getViewLifecycleOwner(), newOrder -> order = newOrder);
 
         donutSelections = new LinkedHashSet<>();
 
@@ -106,7 +117,7 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
 
         RecyclerView donutSelectionRecyclerView = view.findViewById(R.id.donutSelectionsRecyclerView);
         donutSelectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MenuItemRecyclerViewAdapter(getContext(), donutSelections, false);
+        adapter = new MenuItemRecyclerViewAdapter(getContext(), false, donutSelections);
         adapter.setListener(this);
         donutSelectionRecyclerView.setAdapter(adapter);
 
@@ -114,8 +125,10 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
+     * This method sets the donut type spinner values retrieved from
+     * the string resource file.
      *
-     * @param view
+     * @param view root view that contains the UI for the OrderDonutFragment.
      */
     public void setDonutTypeSpinnerValues(View view) {
         Spinner spinner = view.findViewById(R.id.donutTypeSpinner);
@@ -128,9 +141,33 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
+     * This method sets the donut type image view based on the given donut
+     * type as a string.
      *
-     * @param view
-     * @param donutType
+     * @param view root view that contains the UI for the OrderDonutFragment.
+     * @param donutType String containing the type of donut to display in the image.
+     */
+    public void setDonutTypeImageView(View view, String donutType) {
+        ImageView imageView = view.findViewById(R.id.donutTypeImageView);
+
+        if (donutType.equals(getString(R.string.yeast_donut))) {
+            imageView.setImageResource(R.drawable.yeast_donut);
+        } else if (donutType.equals(getString(R.string.cake_donut))) {
+            imageView.setImageResource(R.drawable.cake_donut);
+        } else if (donutType.equals(getString(R.string.hole_donut))) {
+            imageView.setImageResource(R.drawable.hole_donut);
+        } else {
+            imageView.setImageResource(R.drawable.donut_sprinkled_icon);
+        }
+    }
+
+    /**
+     * This method sets the donut flavor spinner values retrieved from
+     * the string resource file given the donut type. The method to update
+     * the donut type image is called here.
+     *
+     * @param view root view that contains the UI for the OrderDonutFragment.
+     * @param donutType String containing the type of donut to display in the image.
      */
     public void setDonutFlavorSpinnerValues(View view, String donutType) {
         Spinner spinner = view.findViewById(R.id.donutFlavorSpinner);
@@ -152,27 +189,11 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
+     * This method adds a lister to the donut type spinner, in order to detect
+     * any value changes. Any value change will update the donut flavor spinner
+     * with the available flavors for that donut type.
      *
-     * @param view
-     * @param donutType
-     */
-    public void setDonutTypeImageView(View view, String donutType) {
-        ImageView imageView = view.findViewById(R.id.donutTypeImageView);
-
-        if (donutType.equals(getString(R.string.yeast_donut))) {
-            imageView.setImageResource(R.drawable.yeast_donut);
-        } else if (donutType.equals(getString(R.string.cake_donut))) {
-            imageView.setImageResource(R.drawable.cake_donut);
-        } else if (donutType.equals(getString(R.string.hole_donut))) {
-            imageView.setImageResource(R.drawable.hole_donut);
-        } else {
-            imageView.setImageResource(R.drawable.iconmonstr_candy_9);
-        }
-    }
-
-    /**
-     *
-     * @param view
+     * @param view root view that contains the UI for the OrderDonutFragment.
      */
     public void addDonutSpinnerListener(View view) {
         Spinner donutTypeSpinner = view.findViewById(R.id.donutTypeSpinner);
@@ -192,10 +213,12 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
-     * @param donutTypeSpinner
-     * @param donutFlavorSpinner
-     * @param quantityTextField
-     * @return
+     * This method validates the user inputs for the UI elements.
+     *
+     * @param donutTypeSpinner Spinner object representing the donut type spinner.
+     * @param donutFlavorSpinner Spinner object representing the donut flavor spinner.
+     * @param quantityTextField EditText object representing the quantity text field.
+     * @return boolean indicating if the inputs are valid or not.
      */
     public boolean validateInputs(Spinner donutTypeSpinner, Spinner donutFlavorSpinner,
                                   EditText quantityTextField) {
@@ -204,13 +227,17 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
 
         try {
             int value = Integer.parseInt(quantityTextField.getText().toString().trim());
-            if (value < getResources().getInteger(R.integer.min_selection_donut_qty) ||
-                value > getResources().getInteger(R.integer.max_selection_donut_qty)) {
-                // The input is negative, zero, or over max
+            if (value < MIN_DONUT_QTY ||
+                value > MAX_DONUT_QTY) {
+                ToastUtils.showToast(getContext(),
+                        getString(R.string.toast_invalid_amount),
+                        Toast.LENGTH_SHORT);
                 return false;
             }
         } catch (NumberFormatException e) {
-            // The input is not an integer
+            ToastUtils.showToast(getContext(),
+                    getString(R.string.toast_invalid_input),
+                    Toast.LENGTH_SHORT);
             return false;
         }
 
@@ -218,6 +245,9 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
+     * This method refreshes the subtotal displayed in the add to order
+     * button. The method is called whenever there is a change to the current
+     * selected donut items.
      *
      */
     @SuppressLint("SetTextI18n")
@@ -226,7 +256,8 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         Double subTotal = 0.00;
 
         if(donutSelections.isEmpty()) {
-            addDonutsToOrderButton.setText("$" + decimalFormat.format(subTotal));
+            addDonutsToOrderButton.setText(getString(R.string.dollar_sign)
+                    + decimalFormat.format(subTotal));
             return;
         }
 
@@ -236,12 +267,16 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
             subTotal += selectionTotal;
         }
 
-        addDonutsToOrderButton.setText("$" + decimalFormat.format(subTotal));
+        addDonutsToOrderButton.setText(getString(R.string.dollar_sign)
+                + decimalFormat.format(subTotal));
     }
 
     /**
+     * This method is the on click action for the add donut selection
+     * button. If the same item is added again with a different quantity, the
+     * quantity will simply be updated.
      *
-     * @param v
+     * @param v root view that contains the UI for the OrderDonutFragment.
      */
     @SuppressLint("NotifyDataSetChanged")
     public void onAddDonutSelectionButtonClick(View v) {
@@ -266,12 +301,17 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
+     * This method is the on click action for the add donuts to order button. If there
+     * are no donut items selected, the user is notified and the action is cancelled.
      *
-     * @param v
+     * @param v root view that contains the UI for the OrderDonutFragment.
      */
     @SuppressLint("NotifyDataSetChanged")
     private void onAddDonutsToOrderButtonClick(View v) {
         if (donutSelections.isEmpty()) {
+            ToastUtils.showToast(getContext(),
+                    getString(R.string.toast_please_select_items),
+                    Toast.LENGTH_SHORT);
             return;
         }
 
@@ -289,8 +329,12 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
     }
 
     /**
+     * This method is the on click action implemented for the delete
+     * row item button in each row item of the recycler view.
      *
-     * @param position
+     * @param position int which contains the index position of the
+     *                 row item where the delete row item button was
+     *                 clicked.
      */
     @SuppressLint("NotifyDataSetChanged")
     @Override

@@ -116,7 +116,7 @@
             android:gravity="center"
             android:onClick="onAddCoffeeSelectionButtonClick"
             android:text="Add"
-            app:icon="@drawable/plus"
+            app:icon="@drawable/plus_icon"
             app:iconGravity="textStart" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -133,7 +133,7 @@
             android:gravity="center"
             android:onClick="onAddCoffeesToOrderButtonClick"
             android:text="$0.00"
-            app:icon="@drawable/iconmonstr_basket_13"
+            app:icon="@drawable/basket_add_icon"
             app:iconGravity="textStart" />
 
     </LinearLayout>

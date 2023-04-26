@@ -98,6 +98,7 @@
                     android:id="@+id/exportOrderButton"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
+                    android:onClick="onExportOrderButtonClick"
                     android:text="Export Order"
                     android:textSize="16sp"
                     app:cornerRadius="10dp" />

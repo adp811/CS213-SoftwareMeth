@@ -46,7 +46,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     app:cornerRadius="20dp"
-                    app:icon="@drawable/iconmonstr_candy_9"
+                    app:icon="@drawable/donut_sprinkled_icon"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
                     app:iconSize="90dp" />
@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     app:cornerRadius="20dp"
-                    app:icon="@drawable/iconmonstr_fast_food_17"
+                    app:icon="@drawable/coffee_cup_icon"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
                     app:iconSize="90dp" />
@@ -114,7 +114,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     app:cornerRadius="20dp"
-                    app:icon="@drawable/basket_plain"
+                    app:icon="@drawable/basket_plain_icon"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
                     app:iconSize="90dp" />
