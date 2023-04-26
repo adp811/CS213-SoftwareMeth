@@ -1,4 +1,4 @@
-package com.example.rucafeandroid;
+package com.example.rucafeandroid.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -15,12 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.rucafeandroid.R;
 import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
 import com.example.rucafeandroid.model.Donut;
 import com.example.rucafeandroid.model.MenuItem;
 import com.example.rucafeandroid.model.Order;
 import com.example.rucafeandroid.model.OrderViewModel;
+import com.example.rucafeandroid.utils.ToastUtils;
 import com.example.rucafeandroid.utils.randomIDGenerator;
 import com.google.android.material.button.MaterialButton;
 
@@ -279,6 +282,10 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         adapter.notifyDataSetChanged();
 
         addDonutsToOrderButton.setText(getResources().getString(R.string.zero_total_));
+
+        ToastUtils.showToast(getContext(),
+                getResources().getString(R.string.toast_added_to_order),
+                Toast.LENGTH_SHORT);
     }
 
     /**
@@ -295,5 +302,9 @@ public class OrderDonutFragment extends Fragment implements MenuItemRecyclerView
         adapter.notifyDataSetChanged();
 
         updateSubtotal();
+
+        ToastUtils.showToast(getContext(),
+                getResources().getString(R.string.toast_item_removed),
+                Toast.LENGTH_SHORT);
     }
 }

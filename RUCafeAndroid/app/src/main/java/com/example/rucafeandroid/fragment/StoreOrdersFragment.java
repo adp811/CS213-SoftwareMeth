@@ -1,8 +1,10 @@
-package com.example.rucafeandroid;
+package com.example.rucafeandroid.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.rucafeandroid.R;
 import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
 import com.example.rucafeandroid.model.MenuItem;
 import com.example.rucafeandroid.model.Order;
@@ -251,10 +254,20 @@ public class StoreOrdersFragment extends Fragment implements MenuItemRecyclerVie
      */
     private void onCancelOrderButtonClick(View v) {
         if (selectedOrder != null) {
-            storeOrders.remove(selectedOrder);
-            storeOrdersViewModel.getStoreOrdersLiveData().setValue(storeOrders);
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Cancel Order");
+            builder.setMessage("Are you sure you want to cancel this order?");
 
-            setOrderNumberSpinner(requireView());
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                storeOrders.remove(selectedOrder);
+                storeOrdersViewModel.getStoreOrdersLiveData().setValue(storeOrders);
+                setOrderNumberSpinner(requireView());
+            });
+
+            builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.rucafeandroid;
+package com.example.rucafeandroid.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.rucafeandroid.R;
 import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
 import com.example.rucafeandroid.model.Coffee;
 import com.example.rucafeandroid.model.MenuItem;
 import com.example.rucafeandroid.model.Order;
 import com.example.rucafeandroid.model.OrderViewModel;
+import com.example.rucafeandroid.utils.ToastUtils;
 import com.example.rucafeandroid.utils.randomIDGenerator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -223,6 +226,10 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         adapter.notifyDataSetChanged();
 
         addCoffeesToOrderButton.setText(getResources().getString(R.string.zero_total_));
+
+        ToastUtils.showToast(getContext(),
+                getResources().getString(R.string.toast_added_to_order),
+                Toast.LENGTH_SHORT);
     }
 
     /**
@@ -239,5 +246,9 @@ public class OrderCoffeeFragment extends Fragment implements MenuItemRecyclerVie
         adapter.notifyDataSetChanged();
 
         updateSubtotal();
+
+        ToastUtils.showToast(getContext(),
+                getResources().getString(R.string.toast_item_removed),
+                Toast.LENGTH_SHORT);
     }
 }

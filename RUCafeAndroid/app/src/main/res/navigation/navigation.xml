@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="com.example.rucafeandroid.MainMenuFragment"
+        android:name="com.example.rucafeandroid.fragment.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -25,22 +25,22 @@
     </fragment>
     <fragment
         android:id="@+id/orderCoffeeFragment"
-        android:name="com.example.rucafeandroid.OrderCoffeeFragment"
+        android:name="com.example.rucafeandroid.fragment.OrderCoffeeFragment"
         android:label="fragment_order_coffee"
         tools:layout="@layout/fragment_order_coffee" />
     <fragment
         android:id="@+id/orderDonutFragment"
-        android:name="com.example.rucafeandroid.OrderDonutFragment"
+        android:name="com.example.rucafeandroid.fragment.OrderDonutFragment"
         android:label="fragment_order_donut"
         tools:layout="@layout/fragment_order_donut" />
     <fragment
         android:id="@+id/shoppingBasketFragment"
-        android:name="com.example.rucafeandroid.ShoppingBasketFragment"
+        android:name="com.example.rucafeandroid.fragment.ShoppingBasketFragment"
         android:label="fragment_shopping_basket"
         tools:layout="@layout/fragment_shopping_basket" />
     <fragment
         android:id="@+id/storeOrdersFragment"
-        android:name="com.example.rucafeandroid.StoreOrdersFragment"
+        android:name="com.example.rucafeandroid.fragment.StoreOrdersFragment"
         android:label="fragment_store_orders"
         tools:layout="@layout/fragment_store_orders" />
 </navigation>

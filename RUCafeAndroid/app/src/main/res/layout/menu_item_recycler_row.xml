@@ -54,7 +54,7 @@
 
             <Button
                 android:id="@+id/deleteRowItemButton"
-                android:layout_width="50dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 app:cornerRadius="30dp"

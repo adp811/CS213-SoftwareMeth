@@ -97,7 +97,7 @@ public class Coffee extends MenuItem {
     }
 
     /**
-     *
+     * equals() method for Coffee object.
      * @param o
      * @return
      */

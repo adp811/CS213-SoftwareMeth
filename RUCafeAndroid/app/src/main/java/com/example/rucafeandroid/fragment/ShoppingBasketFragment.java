@@ -1,4 +1,4 @@
-package com.example.rucafeandroid;
+package com.example.rucafeandroid.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,12 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.rucafeandroid.R;
 import com.example.rucafeandroid.adapter.MenuItemRecyclerViewAdapter;
 import com.example.rucafeandroid.model.MenuItem;
 import com.example.rucafeandroid.model.Order;
 import com.example.rucafeandroid.model.OrderViewModel;
 import com.example.rucafeandroid.model.StoreOrdersViewModel;
+import com.example.rucafeandroid.utils.ToastUtils;
 import com.example.rucafeandroid.utils.randomIDGenerator;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -186,6 +189,10 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
 
         setToolBarTitleOrderNumber(order.getOrderNumberString());
         updateTotals();
+
+        ToastUtils.showToast(getContext(),
+                getResources().getString(R.string.toast_order_placed),
+                Toast.LENGTH_SHORT);
     }
 
     /**
@@ -201,5 +208,9 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
         adapter.notifyDataSetChanged();
 
         updateTotals();
+
+        ToastUtils.showToast(getContext(),
+                getResources().getString(R.string.toast_item_removed),
+                Toast.LENGTH_SHORT);
     }
 }

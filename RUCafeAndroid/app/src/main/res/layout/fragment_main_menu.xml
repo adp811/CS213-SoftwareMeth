@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainMenuFragment">
+    tools:context=".fragment.MainMenuFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,9 @@
             android:layout_marginBottom="100dp"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="?attr/actionBarTheme"
+            app:title="Welcome to RUCafe!"
+            app:titleTextColor="@color/white" />
 
         <LinearLayout
             android:layout_width="325dp"
@@ -37,26 +39,34 @@
                 android:layout_height="150dp"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <Button
                     android:id="@+id/orderDonutsButton"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/iconmonstr_candy_9" />
+                    android:gravity="center"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/iconmonstr_candy_9"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="90dp" />
 
                 <Space
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
+                <Button
                     android:id="@+id/orderCoffeeButton"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/iconmonstr_fast_food_17" />
+                    android:gravity="center"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/iconmonstr_fast_food_17"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="90dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -97,26 +107,34 @@
                 android:layout_height="150dp"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <Button
                     android:id="@+id/shoppingBasketButton"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/shopping_basket_icon" />
+                    android:gravity="center"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/basket_plain"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="90dp" />
 
                 <Space
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
+                <Button
                     android:id="@+id/storeOrdersButton"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/store_orders_icon" />
+                    android:gravity="center"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/store_orders_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="90dp" />
             </LinearLayout>
 
             <LinearLayout

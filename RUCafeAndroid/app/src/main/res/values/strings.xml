@@ -109,5 +109,8 @@
 
     <!-- Misc -->
     <string name="zero_total_">$0.00</string>
+    <string name="toast_added_to_order">items added to order.</string>
+    <string name="toast_item_removed">item removed.</string>
+    <string name="toast_order_placed">order placed.</string>
 
 </resources>

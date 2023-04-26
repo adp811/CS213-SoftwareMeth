@@ -1,8 +1,7 @@
-package com.example.rucafeandroid;
+package com.example.rucafeandroid.fragment;
 
 import android.os.Bundle;
 
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -10,12 +9,13 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import com.example.rucafeandroid.R;
 import com.example.rucafeandroid.model.Order;
 import com.example.rucafeandroid.model.OrderViewModel;
 import com.example.rucafeandroid.model.StoreOrdersViewModel;
 import com.example.rucafeandroid.utils.randomIDGenerator;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.LinkedHashSet;
 
@@ -81,10 +81,10 @@ public class MainMenuFragment extends Fragment {
         storeOrdersViewModel.getStoreOrdersLiveData().observe(getViewLifecycleOwner(),
                 newStoreOrders -> { storeOrders = newStoreOrders; });
 
-        AppCompatImageButton orderDonutsButton = view.findViewById(R.id.orderDonutsButton);
-        AppCompatImageButton orderCoffeeButton = view.findViewById(R.id.orderCoffeeButton);
-        AppCompatImageButton shoppingBasketButton = view.findViewById(R.id.shoppingBasketButton);
-        AppCompatImageButton storeOrdersButton = view.findViewById(R.id.storeOrdersButton);
+        MaterialButton orderDonutsButton = view.findViewById(R.id.orderDonutsButton);
+        MaterialButton orderCoffeeButton = view.findViewById(R.id.orderCoffeeButton);
+        MaterialButton shoppingBasketButton = view.findViewById(R.id.shoppingBasketButton);
+        MaterialButton storeOrdersButton = view.findViewById(R.id.storeOrdersButton);
 
         orderDonutsButton.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_mainMenuFragment_to_orderDonutFragment));
