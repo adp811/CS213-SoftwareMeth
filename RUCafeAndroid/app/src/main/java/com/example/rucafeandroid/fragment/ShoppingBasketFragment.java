@@ -195,6 +195,13 @@ public class ShoppingBasketFragment extends Fragment implements MenuItemRecycler
      */
     @SuppressLint("NotifyDataSetChanged")
     private void onPlaceOrderButtonClick(View v) {
+        if (order.getOrderItems().isEmpty()) {
+            ToastUtils.showToast(getContext(),
+                    getString(R.string.toast_please_add_items),
+                    Toast.LENGTH_SHORT);
+            return;
+        }
+
         storeOrders.add(order);
 
         order = new Order(randomIDGenerator.generateRandomID(9));

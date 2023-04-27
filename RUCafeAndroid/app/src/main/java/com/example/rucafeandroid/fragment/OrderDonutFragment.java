@@ -40,7 +40,7 @@ import java.util.LinkedHashSet;
 public class OrderDonutFragment extends Fragment implements MenuItemRecyclerViewAdapter.MenuItemListener {
 
     private static final int MIN_DONUT_QTY = 1;
-    private static final int MAX_DONUT_QTY = 50;
+    private static final int MAX_DONUT_QTY = 500;
 
     private OrderViewModel orderViewModel;
     private Order order;

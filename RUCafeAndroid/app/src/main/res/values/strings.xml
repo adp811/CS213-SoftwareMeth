@@ -118,12 +118,11 @@
     <string name="toast_please_select_items">Please Select Items!</string>
     <string name="toast_invalid_amount">Invalid Amount!</string>
     <string name="toast_invalid_input">Invalid Input!</string>
+    <string name="toast_please_add_items">please add items.</string>
 
     <string name="alert_cancel_order">Cancel Order</string>
     <string name="alert_cancel_order_desc">Are you sure you want to cancel this order?</string>
     <string name="alert_yes">Yes</string>
     <string name="alert_no">No</string>
-
-
 
 </resources>
